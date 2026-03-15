@@ -1,0 +1,780 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        33,
+                        26,
+                        162,
+                        50
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                30,
+                                21,
+                                164,
+                                54
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        30,
+                                        21,
+                                        164,
+                                        54
+                                    ],
+                                    "score": 0.999,
+                                    "content": "Your Bank",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 0.5,
+                    "virtual_lines": [
+                        {
+                            "bbox": [
+                                33,
+                                26,
+                                162,
+                                38.0
+                            ],
+                            "spans": [],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                33,
+                                38.0,
+                                162,
+                                50.0
+                            ],
+                            "spans": [],
+                            "index": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        31,
+                        53,
+                        174,
+                        63
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                31,
+                                52,
+                                175,
+                                63
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        31,
+                                        52,
+                                        175,
+                                        63
+                                    ],
+                                    "score": 0.999,
+                                    "content": "16 High Street. Anytown, Anyshire YZ99 1XY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 2
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        31,
+                        70,
+                        75,
+                        110
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                30,
+                                69,
+                                76,
+                                79
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        30,
+                                        69,
+                                        76,
+                                        79
+                                    ],
+                                    "score": 0.996,
+                                    "content": "Mr John Smith",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                29,
+                                76,
+                                69,
+                                87
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        29,
+                                        76,
+                                        69,
+                                        87
+                                    ],
+                                    "score": 0.87,
+                                    "content": " ny Road",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                29,
+                                84,
+                                70,
+                                96
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        29,
+                                        84,
+                                        70,
+                                        96
+                                    ],
+                                    "score": 0.856,
+                                    "content": " Randomford",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                29,
+                                92,
+                                61,
+                                104
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        29,
+                                        92,
+                                        61,
+                                        104
+                                    ],
+                                    "score": 0.92,
+                                    "content": "Anyshire",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                29,
+                                100,
+                                63,
+                                111
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        29,
+                                        100,
+                                        63,
+                                        111
+                                    ],
+                                    "score": 0.809,
+                                    "content": " Z985XY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 5
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        31,
+                        120,
+                        412,
+                        582
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                31,
+                                120,
+                                412,
+                                582
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        31,
+                                        120,
+                                        412,
+                                        582
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                31,
+                                                120,
+                                                412,
+                                                582
+                                            ],
+                                            "score": 0.898,
+                                            "html": "<table><tr><td colspan=\"5\">Your account summary</td></tr><tr><td colspan=\"5\"></td></tr><tr><td colspan=\"5\">Balance at 1 February: £40,000,00 Total money in: £5,474.00</td></tr><tr><td colspan=\"5\">Total money out: £1,395.17 Balance at 1 March: £44.079.83</td></tr><tr><td colspan=\"5\"></td></tr><tr><td>Date</td><td>Description</td><td>Money out</td><td>Money In</td><td>Balance</td></tr><tr><td>Balance brought forward</td><td></td><td>24.50</td><td></td><td>40,000.00</td></tr><tr><td>1 February</td><td>Card payment- High St Petrol Station Direct debit - Green Mobile Phone Bill</td><td>20.00</td><td></td><td>39,975.50 39,955.50</td></tr><tr><td>3 February</td><td>Cash Withdrawal - YourBank, Anytown</td><td>30.00</td><td></td><td>39,925.50</td></tr><tr><td>4 February</td><td>High Street, timed 17:30 31 Jan YourJob BiWeekly Payment</td><td></td><td>2,575.00</td><td>42,500.50</td></tr><tr><td>11 February</td><td>Direct Deposit - YourBank, Anytown High</td><td></td><td>300.00</td><td>42,800.50</td></tr><tr><td>16 February</td><td>Street, timed 17:30 31 Jan Cash Withdrawal - RandomBank, Randomford,</td><td>50.00</td><td></td><td>42,750.50</td></tr><tr><td>17 February</td><td>timed 9.52 14 Feb</td><td>40.00</td><td></td><td></td></tr><tr><td></td><td>Card payment - High St Petrol Station Direct Debit - Home Insurance</td><td>78.34</td><td></td><td>42,710.50 42,632.16</td></tr><tr><td>18 February</td><td>YourJob BiWeekly Payment</td><td></td><td>2,575.00</td><td>45,207.16</td></tr><tr><td>18 February</td><td>Randomford&#x27;s Deli</td><td>15.00</td><td></td><td>45,195.16</td></tr><tr><td>24 February</td><td>Anytown&#x27;s Jewelers</td><td>150.00</td><td></td><td>45,042.16</td></tr><tr><td></td><td>Direct Deposit</td><td></td><td>25.00</td><td>45,067.16</td></tr><tr><td>28 February</td><td>Monthly Apartment Rent</td><td>987.33</td><td></td><td>44.079.83</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td colspan=\"4\"></td><td>£44.079.83</td></tr><tr><td colspan=\"4\"></td><td></td></tr><tr><td colspan=\"4\"></td><td></td></tr></table>",
+                                            "type": "table",
+                                            "image_path": "f5de60390f5c30279b4b8462e0660f4df720a28ae8a4e283ec796cd5452d81be.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 9,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        31,
+                                        120,
+                                        412,
+                                        274.0
+                                    ],
+                                    "spans": [],
+                                    "index": 8
+                                },
+                                {
+                                    "bbox": [
+                                        31,
+                                        274.0,
+                                        412,
+                                        428.0
+                                    ],
+                                    "spans": [],
+                                    "index": 9
+                                },
+                                {
+                                    "bbox": [
+                                        31,
+                                        428.0,
+                                        412,
+                                        582.0
+                                    ],
+                                    "spans": [],
+                                    "index": 10
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 9
+                }
+            ],
+            "page_idx": 0,
+            "page_size": [
+                447,
+                584
+            ],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        270,
+                        37,
+                        412,
+                        125
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                275,
+                                44,
+                                373,
+                                56
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        275,
+                                        44,
+                                        373,
+                                        56
+                                    ],
+                                    "score": 0.999,
+                                    "content": "Account name: Mr John Smith",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                275,
+                                52,
+                                356,
+                                65
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        275,
+                                        52,
+                                        356,
+                                        65
+                                    ],
+                                    "score": 0.946,
+                                    "content": "Account Type: Checking",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                275,
+                                61,
+                                366,
+                                72
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        275,
+                                        61,
+                                        366,
+                                        72
+                                    ],
+                                    "score": 0.982,
+                                    "content": "Account number: 99988877",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                277,
+                                78,
+                                385,
+                                87
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        277,
+                                        78,
+                                        385,
+                                        87
+                                    ],
+                                    "score": 0.992,
+                                    "content": "Your current account state ment:",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                276,
+                                84,
+                                369,
+                                96
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        276,
+                                        84,
+                                        369,
+                                        96
+                                    ],
+                                    "score": 0.814,
+                                    "content": "February to 1 March, 2019",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                362,
+                                108,
+                                402,
+                                122
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        362,
+                                        108,
+                                        402,
+                                        122
+                                    ],
+                                    "score": 0.954,
+                                    "content": "Page 1 of 1",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        144,
+                        7,
+                        290,
+                        21
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                144,
+                                5,
+                                291,
+                                23
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        144,
+                                        5,
+                                        291,
+                                        23
+                                    ],
+                                    "score": 0.985,
+                                    "content": "Bank Statement Example",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "para_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        33,
+                        26,
+                        162,
+                        50
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                30,
+                                21,
+                                164,
+                                54
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        30,
+                                        21,
+                                        164,
+                                        54
+                                    ],
+                                    "score": 0.999,
+                                    "content": "Your Bank",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 0.5,
+                    "virtual_lines": [
+                        {
+                            "bbox": [
+                                33,
+                                26,
+                                162,
+                                38.0
+                            ],
+                            "spans": [],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                33,
+                                38.0,
+                                162,
+                                50.0
+                            ],
+                            "spans": [],
+                            "index": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        31,
+                        53,
+                        174,
+                        63
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                31,
+                                52,
+                                175,
+                                63
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        31,
+                                        52,
+                                        175,
+                                        63
+                                    ],
+                                    "score": 0.999,
+                                    "content": "16 High Street. Anytown, Anyshire YZ99 1XY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 2,
+                    "bbox_fs": [
+                        31,
+                        52,
+                        175,
+                        63
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        31,
+                        70,
+                        75,
+                        110
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                30,
+                                69,
+                                76,
+                                79
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        30,
+                                        69,
+                                        76,
+                                        79
+                                    ],
+                                    "score": 0.996,
+                                    "content": "Mr John Smith",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                29,
+                                76,
+                                69,
+                                87
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        29,
+                                        76,
+                                        69,
+                                        87
+                                    ],
+                                    "score": 0.87,
+                                    "content": " ny Road",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                29,
+                                84,
+                                70,
+                                96
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        29,
+                                        84,
+                                        70,
+                                        96
+                                    ],
+                                    "score": 0.856,
+                                    "content": " Randomford",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                29,
+                                92,
+                                61,
+                                104
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        29,
+                                        92,
+                                        61,
+                                        104
+                                    ],
+                                    "score": 0.92,
+                                    "content": "Anyshire",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                29,
+                                100,
+                                63,
+                                111
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        29,
+                                        100,
+                                        63,
+                                        111
+                                    ],
+                                    "score": 0.809,
+                                    "content": " Z985XY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 5,
+                    "bbox_fs": [
+                        29,
+                        69,
+                        76,
+                        111
+                    ]
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        31,
+                        120,
+                        412,
+                        582
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                31,
+                                120,
+                                412,
+                                582
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        31,
+                                        120,
+                                        412,
+                                        582
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                31,
+                                                120,
+                                                412,
+                                                582
+                                            ],
+                                            "score": 0.898,
+                                            "html": "<table><tr><td colspan=\"5\">Your account summary</td></tr><tr><td colspan=\"5\"></td></tr><tr><td colspan=\"5\">Balance at 1 February: £40,000,00 Total money in: £5,474.00</td></tr><tr><td colspan=\"5\">Total money out: £1,395.17 Balance at 1 March: £44.079.83</td></tr><tr><td colspan=\"5\"></td></tr><tr><td>Date</td><td>Description</td><td>Money out</td><td>Money In</td><td>Balance</td></tr><tr><td>Balance brought forward</td><td></td><td>24.50</td><td></td><td>40,000.00</td></tr><tr><td>1 February</td><td>Card payment- High St Petrol Station Direct debit - Green Mobile Phone Bill</td><td>20.00</td><td></td><td>39,975.50 39,955.50</td></tr><tr><td>3 February</td><td>Cash Withdrawal - YourBank, Anytown</td><td>30.00</td><td></td><td>39,925.50</td></tr><tr><td>4 February</td><td>High Street, timed 17:30 31 Jan YourJob BiWeekly Payment</td><td></td><td>2,575.00</td><td>42,500.50</td></tr><tr><td>11 February</td><td>Direct Deposit - YourBank, Anytown High</td><td></td><td>300.00</td><td>42,800.50</td></tr><tr><td>16 February</td><td>Street, timed 17:30 31 Jan Cash Withdrawal - RandomBank, Randomford,</td><td>50.00</td><td></td><td>42,750.50</td></tr><tr><td>17 February</td><td>timed 9.52 14 Feb</td><td>40.00</td><td></td><td></td></tr><tr><td></td><td>Card payment - High St Petrol Station Direct Debit - Home Insurance</td><td>78.34</td><td></td><td>42,710.50 42,632.16</td></tr><tr><td>18 February</td><td>YourJob BiWeekly Payment</td><td></td><td>2,575.00</td><td>45,207.16</td></tr><tr><td>18 February</td><td>Randomford&#x27;s Deli</td><td>15.00</td><td></td><td>45,195.16</td></tr><tr><td>24 February</td><td>Anytown&#x27;s Jewelers</td><td>150.00</td><td></td><td>45,042.16</td></tr><tr><td></td><td>Direct Deposit</td><td></td><td>25.00</td><td>45,067.16</td></tr><tr><td>28 February</td><td>Monthly Apartment Rent</td><td>987.33</td><td></td><td>44.079.83</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td colspan=\"4\"></td><td>£44.079.83</td></tr><tr><td colspan=\"4\"></td><td></td></tr><tr><td colspan=\"4\"></td><td></td></tr></table>",
+                                            "type": "table",
+                                            "image_path": "f5de60390f5c30279b4b8462e0660f4df720a28ae8a4e283ec796cd5452d81be.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 9,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        31,
+                                        120,
+                                        412,
+                                        274.0
+                                    ],
+                                    "spans": [],
+                                    "index": 8
+                                },
+                                {
+                                    "bbox": [
+                                        31,
+                                        274.0,
+                                        412,
+                                        428.0
+                                    ],
+                                    "spans": [],
+                                    "index": 9
+                                },
+                                {
+                                    "bbox": [
+                                        31,
+                                        428.0,
+                                        412,
+                                        582.0
+                                    ],
+                                    "spans": [],
+                                    "index": 10
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 9
+                }
+            ]
+        }
+    ],
+    "_backend": "pipeline",
+    "_version_name": "2.7.6"
+}

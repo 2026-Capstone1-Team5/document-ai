@@ -1,0 +1,121 @@
+[
+    {
+        "type": "text",
+        "text": "Apimeister Consulting GmbH   \nFriedrichstrasse 114A   \n10117 Berlin   \nDeutschland ",
+        "bbox": [
+            106,
+            172,
+            328,
+            228
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Rechnung ",
+        "text_level": 1,
+        "bbox": [
+            109,
+            270,
+            217,
+            289
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Datum: 08.07.2024 Zimmer: 5124   \nRechnungsnummer: 856004006 Anreise: 08.07.2024   \nReservierungsnummer: 856001825/1 Abreise: 13.07.2024 ",
+        "bbox": [
+            109,
+            299,
+            777,
+            343
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "table",
+        "img_path": "images/57a06d8b246254ced6185aa68753e7c2ff441bb54739cf900b4ac2bdedfc44b4.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<table><tr><td colspan=\"5\">Gast: Walter, Jens, Zimmer: 5124, vom 08.07.2024 bis 13.07.2024</td></tr><tr><td>Bezeichnung</td><td>MWST.-Satz</td><td rowspan=\"3\">Menge 5</td><td>Einzelpreis CZK 3.214,38</td><td>Gesamtpreis CZK 16.071,90</td></tr><tr><td>Bestpreis mit Frühstück Frühstück</td><td>12,00%</td><td>469,79</td><td>2.348,95 249,75</td></tr><tr><td rowspan=\"3\">City Tax Logis</td><td rowspan=\"3\">0,00% 12,00%</td><td>49,95</td></tr><tr><td>2.694,64</td><td>13.473,20</td></tr><tr><td>CZK EUR</td><td>16.071,90</td></tr><tr><td colspan=\"4\">650,00 (1 EUR= 24,73 CZK)</td></tr><tr><td colspan=\"2\">Datum Zahlungsart Karten-Nr.</td><td colspan=\"2\">Betrag Devisen Zahlung CZK</td></tr><tr><td colspan=\"2\">08.07.2024 Mastercard</td><td colspan=\"2\">-16.071,90 CZK -16.071,90</td></tr><tr><td colspan=\"2\"></td><td colspan=\"2\"></td></tr><tr><td colspan=\"2\"></td><td colspan=\"2\"></td></tr><tr><td colspan=\"2\">Saldo Zahlungen</td><td colspan=\"2\">-16.071,90</td></tr><tr><td colspan=\"2\">Rechnungsbetrag</td><td colspan=\"2\">0,00</td></tr></table>",
+        "bbox": [
+            107,
+            355,
+            883,
+            589
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "table",
+        "img_path": "images/dc8f697bfbe5cf655aa885255b402f66a5b6a448e6ed10681dafba59c83f30ab.jpg",
+        "table_caption": [
+            "In dieser Rechnung sind folgende Steuerbeträge enthalten: "
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Steuersatz</td><td>Netto CZK</td><td>Steuer CZK</td><td>Brutto CZK</td></tr><tr><td>0,00 % (0 % TAX)</td><td>249,75</td><td>0,00</td><td>249,75</td></tr><tr><td>12,00 % (TAX)</td><td>14.126,92</td><td>1.695,23</td><td>15.822,15</td></tr></table>",
+        "bbox": [
+            114,
+            612,
+            885,
+            656
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "The Cloud One Prague Faiz ",
+        "bbox": [
+            114,
+            678,
+            291,
+            718
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "Motel One Prague Hybernska s.r.o., Ovocny trh 1096/8 Stare Mesto, 11000 Praha 1 Geschäftsfuhrer: Stefan Lenze, Daniel Muller, Armin Rödel, Michael Wiessler DIC: CZ06701337, IC: C287419 ",
+        "bbox": [
+            495,
+            943,
+            876,
+            970
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "THECIUDONE",
+        "bbox": [
+            431,
+            22,
+            564,
+            124
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "The Cloud One Prague - Hybernská 2140/17 - 110 00 Praha O T ELS ",
+        "bbox": [
+            109,
+            129,
+            526,
+            143
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "Now open: MOtel One Karlsruhe and The Cloud One Prague! ",
+        "bbox": [
+            392,
+            726,
+            610,
+            767
+        ],
+        "page_idx": 0
+    }
+]

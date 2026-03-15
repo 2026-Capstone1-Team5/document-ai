@@ -1,0 +1,72 @@
+[
+    {
+        "type": "text",
+        "text": "Your Bank ",
+        "text_level": 1,
+        "bbox": [
+            73,
+            44,
+            362,
+            85
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "16 High Street. Anytown, Anyshire YZ99 1XY ",
+        "bbox": [
+            69,
+            90,
+            389,
+            107
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Mr John Smith ny Road Randomford Anyshire Z985XY ",
+        "bbox": [
+            69,
+            119,
+            167,
+            188
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "table",
+        "img_path": "images/f5de60390f5c30279b4b8462e0660f4df720a28ae8a4e283ec796cd5452d81be.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<table><tr><td colspan=\"5\">Your account summary</td></tr><tr><td colspan=\"5\"></td></tr><tr><td colspan=\"5\">Balance at 1 February: £40,000,00 Total money in: £5,474.00</td></tr><tr><td colspan=\"5\">Total money out: £1,395.17 Balance at 1 March: £44.079.83</td></tr><tr><td colspan=\"5\"></td></tr><tr><td>Date</td><td>Description</td><td>Money out</td><td>Money In</td><td>Balance</td></tr><tr><td>Balance brought forward</td><td></td><td>24.50</td><td></td><td>40,000.00</td></tr><tr><td>1 February</td><td>Card payment- High St Petrol Station Direct debit - Green Mobile Phone Bill</td><td>20.00</td><td></td><td>39,975.50 39,955.50</td></tr><tr><td>3 February</td><td>Cash Withdrawal - YourBank, Anytown</td><td>30.00</td><td></td><td>39,925.50</td></tr><tr><td>4 February</td><td>High Street, timed 17:30 31 Jan YourJob BiWeekly Payment</td><td></td><td>2,575.00</td><td>42,500.50</td></tr><tr><td>11 February</td><td>Direct Deposit - YourBank, Anytown High</td><td></td><td>300.00</td><td>42,800.50</td></tr><tr><td>16 February</td><td>Street, timed 17:30 31 Jan Cash Withdrawal - RandomBank, Randomford,</td><td>50.00</td><td></td><td>42,750.50</td></tr><tr><td>17 February</td><td>timed 9.52 14 Feb</td><td>40.00</td><td></td><td></td></tr><tr><td></td><td>Card payment - High St Petrol Station Direct Debit - Home Insurance</td><td>78.34</td><td></td><td>42,710.50 42,632.16</td></tr><tr><td>18 February</td><td>YourJob BiWeekly Payment</td><td></td><td>2,575.00</td><td>45,207.16</td></tr><tr><td>18 February</td><td>Randomford&#x27;s Deli</td><td>15.00</td><td></td><td>45,195.16</td></tr><tr><td>24 February</td><td>Anytown&#x27;s Jewelers</td><td>150.00</td><td></td><td>45,042.16</td></tr><tr><td></td><td>Direct Deposit</td><td></td><td>25.00</td><td>45,067.16</td></tr><tr><td>28 February</td><td>Monthly Apartment Rent</td><td>987.33</td><td></td><td>44.079.83</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td colspan=\"4\"></td><td>£44.079.83</td></tr><tr><td colspan=\"4\"></td><td></td></tr><tr><td colspan=\"4\"></td><td></td></tr></table>",
+        "bbox": [
+            69,
+            205,
+            921,
+            996
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "Account name: Mr John Smith Account Type: Checking Account number: 99988877 Your current account state ment: February to 1 March, 2019 Page 1 of 1 ",
+        "bbox": [
+            604,
+            63,
+            921,
+            214
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "Bank Statement Example ",
+        "bbox": [
+            322,
+            11,
+            648,
+            35
+        ],
+        "page_idx": 0
+    }
+]

@@ -1,0 +1,134 @@
+[
+    {
+        "type": "text",
+        "text": "Serv: Marina   \n2024-09-14 09:52:38   \nFACTURE #7-93-1   \nTable: 15 Commande#: 73 Siege#: 1   \n#Clients: 1   \n1 JUS ORANGE REGULIER 4.85 FP   \n1 SPECIAL CORA 19.85 FP ",
+        "bbox": [
+            22,
+            215,
+            738,
+            310
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            27,
+            326,
+            810,
+            360
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "SOUS-TOTAL",
+        "bbox": [
+            22,
+            376,
+            243,
+            391
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "24.70 ",
+        "bbox": [
+            666,
+            377,
+            783,
+            394
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "TPS: 747755411RT0001  \nTVQ: 1230663153TQ0001  \nTPS: 1.24  \nTVQ: 2.46  \nTOTAL: 28.40",
+        "bbox": [
+            22,
+            407,
+            481,
+            443
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            22,
+            475,
+            788,
+            527
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "FACTURE ORIGINALE ",
+        "bbox": [
+            292,
+            542,
+            675,
+            559
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "2024-09-14 09:52:38   \n05GC-04B1-04A6-00FV   \n6010-5858-1705 ",
+        "bbox": [
+            270,
+            732,
+            698,
+            783
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Visitez chezcora.com/cartefidelite pour connaetre votre solde. Visit chezcora.com/loyaltycard to check your balance. ",
+        "bbox": [
+            112,
+            814,
+            855,
+            881
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "9491-6202 Qubec Inc. 1240, rue Drummond Montrθal, Quθbec H3G1V7 (514) 286-6171 ",
+        "bbox": [
+            252,
+            89,
+            711,
+            185
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            945,
+            944,
+            995,
+            952
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            238,
+            564,
+            734,
+            716
+        ],
+        "page_idx": 0
+    }
+]
