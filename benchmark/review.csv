@@ -1,0 +1,7 @@
+filename,ok,comment
+benchmark/pdfs/sample1_researchpaper.pdf,yes,
+benchmark/pdfs/sample2_reciept.pdf,no,"pdf was partially selectable"
+benchmark/pdfs/sample3_invoice.pdf,no,
+benchmark/pdfs/sample4_resume.pdf,yes,
+benchmark/pdfs/sample5_bankstatement.pdf,no,"table issues"
+benchmark/pdfs/sample6_equations.pdf,yes,
