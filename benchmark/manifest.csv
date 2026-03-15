@@ -1,0 +1,9 @@
+filename,language,digital_type,contains_tables,contains_formulas,contains_figures,notes
+benchmark/pdfs/sample1_researchpaper.pdf,en,digital,yes,no,yes,
+benchmark/pdfs/sample6_equations.pdf,en,digital,no,yes,no,
+benchmark/pdfs/sample4_resume.pdf,en,scanned,no,no,no,
+benchmark/pdfs/sample5_bankstatement.pdf,en,digital,yes,no,no,
+benchmark/pdfs/sample2_reciept.pdf,fr+en,scanned,no,no,no,
+benchmark/pdfs/sample3_invoice.pdf,de+cs,scanned,yes,no,no,
+benchmark/pdfs/TODO_bilingual.pdf,ko+en,digital,yes,no,yes,
+benchmark/pdfs/TODO_mixed_visual.pdf,en,digital,yes,no,yes,
