@@ -1,0 +1,440 @@
+[
+    {
+        "type": "text",
+        "text": "ROBERT COOPER",
+        "text_level": 1,
+        "bbox": [
+            369,
+            117,
+            628,
+            144
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "SECURITY GUARD LOS ANGELES, CA 90291, UNITED STATES 3868683442 ",
+        "bbox": [
+            260,
+            155,
+            739,
+            167
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "o DETAILS ",
+        "bbox": [
+            132,
+            203,
+            226,
+            217
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "1515 Pacific Ave   \nLos Angeles, CA 90291   \nUnited States   \n3868683442   \nemail@email.com ",
+        "bbox": [
+            102,
+            225,
+            255,
+            300
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "San Antonio ",
+        "bbox": [
+            131,
+            308,
+            226,
+            337
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Full ",
+        "bbox": [
+            129,
+            345,
+            230,
+            374
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "LINKS ",
+        "bbox": [
+            141,
+            394,
+            216,
+            408
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "LinkedIn ",
+        "bbox": [
+            149,
+            418,
+            211,
+            429
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Pinterest ",
+        "bbox": [
+            147,
+            440,
+            211,
+            452
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Resume Templates ",
+        "bbox": [
+            114,
+            461,
+            245,
+            476
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Build this template ",
+        "bbox": [
+            115,
+            484,
+            245,
+            497
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Investigation skills ",
+        "bbox": [
+            114,
+            540,
+            243,
+            553
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Safety compliance ",
+        "bbox": [
+            112,
+            566,
+            245,
+            580
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Criminal justice knowledge ",
+        "bbox": [
+            87,
+            592,
+            272,
+            605
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Restraining devices tial arts/Physical comb training ",
+        "bbox": [
+            109,
+            618,
+            248,
+            633
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            115,
+            644,
+            262,
+            674
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "HOBBIES Running, Mtb, Enduro ",
+        "bbox": [
+            105,
+            697,
+            255,
+            733
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "LANGUAGES ",
+        "text_level": 1,
+        "bbox": [
+            121,
+            754,
+            238,
+            767
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "table",
+        "img_path": "images/57c7df5a22e817c76a8ef239a703ec06f721c3fbc0167a0af0f2287a86075eb6.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Spanish</td><td></td></tr><tr><td></td><td></td></tr><tr><td>Italian</td><td></td></tr><tr><td></td><td></td></tr></table>",
+        "bbox": [
+            90,
+            789,
+            268,
+            846
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "PROFILE ",
+        "text_level": 1,
+        "bbox": [
+            342,
+            204,
+            401,
+            217
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Safety conscious, attentive Security Guard with eight years experience in protecting and guarding VIP individuals in the military and defense sectors. Proficient at observing surroundings and immediate settings for possible threats of nonhuman and human nature. Presently finishing a bachelor's in criminal justice and qualified as a CPo (Certified Protection Guard). ",
+        "bbox": [
+            341,
+            224,
+            932,
+            299
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "EMPLOYMENT HISTORY ",
+        "text_level": 1,
+        "bbox": [
+            342,
+            320,
+            504,
+            333
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Security Guard at ADT Security, Port Washington ",
+        "bbox": [
+            337,
+            340,
+            677,
+            355
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            342,
+            356,
+            522,
+            369
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Responsible for completing reports by recording information, observations, occurrences, and surveillance activities, including interviewing of witnesses and acquiring signatures. ",
+        "bbox": [
+            342,
+            376,
+            924,
+            406
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Maintaining environments by monitoring the grounds and equipment controls.   \nLogging into security headquarters on the hour during the day and every 2 hours with the night shift, notifying control of alin order statuses.   \nUtilizing armed force when necessary, to protect company belongings, visitors, employees, and clients when needed.   \nApprehending suspects in the event of security breaches and detaining them until the police arrive on the scene. ",
+        "bbox": [
+            361,
+            413,
+            929,
+            521
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Security Guard at Copwatch, Jogbani ",
+        "text_level": 1,
+        "bbox": [
+            342,
+            546,
+            600,
+            559
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            342,
+            562,
+            524,
+            574
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Primary purpose is to scan area of grounds for objects/ items that seem out of place and notifying Center management of bags or packages that are unattended. ",
+        "bbox": [
+            341,
+            580,
+            922,
+            611
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Inspecting restrooms after closing time for vagrants/ unauthorized personnel.   \nMonitoring selected areas via CcTV app on smart devices.   \nEnsure flawless equipment operation by finishing preventive maintenance necessities, reading the manufacturer's instructions, troubleshooting malfunctions, organizing for repairs if needed, and assessing new equipment and techniques ",
+        "bbox": [
+            361,
+            619,
+            927,
+            711
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "EDUCATION ",
+        "text_level": 1,
+        "bbox": [
+            342,
+            731,
+            423,
+            744
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Certified Protection Guard Program (CPOP), International Foundation for Protection Guards, Alexandria ",
+        "bbox": [
+            341,
+            751,
+            921,
+            796
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Security Guard Certificate Program (SOCP), ASIS International, North Naples ",
+        "bbox": [
+            341,
+            814,
+            868,
+            844
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Course Curriculum: Law Enforcement Ethics, Foundations in Criminal Law, Report Writing, Criminal Profiling, Interviewing Techniques, Crisis Intervention. ",
+        "bbox": [
+            359,
+            850,
+            932,
+            880
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "S.A.F.E. Approach Level II Training, Hawaii Western College ",
+        "bbox": [
+            341,
+            904,
+            746,
+            933
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            453,
+            33,
+            544,
+            95
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "SKILLS ",
+        "bbox": [
+            137,
+            519,
+            221,
+            533
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": ": ",
+        "bbox": [
+            310,
+            204,
+            326,
+            216
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            305,
+            749,
+            327,
+            933
+        ],
+        "page_idx": 0
+    }
+]

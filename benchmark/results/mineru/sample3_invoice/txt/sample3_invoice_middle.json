@@ -1,0 +1,1440 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        64,
+                        144,
+                        195,
+                        191
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                62,
+                                144,
+                                195,
+                                157
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        62,
+                                        144,
+                                        195,
+                                        157
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Ap'!me!ste٢ c٥nsu!t!ng GmbH",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                156,
+                                163,
+                                168
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        156,
+                                        163,
+                                        168
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Fbedbchstrasse 114Α",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                166,
+                                122,
+                                181
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        166,
+                                        122,
+                                        181
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1٥117ΒθΓ!Π",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                178,
+                                122,
+                                192
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        178,
+                                        122,
+                                        192
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Deutsch!and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        }
+                    ],
+                    "index": 1.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        65,
+                        227,
+                        129,
+                        242
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                63,
+                                223,
+                                131,
+                                245
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        223,
+                                        131,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Rechnung",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 4
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        65,
+                        250,
+                        461,
+                        287
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                248,
+                                433,
+                                265
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        250,
+                                        101,
+                                        265
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Datum:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        178,
+                                        250,
+                                        233,
+                                        263
+                                    ],
+                                    "score": 1.0,
+                                    "content": "٥8.٥7.2024",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        292,
+                                        248,
+                                        334,
+                                        264
+                                    ],
+                                    "score": 1.0,
+                                    "content": "z!mme٢:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        405,
+                                        248,
+                                        433,
+                                        262
+                                    ],
+                                    "score": 1.0,
+                                    "content": "5124",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                64,
+                                260,
+                                461,
+                                276
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        263,
+                                        159,
+                                        276
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Rechnungsnummer",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        177,
+                                        262,
+                                        233,
+                                        275
+                                    ],
+                                    "score": 1.0,
+                                    "content": "856٥٥4006",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        291,
+                                        260,
+                                        334,
+                                        275
+                                    ],
+                                    "score": 1.0,
+                                    "content": "٨nr^ig^-",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        405,
+                                        260,
+                                        461,
+                                        273
+                                    ],
+                                    "score": 1.0,
+                                    "content": "08.07.2٥24-",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                64,
+                                271,
+                                462,
+                                288
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        273,
+                                        240,
+                                        288
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Reservierungsnummer 856٥01825/1",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        292,
+                                        272,
+                                        334,
+                                        287
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Abre؛se^",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        406,
+                                        271,
+                                        462,
+                                        286
+                                    ],
+                                    "score": 1.0,
+                                    "content": "13.07.2٥24",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        67,
+                        453,
+                        524,
+                        493
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                67,
+                                453,
+                                524,
+                                493
+                            ],
+                            "group_id": 1,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        67,
+                                        453,
+                                        524,
+                                        493
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                67,
+                                                453,
+                                                524,
+                                                493
+                                            ],
+                                            "score": 0.634,
+                                            "html": "<table><tr><td>Saldo Zahlungen</td><td>-16.071,90</td></tr><tr><td>Rechnungsbetrag</td><td>0,00</td></tr></table>",
+                                            "type": "table",
+                                            "image_path": "d0b081564fa00689a7e1d91ecb0a3bde6013f1e38366ae3b6d7562ddf53ad327.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 9,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        67,
+                                        453,
+                                        524,
+                                        466.3333333333333
+                                    ],
+                                    "spans": [],
+                                    "index": 8
+                                },
+                                {
+                                    "bbox": [
+                                        67,
+                                        466.3333333333333,
+                                        524,
+                                        479.66666666666663
+                                    ],
+                                    "spans": [],
+                                    "index": 9
+                                },
+                                {
+                                    "bbox": [
+                                        67,
+                                        479.66666666666663,
+                                        524,
+                                        492.99999999999994
+                                    ],
+                                    "spans": [],
+                                    "index": 10
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 9
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        68,
+                        512,
+                        525,
+                        549
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_caption",
+                            "bbox": [
+                                68,
+                                501,
+                                332,
+                                512
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        500,
+                                        333,
+                                        513
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                66,
+                                                500,
+                                                333,
+                                                513
+                                            ],
+                                            "score": 1.0,
+                                            "content": "In dieser Rechnung sind folgende Steuerbeträge enthalten:",
+                                            "type": "text"
+                                        }
+                                    ],
+                                    "index": 11
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                68,
+                                512,
+                                525,
+                                549
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        512,
+                                        525,
+                                        549
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                68,
+                                                512,
+                                                525,
+                                                549
+                                            ],
+                                            "score": 0.907,
+                                            "html": "<table><tr><td>Steuersatz</td><td>Netto CZK</td><td>Steuer CZK</td><td>Brutto CZK</td></tr><tr><td>0,00 % (0 % TAX)</td><td>249,75</td><td>0,00</td><td>249,75</td></tr><tr><td>12,00 % (TAX)</td><td>14.126,92</td><td>1.695,23</td><td>15.822,15</td></tr></table>",
+                                            "type": "table",
+                                            "image_path": "fa38b47bbc0beffb74cbc2bd825e41aeab5a0d817c9dc5227ba989546f22a388.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 13,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        512,
+                                        525,
+                                        524.3333333333334
+                                    ],
+                                    "spans": [],
+                                    "index": 12
+                                },
+                                {
+                                    "bbox": [
+                                        68,
+                                        524.3333333333334,
+                                        525,
+                                        536.6666666666667
+                                    ],
+                                    "spans": [],
+                                    "index": 13
+                                },
+                                {
+                                    "bbox": [
+                                        68,
+                                        536.6666666666667,
+                                        525,
+                                        549.0000000000001
+                                    ],
+                                    "spans": [],
+                                    "index": 14
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 12.0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        68,
+                        567,
+                        173,
+                        601
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                67,
+                                566,
+                                173,
+                                579
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        67,
+                                        566,
+                                        173,
+                                        579
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The Cloud One Prague",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        },
+                        {
+                            "bbox": [
+                                66,
+                                577,
+                                91,
+                                591
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        577,
+                                        91,
+                                        591
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Faiz",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        },
+                        {
+                            "bbox": [
+                                66,
+                                588,
+                                102,
+                                602
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        588,
+                                        102,
+                                        602
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Shaikh",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 16
+                }
+            ],
+            "page_idx": 0,
+            "page_size": [
+                593,
+                836
+            ],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        294,
+                        789,
+                        520,
+                        811
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                293,
+                                789,
+                                521,
+                                798
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        293,
+                                        789,
+                                        521,
+                                        798
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Mote! One Prague Hybemska s.t.o., Ovocny 1086/8 stare Mesto, 11000 Praha",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                312,
+                                797,
+                                521,
+                                804
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        312,
+                                        797,
+                                        521,
+                                        804
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Geschafisfoh/er: Stefan lenze, Danie! Moller. Armin Rodel Michael Wessler",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                432,
+                                802,
+                                521,
+                                811
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        432,
+                                        802,
+                                        521,
+                                        811
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Die: CZ06701337. IC: С287419",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        256,
+                        19,
+                        335,
+                        104
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                256,
+                                18,
+                                317,
+                                51
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        256,
+                                        18,
+                                        317,
+                                        51
+                                    ],
+                                    "score": 1.0,
+                                    "content": "THE",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                256,
+                                46,
+                                337,
+                                78
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        256,
+                                        46,
+                                        337,
+                                        78
+                                    ],
+                                    "score": 1.0,
+                                    "content": "CfâUD",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                256,
+                                74,
+                                316,
+                                106
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        256,
+                                        74,
+                                        316,
+                                        106
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ONE",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        65,
+                        108,
+                        312,
+                        120
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                106,
+                                313,
+                                121
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        106,
+                                        313,
+                                        121
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The Cloud One Ргаяие - Hybernská 2140/17 -110 00 Praha 1 0 T E L s",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        233,
+                        607,
+                        362,
+                        642
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                271,
+                                606,
+                                323,
+                                619
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        271,
+                                        606,
+                                        323,
+                                        619
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Now open:",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                248,
+                                618,
+                                346,
+                                630
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        248,
+                                        618,
+                                        346,
+                                        630
+                                    ],
+                                    "score": 1.0,
+                                    "content": "MOtel One Karlsruhe",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                232,
+                                629,
+                                362,
+                                642
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        232,
+                                        629,
+                                        362,
+                                        642
+                                    ],
+                                    "score": 1.0,
+                                    "content": "and The Cloud One Prague؛",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "para_blocks": [
+                {
+                    "type": "list",
+                    "bbox": [
+                        64,
+                        144,
+                        195,
+                        191
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                62,
+                                144,
+                                195,
+                                157
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        62,
+                                        144,
+                                        195,
+                                        157
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Ap'!me!ste٢ c٥nsu!t!ng GmbH",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                156,
+                                163,
+                                168
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        156,
+                                        163,
+                                        168
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Fbedbchstrasse 114Α",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                166,
+                                122,
+                                181
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        166,
+                                        122,
+                                        181
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1٥117ΒθΓ!Π",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                178,
+                                122,
+                                192
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        178,
+                                        122,
+                                        192
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Deutsch!and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 1.5,
+                    "bbox_fs": [
+                        62,
+                        144,
+                        195,
+                        192
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        65,
+                        227,
+                        129,
+                        242
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                63,
+                                223,
+                                131,
+                                245
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        223,
+                                        131,
+                                        245
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Rechnung",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 4
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        65,
+                        250,
+                        461,
+                        287
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                64,
+                                248,
+                                433,
+                                265
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        250,
+                                        101,
+                                        265
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Datum:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        178,
+                                        250,
+                                        233,
+                                        263
+                                    ],
+                                    "score": 1.0,
+                                    "content": "٥8.٥7.2024",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        292,
+                                        248,
+                                        334,
+                                        264
+                                    ],
+                                    "score": 1.0,
+                                    "content": "z!mme٢:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        405,
+                                        248,
+                                        433,
+                                        262
+                                    ],
+                                    "score": 1.0,
+                                    "content": "5124",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                64,
+                                260,
+                                461,
+                                276
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        263,
+                                        159,
+                                        276
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Rechnungsnummer",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        177,
+                                        262,
+                                        233,
+                                        275
+                                    ],
+                                    "score": 1.0,
+                                    "content": "856٥٥4006",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        291,
+                                        260,
+                                        334,
+                                        275
+                                    ],
+                                    "score": 1.0,
+                                    "content": "٨nr^ig^-",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        405,
+                                        260,
+                                        461,
+                                        273
+                                    ],
+                                    "score": 1.0,
+                                    "content": "08.07.2٥24-",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                64,
+                                271,
+                                462,
+                                288
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        64,
+                                        273,
+                                        240,
+                                        288
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Reservierungsnummer 856٥01825/1",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        292,
+                                        272,
+                                        334,
+                                        287
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Abre؛se^",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        406,
+                                        271,
+                                        462,
+                                        286
+                                    ],
+                                    "score": 1.0,
+                                    "content": "13.07.2٥24",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 6,
+                    "bbox_fs": [
+                        64,
+                        248,
+                        462,
+                        288
+                    ]
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        67,
+                        453,
+                        524,
+                        493
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                67,
+                                453,
+                                524,
+                                493
+                            ],
+                            "group_id": 1,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        67,
+                                        453,
+                                        524,
+                                        493
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                67,
+                                                453,
+                                                524,
+                                                493
+                                            ],
+                                            "score": 0.634,
+                                            "html": "<table><tr><td>Saldo Zahlungen</td><td>-16.071,90</td></tr><tr><td>Rechnungsbetrag</td><td>0,00</td></tr></table>",
+                                            "type": "table",
+                                            "image_path": "d0b081564fa00689a7e1d91ecb0a3bde6013f1e38366ae3b6d7562ddf53ad327.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 9,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        67,
+                                        453,
+                                        524,
+                                        466.3333333333333
+                                    ],
+                                    "spans": [],
+                                    "index": 8
+                                },
+                                {
+                                    "bbox": [
+                                        67,
+                                        466.3333333333333,
+                                        524,
+                                        479.66666666666663
+                                    ],
+                                    "spans": [],
+                                    "index": 9
+                                },
+                                {
+                                    "bbox": [
+                                        67,
+                                        479.66666666666663,
+                                        524,
+                                        492.99999999999994
+                                    ],
+                                    "spans": [],
+                                    "index": 10
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 9
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        68,
+                        512,
+                        525,
+                        549
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_caption",
+                            "bbox": [
+                                68,
+                                501,
+                                332,
+                                512
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        500,
+                                        333,
+                                        513
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                66,
+                                                500,
+                                                333,
+                                                513
+                                            ],
+                                            "score": 1.0,
+                                            "content": "In dieser Rechnung sind folgende Steuerbeträge enthalten:",
+                                            "type": "text"
+                                        }
+                                    ],
+                                    "index": 11
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                68,
+                                512,
+                                525,
+                                549
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        512,
+                                        525,
+                                        549
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                68,
+                                                512,
+                                                525,
+                                                549
+                                            ],
+                                            "score": 0.907,
+                                            "html": "<table><tr><td>Steuersatz</td><td>Netto CZK</td><td>Steuer CZK</td><td>Brutto CZK</td></tr><tr><td>0,00 % (0 % TAX)</td><td>249,75</td><td>0,00</td><td>249,75</td></tr><tr><td>12,00 % (TAX)</td><td>14.126,92</td><td>1.695,23</td><td>15.822,15</td></tr></table>",
+                                            "type": "table",
+                                            "image_path": "fa38b47bbc0beffb74cbc2bd825e41aeab5a0d817c9dc5227ba989546f22a388.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 13,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        512,
+                                        525,
+                                        524.3333333333334
+                                    ],
+                                    "spans": [],
+                                    "index": 12
+                                },
+                                {
+                                    "bbox": [
+                                        68,
+                                        524.3333333333334,
+                                        525,
+                                        536.6666666666667
+                                    ],
+                                    "spans": [],
+                                    "index": 13
+                                },
+                                {
+                                    "bbox": [
+                                        68,
+                                        536.6666666666667,
+                                        525,
+                                        549.0000000000001
+                                    ],
+                                    "spans": [],
+                                    "index": 14
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 12.0
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        68,
+                        567,
+                        173,
+                        601
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                67,
+                                566,
+                                173,
+                                579
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        67,
+                                        566,
+                                        173,
+                                        579
+                                    ],
+                                    "score": 1.0,
+                                    "content": "The Cloud One Prague",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                66,
+                                577,
+                                91,
+                                591
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        577,
+                                        91,
+                                        591
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Faiz",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                66,
+                                588,
+                                102,
+                                602
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        66,
+                                        588,
+                                        102,
+                                        602
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Shaikh",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 16,
+                    "bbox_fs": [
+                        66,
+                        566,
+                        173,
+                        602
+                    ]
+                }
+            ]
+        }
+    ],
+    "_backend": "pipeline",
+    "_version_name": "2.7.6"
+}

@@ -1,0 +1,3837 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        220,
+                        99,
+                        374,
+                        122
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                217,
+                                95,
+                                377,
+                                124
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        217,
+                                        95,
+                                        377,
+                                        124
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ROBERT COOPER",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        155,
+                        131,
+                        440,
+                        141
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                153,
+                                129,
+                                442,
+                                142
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        153,
+                                        129,
+                                        442,
+                                        142
+                                    ],
+                                    "score": 0.984,
+                                    "content": "SECURITY GUARD LOS ANGELES, CA 90291, UNITED STATES 3868683442",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        }
+                    ],
+                    "index": 1
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        79,
+                        171,
+                        135,
+                        183
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                80,
+                                168,
+                                138,
+                                186
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        80,
+                                        172,
+                                        87,
+                                        180
+                                    ],
+                                    "score": 0.879,
+                                    "content": "o",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        87,
+                                        168,
+                                        138,
+                                        186
+                                    ],
+                                    "score": 0.999,
+                                    "content": "DETAILS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 2
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        61,
+                        190,
+                        152,
+                        253
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                74,
+                                188,
+                                142,
+                                201
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        74,
+                                        188,
+                                        142,
+                                        201
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1515 Pacific Ave",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                61,
+                                201,
+                                154,
+                                216
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        201,
+                                        154,
+                                        216
+                                    ],
+                                    "score": 0.975,
+                                    "content": "Los Angeles, CA 90291",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        },
+                        {
+                            "bbox": [
+                                78,
+                                214,
+                                137,
+                                228
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        78,
+                                        214,
+                                        137,
+                                        228
+                                    ],
+                                    "score": 0.989,
+                                    "content": "United States",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                228,
+                                134,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        228,
+                                        134,
+                                        240
+                                    ],
+                                    "score": 1.0,
+                                    "content": "3868683442",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        },
+                        {
+                            "bbox": [
+                                69,
+                                241,
+                                146,
+                                254
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        241,
+                                        146,
+                                        254
+                                    ],
+                                    "score": 0.973,
+                                    "content": "email@email.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        78,
+                        260,
+                        135,
+                        284
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                81,
+                                271,
+                                135,
+                                285
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        81,
+                                        271,
+                                        135,
+                                        285
+                                    ],
+                                    "score": 0.986,
+                                    "content": "San Antonio",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 8
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        291,
+                        137,
+                        315
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                96,
+                                301,
+                                119,
+                                317
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        96,
+                                        301,
+                                        119,
+                                        317
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Full",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 9
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        84,
+                        332,
+                        129,
+                        344
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                82,
+                                330,
+                                133,
+                                345
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        330,
+                                        133,
+                                        345
+                                    ],
+                                    "score": 0.999,
+                                    "content": "LINKS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 10
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        89,
+                        352,
+                        126,
+                        362
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                88,
+                                351,
+                                127,
+                                362
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        88,
+                                        351,
+                                        127,
+                                        362
+                                    ],
+                                    "score": 0.976,
+                                    "content": "LinkedIn",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        88,
+                        371,
+                        126,
+                        381
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                87,
+                                369,
+                                128,
+                                382
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        87,
+                                        369,
+                                        128,
+                                        382
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Pinterest",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        68,
+                        389,
+                        146,
+                        401
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                389,
+                                147,
+                                401
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        389,
+                                        147,
+                                        401
+                                    ],
+                                    "score": 0.976,
+                                    "content": "Resume Templates",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 13
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        69,
+                        408,
+                        146,
+                        419
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                406,
+                                147,
+                                420
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        406,
+                                        147,
+                                        420
+                                    ],
+                                    "score": 0.976,
+                                    "content": "Build this template",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 14
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        68,
+                        455,
+                        145,
+                        466
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                454,
+                                146,
+                                467
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        454,
+                                        146,
+                                        467
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Investigation skills",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        67,
+                        477,
+                        146,
+                        489
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                475,
+                                146,
+                                490
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        475,
+                                        146,
+                                        490
+                                    ],
+                                    "score": 0.988,
+                                    "content": "Safety compliance",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        52,
+                        499,
+                        162,
+                        510
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                497,
+                                163,
+                                511
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        497,
+                                        163,
+                                        511
+                                    ],
+                                    "score": 0.998,
+                                    "content": "Criminal justice knowledge",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 17
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        65,
+                        521,
+                        148,
+                        533
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                520,
+                                149,
+                                533
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        520,
+                                        149,
+                                        533
+                                    ],
+                                    "score": 0.981,
+                                    "content": "Restraining devices",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        }
+                    ],
+                    "index": 18
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        69,
+                        543,
+                        156,
+                        568
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                542,
+                                158,
+                                554
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        542,
+                                        158,
+                                        554
+                                    ],
+                                    "score": 0.996,
+                                    "content": "tial arts/Physical comb",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                90,
+                                553,
+                                127,
+                                570
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        90,
+                                        553,
+                                        127,
+                                        570
+                                    ],
+                                    "score": 0.999,
+                                    "content": "training",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        }
+                    ],
+                    "index": 19.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        63,
+                        587,
+                        152,
+                        618
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                75,
+                                584,
+                                140,
+                                601
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        75,
+                                        584,
+                                        140,
+                                        601
+                                    ],
+                                    "score": 0.999,
+                                    "content": "HOBBIES",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                604,
+                                154,
+                                619
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        604,
+                                        154,
+                                        619
+                                    ],
+                                    "score": 0.981,
+                                    "content": "Running, Mtb, Enduro",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        }
+                    ],
+                    "index": 21.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        72,
+                        635,
+                        142,
+                        646
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                70,
+                                632,
+                                145,
+                                648
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        632,
+                                        145,
+                                        648
+                                    ],
+                                    "score": 1.0,
+                                    "content": "LANGUAGES",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 23
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        54,
+                        665,
+                        160,
+                        713
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                54,
+                                665,
+                                160,
+                                713
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        665,
+                                        160,
+                                        713
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                54,
+                                                665,
+                                                160,
+                                                713
+                                            ],
+                                            "score": 0.102,
+                                            "html": "<table><tr><td>Spanish</td><td></td></tr><tr><td></td><td></td></tr><tr><td>Italian</td><td></td></tr><tr><td></td><td></td></tr></table>",
+                                            "type": "table",
+                                            "image_path": "57c7df5a22e817c76a8ef239a703ec06f721c3fbc0167a0af0f2287a86075eb6.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 24.5,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        665,
+                                        160,
+                                        689.0
+                                    ],
+                                    "spans": [],
+                                    "index": 24
+                                },
+                                {
+                                    "bbox": [
+                                        54,
+                                        689.0,
+                                        160,
+                                        713.0
+                                    ],
+                                    "spans": [],
+                                    "index": 25
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 24.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        204,
+                        172,
+                        239,
+                        183
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                171,
+                                242,
+                                185
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        171,
+                                        242,
+                                        185
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PROFILE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        }
+                    ],
+                    "index": 26
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        189,
+                        555,
+                        252
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                189,
+                                549,
+                                201
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        189,
+                                        549,
+                                        201
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Safety conscious, attentive Security Guard with eight years experience in protecting and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        },
+                        {
+                            "bbox": [
+                                202,
+                                201,
+                                532,
+                                215
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        202,
+                                        201,
+                                        532,
+                                        215
+                                    ],
+                                    "score": 0.98,
+                                    "content": "guarding VIP individuals in the military and defense sectors. Proficient at observing",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        },
+                        {
+                            "bbox": [
+                                202,
+                                214,
+                                557,
+                                227
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        202,
+                                        214,
+                                        557,
+                                        227
+                                    ],
+                                    "score": 0.993,
+                                    "content": "surroundings and immediate settings for possible threats of nonhuman and human nature.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 29
+                        },
+                        {
+                            "bbox": [
+                                203,
+                                227,
+                                528,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        227,
+                                        528,
+                                        240
+                                    ],
+                                    "score": 0.973,
+                                    "content": "Presently finishing a bachelor's in criminal justice and qualified as a CPo (Certified",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 30
+                        },
+                        {
+                            "bbox": [
+                                203,
+                                239,
+                                279,
+                                253
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        239,
+                                        279,
+                                        253
+                                    ],
+                                    "score": 0.989,
+                                    "content": "Protection Guard).",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 31
+                        }
+                    ],
+                    "index": 29
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        204,
+                        270,
+                        300,
+                        281
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                269,
+                                301,
+                                282
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        269,
+                                        301,
+                                        282
+                                    ],
+                                    "score": 0.999,
+                                    "content": "EMPLOYMENT HISTORY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 32
+                        }
+                    ],
+                    "index": 32
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        201,
+                        287,
+                        403,
+                        299
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                286,
+                                404,
+                                299
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        286,
+                                        404,
+                                        299
+                                    ],
+                                    "score": 0.999,
+                                    "content": "Security Guard at ADT Security, Port Washington",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 33
+                        }
+                    ],
+                    "index": 33
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        204,
+                        300,
+                        311,
+                        311
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                300,
+                                311,
+                                311
+                            ],
+                            "spans": [],
+                            "index": 34
+                        }
+                    ],
+                    "index": 34
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        204,
+                        317,
+                        550,
+                        342
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                316,
+                                551,
+                                330
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        316,
+                                        551,
+                                        330
+                                    ],
+                                    "score": 0.993,
+                                    "content": "Responsible for completing reports by recording information, observations, occurrences,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 35
+                        },
+                        {
+                            "bbox": [
+                                203,
+                                329,
+                                552,
+                                343
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        329,
+                                        552,
+                                        343
+                                    ],
+                                    "score": 0.992,
+                                    "content": "and surveillance activities, including interviewing of witnesses and acquiring signatures.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 36
+                        }
+                    ],
+                    "index": 35.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        215,
+                        348,
+                        553,
+                        439
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                216,
+                                348,
+                                543,
+                                361
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        348,
+                                        543,
+                                        361
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Maintaining environments by monitoring the grounds and equipment controls.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 37
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                361,
+                                551,
+                                375
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        361,
+                                        551,
+                                        375
+                                    ],
+                                    "score": 0.983,
+                                    "content": "Logging into security headquarters on the hour during the day and every 2 hours",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 38
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                374,
+                                468,
+                                387
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        374,
+                                        468,
+                                        387
+                                    ],
+                                    "score": 0.978,
+                                    "content": "with the night shift, notifying control of alin order statuses.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 39
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                386,
+                                543,
+                                401
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        386,
+                                        543,
+                                        401
+                                    ],
+                                    "score": 0.978,
+                                    "content": "Utilizing armed force when necessary, to protect company belongings, visitors,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 40
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                400,
+                                379,
+                                412
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        400,
+                                        379,
+                                        412
+                                    ],
+                                    "score": 0.992,
+                                    "content": "employees, and clients when needed.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 41
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                412,
+                                555,
+                                426
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        412,
+                                        555,
+                                        426
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Apprehending suspects in the event of security breaches and detaining them until",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 42
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                425,
+                                348,
+                                439
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        425,
+                                        348,
+                                        439
+                                    ],
+                                    "score": 0.98,
+                                    "content": "the police arrive on the scene.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 43
+                        }
+                    ],
+                    "index": 40
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        204,
+                        460,
+                        357,
+                        471
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                458,
+                                358,
+                                472
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        458,
+                                        358,
+                                        472
+                                    ],
+                                    "score": 0.983,
+                                    "content": "Security Guard at Copwatch, Jogbani",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 44
+                        }
+                    ],
+                    "index": 44
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        204,
+                        474,
+                        312,
+                        484
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                474,
+                                312,
+                                484
+                            ],
+                            "spans": [],
+                            "index": 45
+                        }
+                    ],
+                    "index": 45
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        489,
+                        549,
+                        515
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                489,
+                                550,
+                                502
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        489,
+                                        550,
+                                        502
+                                    ],
+                                    "score": 0.985,
+                                    "content": "Primary purpose is to scan area of grounds for objects/ items that seem out of place and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 46
+                        },
+                        {
+                            "bbox": [
+                                203,
+                                502,
+                                488,
+                                515
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        502,
+                                        488,
+                                        515
+                                    ],
+                                    "score": 0.992,
+                                    "content": "notifying Center management of bags or packages that are unattended.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 47
+                        }
+                    ],
+                    "index": 46.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        215,
+                        522,
+                        552,
+                        599
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                216,
+                                521,
+                                539,
+                                534
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        521,
+                                        539,
+                                        534
+                                    ],
+                                    "score": 0.985,
+                                    "content": "Inspecting restrooms after closing time for vagrants/ unauthorized personnel.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 48
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                534,
+                                459,
+                                547
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        534,
+                                        459,
+                                        547
+                                    ],
+                                    "score": 0.977,
+                                    "content": "Monitoring selected areas via CcTV app on smart devices.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 49
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                546,
+                                527,
+                                561
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        546,
+                                        527,
+                                        561
+                                    ],
+                                    "score": 0.993,
+                                    "content": "Ensure flawless equipment operation by finishing preventive maintenance",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 50
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                559,
+                                506,
+                                575
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        559,
+                                        506,
+                                        575
+                                    ],
+                                    "score": 0.974,
+                                    "content": "necessities, reading the manufacturer's instructions, troubleshooting",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 51
+                        },
+                        {
+                            "bbox": [
+                                226,
+                                574,
+                                553,
+                                586
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        226,
+                                        574,
+                                        553,
+                                        586
+                                    ],
+                                    "score": 0.98,
+                                    "content": "malfunctions, organizing for repairs if needed, and assessing new equipment and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 52
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                585,
+                                274,
+                                600
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        585,
+                                        274,
+                                        600
+                                    ],
+                                    "score": 1.0,
+                                    "content": "techniques",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 53
+                        }
+                    ],
+                    "index": 50.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        204,
+                        616,
+                        252,
+                        627
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                614,
+                                254,
+                                629
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        614,
+                                        254,
+                                        629
+                                    ],
+                                    "score": 1.0,
+                                    "content": "EDUCATION",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 54
+                        }
+                    ],
+                    "index": 54
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        633,
+                        548,
+                        671
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                632,
+                                550,
+                                645
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        632,
+                                        550,
+                                        645
+                                    ],
+                                    "score": 0.972,
+                                    "content": "Certified Protection Guard Program (CPOP), International Foundation for Protection",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 55
+                        },
+                        {
+                            "bbox": [
+                                204,
+                                645,
+                                285,
+                                658
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        645,
+                                        285,
+                                        658
+                                    ],
+                                    "score": 0.994,
+                                    "content": "Guards, Alexandria",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 56
+                        }
+                    ],
+                    "index": 55.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        686,
+                        517,
+                        711
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                685,
+                                518,
+                                698
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        685,
+                                        518,
+                                        698
+                                    ],
+                                    "score": 0.993,
+                                    "content": "Security Guard Certificate Program (SOCP), ASIS International, North Naples",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 57
+                        }
+                    ],
+                    "index": 57
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        214,
+                        716,
+                        555,
+                        741
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                216,
+                                716,
+                                555,
+                                727
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        716,
+                                        555,
+                                        727
+                                    ],
+                                    "score": 0.996,
+                                    "content": "Course Curriculum: Law Enforcement Ethics, Foundations in Criminal Law, Report",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 58
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                727,
+                                515,
+                                741
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        727,
+                                        515,
+                                        741
+                                    ],
+                                    "score": 0.981,
+                                    "content": "Writing, Criminal Profiling, Interviewing Techniques, Crisis Intervention.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 59
+                        }
+                    ],
+                    "index": 58.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        762,
+                        444,
+                        786
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                760,
+                                444,
+                                776
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        760,
+                                        444,
+                                        776
+                                    ],
+                                    "score": 0.984,
+                                    "content": "S.A.F.E. Approach Level II Training, Hawaii Western College",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 60
+                        }
+                    ],
+                    "index": 60
+                }
+            ],
+            "page_idx": 0,
+            "page_size": [
+                595,
+                842
+            ],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        270,
+                        28,
+                        324,
+                        80
+                    ],
+                    "lines": []
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        82,
+                        437,
+                        132,
+                        449
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                79,
+                                433,
+                                136,
+                                451
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        79,
+                                        433,
+                                        136,
+                                        451
+                                    ],
+                                    "score": 0.997,
+                                    "content": "SKILLS",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        185,
+                        172,
+                        194,
+                        182
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                185,
+                                172,
+                                195,
+                                183
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        185,
+                                        172,
+                                        195,
+                                        183
+                                    ],
+                                    "score": 0.994,
+                                    "content": ":",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        182,
+                        631,
+                        195,
+                        786
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                185,
+                                762,
+                                192,
+                                782
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        185,
+                                        762,
+                                        192,
+                                        782
+                                    ],
+                                    "score": 0.0,
+                                    "content": "",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "para_blocks": [
+                {
+                    "type": "title",
+                    "bbox": [
+                        220,
+                        99,
+                        374,
+                        122
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                217,
+                                95,
+                                377,
+                                124
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        217,
+                                        95,
+                                        377,
+                                        124
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ROBERT COOPER",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        }
+                    ],
+                    "index": 0
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        155,
+                        131,
+                        440,
+                        141
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                153,
+                                129,
+                                442,
+                                142
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        153,
+                                        129,
+                                        442,
+                                        142
+                                    ],
+                                    "score": 0.984,
+                                    "content": "SECURITY GUARD LOS ANGELES, CA 90291, UNITED STATES 3868683442",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        }
+                    ],
+                    "index": 1,
+                    "bbox_fs": [
+                        153,
+                        129,
+                        442,
+                        142
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        79,
+                        171,
+                        135,
+                        183
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                80,
+                                168,
+                                138,
+                                186
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        80,
+                                        172,
+                                        87,
+                                        180
+                                    ],
+                                    "score": 0.879,
+                                    "content": "o",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        87,
+                                        168,
+                                        138,
+                                        186
+                                    ],
+                                    "score": 0.999,
+                                    "content": "DETAILS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        }
+                    ],
+                    "index": 2,
+                    "bbox_fs": [
+                        80,
+                        168,
+                        138,
+                        186
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        61,
+                        190,
+                        152,
+                        253
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                74,
+                                188,
+                                142,
+                                201
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        74,
+                                        188,
+                                        142,
+                                        201
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1515 Pacific Ave",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                61,
+                                201,
+                                154,
+                                216
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        61,
+                                        201,
+                                        154,
+                                        216
+                                    ],
+                                    "score": 0.975,
+                                    "content": "Los Angeles, CA 90291",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                78,
+                                214,
+                                137,
+                                228
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        78,
+                                        214,
+                                        137,
+                                        228
+                                    ],
+                                    "score": 0.989,
+                                    "content": "United States",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                82,
+                                228,
+                                134,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        228,
+                                        134,
+                                        240
+                                    ],
+                                    "score": 1.0,
+                                    "content": "3868683442",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                69,
+                                241,
+                                146,
+                                254
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        69,
+                                        241,
+                                        146,
+                                        254
+                                    ],
+                                    "score": 0.973,
+                                    "content": "email@email.com",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 5,
+                    "bbox_fs": [
+                        61,
+                        188,
+                        154,
+                        254
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        78,
+                        260,
+                        135,
+                        284
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                81,
+                                271,
+                                135,
+                                285
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        81,
+                                        271,
+                                        135,
+                                        285
+                                    ],
+                                    "score": 0.986,
+                                    "content": "San Antonio",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 8,
+                    "bbox_fs": [
+                        81,
+                        271,
+                        135,
+                        285
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        77,
+                        291,
+                        137,
+                        315
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                96,
+                                301,
+                                119,
+                                317
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        96,
+                                        301,
+                                        119,
+                                        317
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Full",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        }
+                    ],
+                    "index": 9,
+                    "bbox_fs": [
+                        96,
+                        301,
+                        119,
+                        317
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        84,
+                        332,
+                        129,
+                        344
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                82,
+                                330,
+                                133,
+                                345
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        82,
+                                        330,
+                                        133,
+                                        345
+                                    ],
+                                    "score": 0.999,
+                                    "content": "LINKS",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 10,
+                    "bbox_fs": [
+                        82,
+                        330,
+                        133,
+                        345
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        89,
+                        352,
+                        126,
+                        362
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                88,
+                                351,
+                                127,
+                                362
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        88,
+                                        351,
+                                        127,
+                                        362
+                                    ],
+                                    "score": 0.976,
+                                    "content": "LinkedIn",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        }
+                    ],
+                    "index": 11,
+                    "bbox_fs": [
+                        88,
+                        351,
+                        127,
+                        362
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        88,
+                        371,
+                        126,
+                        381
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                87,
+                                369,
+                                128,
+                                382
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        87,
+                                        369,
+                                        128,
+                                        382
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Pinterest",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        }
+                    ],
+                    "index": 12,
+                    "bbox_fs": [
+                        87,
+                        369,
+                        128,
+                        382
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        68,
+                        389,
+                        146,
+                        401
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                389,
+                                147,
+                                401
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        389,
+                                        147,
+                                        401
+                                    ],
+                                    "score": 0.976,
+                                    "content": "Resume Templates",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 13,
+                    "bbox_fs": [
+                        68,
+                        389,
+                        147,
+                        401
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        69,
+                        408,
+                        146,
+                        419
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                406,
+                                147,
+                                420
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        406,
+                                        147,
+                                        420
+                                    ],
+                                    "score": 0.976,
+                                    "content": "Build this template",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 14,
+                    "bbox_fs": [
+                        68,
+                        406,
+                        147,
+                        420
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        68,
+                        455,
+                        145,
+                        466
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                454,
+                                146,
+                                467
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        454,
+                                        146,
+                                        467
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Investigation skills",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 15
+                        }
+                    ],
+                    "index": 15,
+                    "bbox_fs": [
+                        68,
+                        454,
+                        146,
+                        467
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        67,
+                        477,
+                        146,
+                        489
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                475,
+                                146,
+                                490
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        475,
+                                        146,
+                                        490
+                                    ],
+                                    "score": 0.988,
+                                    "content": "Safety compliance",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 16
+                        }
+                    ],
+                    "index": 16,
+                    "bbox_fs": [
+                        68,
+                        475,
+                        146,
+                        490
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        52,
+                        499,
+                        162,
+                        510
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                52,
+                                497,
+                                163,
+                                511
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        52,
+                                        497,
+                                        163,
+                                        511
+                                    ],
+                                    "score": 0.998,
+                                    "content": "Criminal justice knowledge",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 17
+                        }
+                    ],
+                    "index": 17,
+                    "bbox_fs": [
+                        52,
+                        497,
+                        163,
+                        511
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        65,
+                        521,
+                        148,
+                        533
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                68,
+                                520,
+                                149,
+                                533
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        520,
+                                        149,
+                                        533
+                                    ],
+                                    "score": 0.981,
+                                    "content": "Restraining devices",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                68,
+                                542,
+                                158,
+                                554
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        542,
+                                        158,
+                                        554
+                                    ],
+                                    "score": 0.996,
+                                    "content": "tial arts/Physical comb",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                90,
+                                553,
+                                127,
+                                570
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        90,
+                                        553,
+                                        127,
+                                        570
+                                    ],
+                                    "score": 0.999,
+                                    "content": "training",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        }
+                    ],
+                    "index": 18,
+                    "bbox_fs": [
+                        68,
+                        520,
+                        149,
+                        533
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        69,
+                        543,
+                        156,
+                        568
+                    ],
+                    "lines": [],
+                    "index": 19.5,
+                    "bbox_fs": [
+                        68,
+                        542,
+                        158,
+                        570
+                    ],
+                    "lines_deleted": true
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        63,
+                        587,
+                        152,
+                        618
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                75,
+                                584,
+                                140,
+                                601
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        75,
+                                        584,
+                                        140,
+                                        601
+                                    ],
+                                    "score": 0.999,
+                                    "content": "HOBBIES",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                604,
+                                154,
+                                619
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        604,
+                                        154,
+                                        619
+                                    ],
+                                    "score": 0.981,
+                                    "content": "Running, Mtb, Enduro",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 22
+                        }
+                    ],
+                    "index": 21.5,
+                    "bbox_fs": [
+                        63,
+                        584,
+                        154,
+                        619
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        72,
+                        635,
+                        142,
+                        646
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                70,
+                                632,
+                                145,
+                                648
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        70,
+                                        632,
+                                        145,
+                                        648
+                                    ],
+                                    "score": 1.0,
+                                    "content": "LANGUAGES",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 23
+                        }
+                    ],
+                    "index": 23
+                },
+                {
+                    "type": "table",
+                    "bbox": [
+                        54,
+                        665,
+                        160,
+                        713
+                    ],
+                    "blocks": [
+                        {
+                            "type": "table_body",
+                            "bbox": [
+                                54,
+                                665,
+                                160,
+                                713
+                            ],
+                            "group_id": 0,
+                            "lines": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        665,
+                                        160,
+                                        713
+                                    ],
+                                    "spans": [
+                                        {
+                                            "bbox": [
+                                                54,
+                                                665,
+                                                160,
+                                                713
+                                            ],
+                                            "score": 0.102,
+                                            "html": "<table><tr><td>Spanish</td><td></td></tr><tr><td></td><td></td></tr><tr><td>Italian</td><td></td></tr><tr><td></td><td></td></tr></table>",
+                                            "type": "table",
+                                            "image_path": "57c7df5a22e817c76a8ef239a703ec06f721c3fbc0167a0af0f2287a86075eb6.jpg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "index": 24.5,
+                            "virtual_lines": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        665,
+                                        160,
+                                        689.0
+                                    ],
+                                    "spans": [],
+                                    "index": 24
+                                },
+                                {
+                                    "bbox": [
+                                        54,
+                                        689.0,
+                                        160,
+                                        713.0
+                                    ],
+                                    "spans": [],
+                                    "index": 25
+                                }
+                            ]
+                        }
+                    ],
+                    "index": 24.5
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        204,
+                        172,
+                        239,
+                        183
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                171,
+                                242,
+                                185
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        171,
+                                        242,
+                                        185
+                                    ],
+                                    "score": 1.0,
+                                    "content": "PROFILE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 26
+                        }
+                    ],
+                    "index": 26
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        189,
+                        555,
+                        252
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                189,
+                                549,
+                                201
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        189,
+                                        549,
+                                        201
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Safety conscious, attentive Security Guard with eight years experience in protecting and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 27
+                        },
+                        {
+                            "bbox": [
+                                202,
+                                201,
+                                532,
+                                215
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        202,
+                                        201,
+                                        532,
+                                        215
+                                    ],
+                                    "score": 0.98,
+                                    "content": "guarding VIP individuals in the military and defense sectors. Proficient at observing",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 28
+                        },
+                        {
+                            "bbox": [
+                                202,
+                                214,
+                                557,
+                                227
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        202,
+                                        214,
+                                        557,
+                                        227
+                                    ],
+                                    "score": 0.993,
+                                    "content": "surroundings and immediate settings for possible threats of nonhuman and human nature.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 29
+                        },
+                        {
+                            "bbox": [
+                                203,
+                                227,
+                                528,
+                                240
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        227,
+                                        528,
+                                        240
+                                    ],
+                                    "score": 0.973,
+                                    "content": "Presently finishing a bachelor's in criminal justice and qualified as a CPo (Certified",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 30
+                        },
+                        {
+                            "bbox": [
+                                203,
+                                239,
+                                279,
+                                253
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        239,
+                                        279,
+                                        253
+                                    ],
+                                    "score": 0.989,
+                                    "content": "Protection Guard).",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 31
+                        }
+                    ],
+                    "index": 29,
+                    "bbox_fs": [
+                        202,
+                        189,
+                        557,
+                        253
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        204,
+                        270,
+                        300,
+                        281
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                269,
+                                301,
+                                282
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        269,
+                                        301,
+                                        282
+                                    ],
+                                    "score": 0.999,
+                                    "content": "EMPLOYMENT HISTORY",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 32
+                        }
+                    ],
+                    "index": 32
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        201,
+                        287,
+                        403,
+                        299
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                286,
+                                404,
+                                299
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        286,
+                                        404,
+                                        299
+                                    ],
+                                    "score": 0.999,
+                                    "content": "Security Guard at ADT Security, Port Washington",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 33
+                        }
+                    ],
+                    "index": 33,
+                    "bbox_fs": [
+                        204,
+                        286,
+                        404,
+                        299
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        204,
+                        300,
+                        311,
+                        311
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                300,
+                                311,
+                                311
+                            ],
+                            "spans": [],
+                            "index": 34
+                        }
+                    ],
+                    "index": 34,
+                    "bbox_fs": [
+                        204,
+                        300,
+                        311,
+                        311
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        204,
+                        317,
+                        550,
+                        342
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                316,
+                                551,
+                                330
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        316,
+                                        551,
+                                        330
+                                    ],
+                                    "score": 0.993,
+                                    "content": "Responsible for completing reports by recording information, observations, occurrences,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 35
+                        },
+                        {
+                            "bbox": [
+                                203,
+                                329,
+                                552,
+                                343
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        329,
+                                        552,
+                                        343
+                                    ],
+                                    "score": 0.992,
+                                    "content": "and surveillance activities, including interviewing of witnesses and acquiring signatures.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 36
+                        }
+                    ],
+                    "index": 35.5,
+                    "bbox_fs": [
+                        203,
+                        316,
+                        552,
+                        343
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        215,
+                        348,
+                        553,
+                        439
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                216,
+                                348,
+                                543,
+                                361
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        348,
+                                        543,
+                                        361
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Maintaining environments by monitoring the grounds and equipment controls.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 37,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                361,
+                                551,
+                                375
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        361,
+                                        551,
+                                        375
+                                    ],
+                                    "score": 0.983,
+                                    "content": "Logging into security headquarters on the hour during the day and every 2 hours",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 38,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                374,
+                                468,
+                                387
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        374,
+                                        468,
+                                        387
+                                    ],
+                                    "score": 0.978,
+                                    "content": "with the night shift, notifying control of alin order statuses.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 39,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                386,
+                                543,
+                                401
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        386,
+                                        543,
+                                        401
+                                    ],
+                                    "score": 0.978,
+                                    "content": "Utilizing armed force when necessary, to protect company belongings, visitors,",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 40,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                400,
+                                379,
+                                412
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        400,
+                                        379,
+                                        412
+                                    ],
+                                    "score": 0.992,
+                                    "content": "employees, and clients when needed.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 41,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                412,
+                                555,
+                                426
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        412,
+                                        555,
+                                        426
+                                    ],
+                                    "score": 0.99,
+                                    "content": "Apprehending suspects in the event of security breaches and detaining them until",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 42,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                425,
+                                348,
+                                439
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        425,
+                                        348,
+                                        439
+                                    ],
+                                    "score": 0.98,
+                                    "content": "the police arrive on the scene.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 43,
+                            "is_list_end_line": true
+                        }
+                    ],
+                    "index": 40,
+                    "bbox_fs": [
+                        216,
+                        348,
+                        555,
+                        439
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        204,
+                        460,
+                        357,
+                        471
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                458,
+                                358,
+                                472
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        458,
+                                        358,
+                                        472
+                                    ],
+                                    "score": 0.983,
+                                    "content": "Security Guard at Copwatch, Jogbani",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 44
+                        }
+                    ],
+                    "index": 44
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        204,
+                        474,
+                        312,
+                        484
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                474,
+                                312,
+                                484
+                            ],
+                            "spans": [],
+                            "index": 45
+                        }
+                    ],
+                    "index": 45,
+                    "bbox_fs": [
+                        204,
+                        474,
+                        312,
+                        484
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        489,
+                        549,
+                        515
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                489,
+                                550,
+                                502
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        489,
+                                        550,
+                                        502
+                                    ],
+                                    "score": 0.985,
+                                    "content": "Primary purpose is to scan area of grounds for objects/ items that seem out of place and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 46
+                        },
+                        {
+                            "bbox": [
+                                203,
+                                502,
+                                488,
+                                515
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        502,
+                                        488,
+                                        515
+                                    ],
+                                    "score": 0.992,
+                                    "content": "notifying Center management of bags or packages that are unattended.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 47
+                        }
+                    ],
+                    "index": 46.5,
+                    "bbox_fs": [
+                        203,
+                        489,
+                        550,
+                        515
+                    ]
+                },
+                {
+                    "type": "list",
+                    "bbox": [
+                        215,
+                        522,
+                        552,
+                        599
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                216,
+                                521,
+                                539,
+                                534
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        521,
+                                        539,
+                                        534
+                                    ],
+                                    "score": 0.985,
+                                    "content": "Inspecting restrooms after closing time for vagrants/ unauthorized personnel.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 48,
+                            "is_list_start_line": true,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                534,
+                                459,
+                                547
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        534,
+                                        459,
+                                        547
+                                    ],
+                                    "score": 0.977,
+                                    "content": "Monitoring selected areas via CcTV app on smart devices.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 49,
+                            "is_list_start_line": true,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                216,
+                                546,
+                                527,
+                                561
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        546,
+                                        527,
+                                        561
+                                    ],
+                                    "score": 0.993,
+                                    "content": "Ensure flawless equipment operation by finishing preventive maintenance",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 50,
+                            "is_list_start_line": true,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                559,
+                                506,
+                                575
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        559,
+                                        506,
+                                        575
+                                    ],
+                                    "score": 0.974,
+                                    "content": "necessities, reading the manufacturer's instructions, troubleshooting",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 51,
+                            "is_list_end_line": true
+                        },
+                        {
+                            "bbox": [
+                                226,
+                                574,
+                                553,
+                                586
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        226,
+                                        574,
+                                        553,
+                                        586
+                                    ],
+                                    "score": 0.98,
+                                    "content": "malfunctions, organizing for repairs if needed, and assessing new equipment and",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 52
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                585,
+                                274,
+                                600
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        585,
+                                        274,
+                                        600
+                                    ],
+                                    "score": 1.0,
+                                    "content": "techniques",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 53,
+                            "is_list_end_line": true
+                        }
+                    ],
+                    "index": 50.5,
+                    "bbox_fs": [
+                        216,
+                        521,
+                        553,
+                        600
+                    ]
+                },
+                {
+                    "type": "title",
+                    "bbox": [
+                        204,
+                        616,
+                        252,
+                        627
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                614,
+                                254,
+                                629
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        614,
+                                        254,
+                                        629
+                                    ],
+                                    "score": 1.0,
+                                    "content": "EDUCATION",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 54
+                        }
+                    ],
+                    "index": 54
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        633,
+                        548,
+                        671
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                632,
+                                550,
+                                645
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        632,
+                                        550,
+                                        645
+                                    ],
+                                    "score": 0.972,
+                                    "content": "Certified Protection Guard Program (CPOP), International Foundation for Protection",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 55
+                        },
+                        {
+                            "bbox": [
+                                204,
+                                645,
+                                285,
+                                658
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        645,
+                                        285,
+                                        658
+                                    ],
+                                    "score": 0.994,
+                                    "content": "Guards, Alexandria",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 56
+                        }
+                    ],
+                    "index": 55.5,
+                    "bbox_fs": [
+                        204,
+                        632,
+                        550,
+                        658
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        686,
+                        517,
+                        711
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                204,
+                                685,
+                                518,
+                                698
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        204,
+                                        685,
+                                        518,
+                                        698
+                                    ],
+                                    "score": 0.993,
+                                    "content": "Security Guard Certificate Program (SOCP), ASIS International, North Naples",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 57
+                        }
+                    ],
+                    "index": 57,
+                    "bbox_fs": [
+                        204,
+                        685,
+                        518,
+                        698
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        214,
+                        716,
+                        555,
+                        741
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                216,
+                                716,
+                                555,
+                                727
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        216,
+                                        716,
+                                        555,
+                                        727
+                                    ],
+                                    "score": 0.996,
+                                    "content": "Course Curriculum: Law Enforcement Ethics, Foundations in Criminal Law, Report",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 58
+                        },
+                        {
+                            "bbox": [
+                                225,
+                                727,
+                                515,
+                                741
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        225,
+                                        727,
+                                        515,
+                                        741
+                                    ],
+                                    "score": 0.981,
+                                    "content": "Writing, Criminal Profiling, Interviewing Techniques, Crisis Intervention.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 59
+                        }
+                    ],
+                    "index": 58.5,
+                    "bbox_fs": [
+                        216,
+                        716,
+                        555,
+                        741
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        203,
+                        762,
+                        444,
+                        786
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                203,
+                                760,
+                                444,
+                                776
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        203,
+                                        760,
+                                        444,
+                                        776
+                                    ],
+                                    "score": 0.984,
+                                    "content": "S.A.F.E. Approach Level II Training, Hawaii Western College",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 60
+                        }
+                    ],
+                    "index": 60,
+                    "bbox_fs": [
+                        203,
+                        760,
+                        444,
+                        776
+                    ]
+                }
+            ]
+        }
+    ],
+    "_backend": "pipeline",
+    "_version_name": "2.7.6"
+}

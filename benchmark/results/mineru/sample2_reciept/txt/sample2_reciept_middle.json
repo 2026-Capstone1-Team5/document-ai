@@ -1,0 +1,1427 @@
+{
+    "pdf_info": [
+        {
+            "preproc_blocks": [
+                {
+                    "type": "text",
+                    "bbox": [
+                        5,
+                        152,
+                        164,
+                        218
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                3,
+                                150,
+                                66,
+                                165
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        150,
+                                        66,
+                                        165
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Serv^ Marina",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                162,
+                                99,
+                                176
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        162,
+                                        99,
+                                        176
+                                    ],
+                                    "score": 1.0,
+                                    "content": "2024-09-14 09:52:38",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1
+                        },
+                        {
+                            "bbox": [
+                                2,
+                                173,
+                                81,
+                                197
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        2,
+                                        173,
+                                        81,
+                                        197
+                                    ],
+                                    "score": 1.0,
+                                    "content": "[ا",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2
+                        },
+                        {
+                            "bbox": [
+                                4,
+                                192,
+                                165,
+                                208
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        4,
+                                        192,
+                                        165,
+                                        208
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ĩable: 15 Commande#: 73 Siege#: 1",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3
+                        },
+                        {
+                            "bbox": [
+                                4,
+                                204,
+                                61,
+                                219
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        4,
+                                        204,
+                                        61,
+                                        219
+                                    ],
+                                    "score": 1.0,
+                                    "content": "#Clients: 1",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4
+                        }
+                    ],
+                    "index": 2
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        6,
+                        230,
+                        180,
+                        253
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                3,
+                                228,
+                                181,
+                                243
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        228,
+                                        113,
+                                        242
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1 JUS ORANGE REGULER",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        142,
+                                        228,
+                                        181,
+                                        243
+                                    ],
+                                    "score": 1.0,
+                                    "content": "4.85 FP",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                240,
+                                180,
+                                254
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        240,
+                                        80,
+                                        253
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1 SPECIAE CORA",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        138,
+                                        241,
+                                        180,
+                                        254
+                                    ],
+                                    "score": 1.0,
+                                    "content": "19.85 FP",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6
+                        }
+                    ],
+                    "index": 5.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        5,
+                        264,
+                        54,
+                        276
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                4,
+                                263,
+                                56,
+                                278
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        4,
+                                        263,
+                                        56,
+                                        278
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SOUS-TOTAL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 7
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        148,
+                        265,
+                        174,
+                        277
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                146,
+                                264,
+                                176,
+                                279
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        146,
+                                        264,
+                                        176,
+                                        279
+                                    ],
+                                    "score": 1.0,
+                                    "content": "24.70",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 8
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        5,
+                        287,
+                        106,
+                        312
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                5,
+                                286,
+                                103,
+                                300
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        5,
+                                        286,
+                                        103,
+                                        300
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TPS: 747755411RT0001",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9
+                        },
+                        {
+                            "bbox": [
+                                5,
+                                298,
+                                107,
+                                312
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        5,
+                                        298,
+                                        107,
+                                        312
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TVQ: 1230653153TQ0001",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10
+                        }
+                    ],
+                    "index": 9.5
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        5,
+                        334,
+                        174,
+                        370
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                3,
+                                333,
+                                176,
+                                348
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        333,
+                                        28,
+                                        347
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TPS:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        151,
+                                        334,
+                                        176,
+                                        348
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1.24",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                344,
+                                176,
+                                361
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        344,
+                                        31,
+                                        360
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TVQ;",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        151,
+                                        345,
+                                        176,
+                                        361
+                                    ],
+                                    "score": 1.0,
+                                    "content": "2.45",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                356,
+                                176,
+                                372
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        356,
+                                        37,
+                                        371
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TOTAL:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        147,
+                                        358,
+                                        176,
+                                        372
+                                    ],
+                                    "score": 1.0,
+                                    "content": "28.40",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13
+                        }
+                    ],
+                    "index": 12
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        66,
+                        381,
+                        150,
+                        393
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                65,
+                                380,
+                                150,
+                                394
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        380,
+                                        150,
+                                        394
+                                    ],
+                                    "score": 1.0,
+                                    "content": "FACTURE ORIGINALE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 14
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        25,
+                        572,
+                        190,
+                        619
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                25,
+                                572,
+                                190,
+                                585
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        25,
+                                        572,
+                                        190,
+                                        585
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Visitez chezcora.com/cartefidelite",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                41,
+                                582,
+                                173,
+                                597
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        41,
+                                        582,
+                                        173,
+                                        597
+                                    ],
+                                    "score": 1.0,
+                                    "content": "pour connaetre votre solde.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                34,
+                                593,
+                                181,
+                                609
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        34,
+                                        593,
+                                        181,
+                                        609
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Visit chezcora.com/loya1tycard",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                605,
+                                162,
+                                621
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        605,
+                                        162,
+                                        621
+                                    ],
+                                    "score": 1.0,
+                                    "content": "to check your balance.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        }
+                    ],
+                    "index": 19.5
+                }
+            ],
+            "page_idx": 0,
+            "page_size": [
+                222,
+                702
+            ],
+            "discarded_blocks": [
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        56,
+                        63,
+                        158,
+                        131
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                54,
+                                61,
+                                160,
+                                86
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        54,
+                                        61,
+                                        160,
+                                        86
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ÍC Inc",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                63,
+                                81,
+                                154,
+                                95
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        63,
+                                        81,
+                                        154,
+                                        95
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1240, rue Orumond",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                68,
+                                92,
+                                148,
+                                107
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        68,
+                                        92,
+                                        148,
+                                        107
+                                    ],
+                                    "score": 1.0,
+                                    "content": "MontrOsl, QuObec",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                92,
+                                105,
+                                124,
+                                118
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        92,
+                                        105,
+                                        124,
+                                        118
+                                    ],
+                                    "score": 1.0,
+                                    "content": "H3G1V7",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                74,
+                                117,
+                                142,
+                                130
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        74,
+                                        117,
+                                        142,
+                                        130
+                                    ],
+                                    "score": 1.0,
+                                    "content": "(514) 286-5171",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        211,
+                        663,
+                        221,
+                        669
+                    ],
+                    "lines": []
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        53,
+                        396,
+                        163,
+                        503
+                    ],
+                    "lines": []
+                },
+                {
+                    "type": "discarded",
+                    "bbox": [
+                        60,
+                        514,
+                        155,
+                        550
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                60,
+                                513,
+                                155,
+                                528
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        60,
+                                        513,
+                                        155,
+                                        528
+                                    ],
+                                    "score": 1.0,
+                                    "content": "2024-09-14 09:52:38",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                60,
+                                525,
+                                155,
+                                538
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        60,
+                                        525,
+                                        155,
+                                        538
+                                    ],
+                                    "score": 1.0,
+                                    "content": "05GC-04B1-04A6-OOFV",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "bbox": [
+                                72,
+                                536,
+                                144,
+                                550
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        72,
+                                        536,
+                                        144,
+                                        550
+                                    ],
+                                    "score": 1.0,
+                                    "content": "6010-5858-1705",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "para_blocks": [
+                {
+                    "type": "list",
+                    "bbox": [
+                        5,
+                        152,
+                        164,
+                        218
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                3,
+                                150,
+                                66,
+                                165
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        150,
+                                        66,
+                                        165
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Serv^ Marina",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 0,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                162,
+                                99,
+                                176
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        162,
+                                        99,
+                                        176
+                                    ],
+                                    "score": 1.0,
+                                    "content": "2024-09-14 09:52:38",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 1,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                2,
+                                173,
+                                81,
+                                197
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        2,
+                                        173,
+                                        81,
+                                        197
+                                    ],
+                                    "score": 1.0,
+                                    "content": "[ا",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 2,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                4,
+                                192,
+                                165,
+                                208
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        4,
+                                        192,
+                                        165,
+                                        208
+                                    ],
+                                    "score": 1.0,
+                                    "content": "ĩable: 15 Commande#: 73 Siege#: 1",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 3,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                4,
+                                204,
+                                61,
+                                219
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        4,
+                                        204,
+                                        61,
+                                        219
+                                    ],
+                                    "score": 1.0,
+                                    "content": "#Clients: 1",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 4,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 2,
+                    "bbox_fs": [
+                        2,
+                        150,
+                        165,
+                        219
+                    ]
+                },
+                {
+                    "type": "index",
+                    "bbox": [
+                        6,
+                        230,
+                        180,
+                        253
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                3,
+                                228,
+                                181,
+                                243
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        228,
+                                        113,
+                                        242
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1 JUS ORANGE REGULER",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        142,
+                                        228,
+                                        181,
+                                        243
+                                    ],
+                                    "score": 1.0,
+                                    "content": "4.85 FP",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 5,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                240,
+                                180,
+                                254
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        240,
+                                        80,
+                                        253
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1 SPECIAE CORA",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        138,
+                                        241,
+                                        180,
+                                        254
+                                    ],
+                                    "score": 1.0,
+                                    "content": "19.85 FP",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 6,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 5.5,
+                    "bbox_fs": [
+                        3,
+                        228,
+                        181,
+                        254
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        5,
+                        264,
+                        54,
+                        276
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                4,
+                                263,
+                                56,
+                                278
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        4,
+                                        263,
+                                        56,
+                                        278
+                                    ],
+                                    "score": 1.0,
+                                    "content": "SOUS-TOTAL",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 7
+                        }
+                    ],
+                    "index": 7,
+                    "bbox_fs": [
+                        4,
+                        263,
+                        56,
+                        278
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        148,
+                        265,
+                        174,
+                        277
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                146,
+                                264,
+                                176,
+                                279
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        146,
+                                        264,
+                                        176,
+                                        279
+                                    ],
+                                    "score": 1.0,
+                                    "content": "24.70",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 8
+                        }
+                    ],
+                    "index": 8,
+                    "bbox_fs": [
+                        146,
+                        264,
+                        176,
+                        279
+                    ]
+                },
+                {
+                    "type": "index",
+                    "bbox": [
+                        5,
+                        287,
+                        106,
+                        312
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                5,
+                                286,
+                                103,
+                                300
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        5,
+                                        286,
+                                        103,
+                                        300
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TPS: 747755411RT0001",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 9,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                5,
+                                298,
+                                107,
+                                312
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        5,
+                                        298,
+                                        107,
+                                        312
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TVQ: 1230653153TQ0001",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 10,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                333,
+                                176,
+                                348
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        333,
+                                        28,
+                                        347
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TPS:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        151,
+                                        334,
+                                        176,
+                                        348
+                                    ],
+                                    "score": 1.0,
+                                    "content": "1.24",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 11,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                344,
+                                176,
+                                361
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        344,
+                                        31,
+                                        360
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TVQ;",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        151,
+                                        345,
+                                        176,
+                                        361
+                                    ],
+                                    "score": 1.0,
+                                    "content": "2.45",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 12,
+                            "is_list_start_line": true
+                        },
+                        {
+                            "bbox": [
+                                3,
+                                356,
+                                176,
+                                372
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        3,
+                                        356,
+                                        37,
+                                        371
+                                    ],
+                                    "score": 1.0,
+                                    "content": "TOTAL:",
+                                    "type": "text"
+                                },
+                                {
+                                    "bbox": [
+                                        147,
+                                        358,
+                                        176,
+                                        372
+                                    ],
+                                    "score": 1.0,
+                                    "content": "28.40",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 13,
+                            "is_list_start_line": true
+                        }
+                    ],
+                    "index": 9.5,
+                    "bbox_fs": [
+                        5,
+                        286,
+                        107,
+                        312
+                    ]
+                },
+                {
+                    "type": "index",
+                    "bbox": [
+                        5,
+                        334,
+                        174,
+                        370
+                    ],
+                    "lines": [],
+                    "index": 12,
+                    "bbox_fs": [
+                        3,
+                        333,
+                        176,
+                        372
+                    ],
+                    "lines_deleted": true
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        66,
+                        381,
+                        150,
+                        393
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                65,
+                                380,
+                                150,
+                                394
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        65,
+                                        380,
+                                        150,
+                                        394
+                                    ],
+                                    "score": 1.0,
+                                    "content": "FACTURE ORIGINALE",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 14
+                        }
+                    ],
+                    "index": 14,
+                    "bbox_fs": [
+                        65,
+                        380,
+                        150,
+                        394
+                    ]
+                },
+                {
+                    "type": "text",
+                    "bbox": [
+                        25,
+                        572,
+                        190,
+                        619
+                    ],
+                    "lines": [
+                        {
+                            "bbox": [
+                                25,
+                                572,
+                                190,
+                                585
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        25,
+                                        572,
+                                        190,
+                                        585
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Visitez chezcora.com/cartefidelite",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 18
+                        },
+                        {
+                            "bbox": [
+                                41,
+                                582,
+                                173,
+                                597
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        41,
+                                        582,
+                                        173,
+                                        597
+                                    ],
+                                    "score": 1.0,
+                                    "content": "pour connaetre votre solde.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 19
+                        },
+                        {
+                            "bbox": [
+                                34,
+                                593,
+                                181,
+                                609
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        34,
+                                        593,
+                                        181,
+                                        609
+                                    ],
+                                    "score": 1.0,
+                                    "content": "Visit chezcora.com/loya1tycard",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 20
+                        },
+                        {
+                            "bbox": [
+                                53,
+                                605,
+                                162,
+                                621
+                            ],
+                            "spans": [
+                                {
+                                    "bbox": [
+                                        53,
+                                        605,
+                                        162,
+                                        621
+                                    ],
+                                    "score": 1.0,
+                                    "content": "to check your balance.",
+                                    "type": "text"
+                                }
+                            ],
+                            "index": 21
+                        }
+                    ],
+                    "index": 19.5,
+                    "bbox_fs": [
+                        25,
+                        572,
+                        190,
+                        621
+                    ]
+                }
+            ]
+        }
+    ],
+    "_backend": "pipeline",
+    "_version_name": "2.7.6"
+}

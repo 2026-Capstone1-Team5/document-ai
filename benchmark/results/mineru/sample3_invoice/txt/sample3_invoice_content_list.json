@@ -1,0 +1,121 @@
+[
+    {
+        "type": "text",
+        "text": "Ap'!me!ste٢ c٥nsu!t!ng GmbH   \nFbedbchstrasse 114Α   \n1٥117ΒθΓ!Π   \nDeutsch!and ",
+        "bbox": [
+            107,
+            172,
+            328,
+            228
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Rechnung ",
+        "text_level": 1,
+        "bbox": [
+            109,
+            271,
+            217,
+            289
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Datum: ٥8.٥7.2024 z!mme٢: 5124 Rechnungsnummer 856٥٥4006 ٨nr^ig^- 08.07.2٥24- Reservierungsnummer 856٥01825/1 Abre؛se^ 13.07.2٥24 ",
+        "bbox": [
+            109,
+            299,
+            777,
+            343
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "table",
+        "img_path": "images/d0b081564fa00689a7e1d91ecb0a3bde6013f1e38366ae3b6d7562ddf53ad327.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Saldo Zahlungen</td><td>-16.071,90</td></tr><tr><td>Rechnungsbetrag</td><td>0,00</td></tr></table>",
+        "bbox": [
+            112,
+            541,
+            883,
+            589
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "table",
+        "img_path": "images/fa38b47bbc0beffb74cbc2bd825e41aeab5a0d817c9dc5227ba989546f22a388.jpg",
+        "table_caption": [
+            "In dieser Rechnung sind folgende Steuerbeträge enthalten: "
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Steuersatz</td><td>Netto CZK</td><td>Steuer CZK</td><td>Brutto CZK</td></tr><tr><td>0,00 % (0 % TAX)</td><td>249,75</td><td>0,00</td><td>249,75</td></tr><tr><td>12,00 % (TAX)</td><td>14.126,92</td><td>1.695,23</td><td>15.822,15</td></tr></table>",
+        "bbox": [
+            114,
+            612,
+            885,
+            656
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "The Cloud One Prague   \nFaiz   \nShaikh ",
+        "bbox": [
+            114,
+            678,
+            291,
+            718
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "Mote! One Prague Hybemska s.t.o., Ovocny 1086/8 stare Mesto, 11000 Praha Geschafisfoh/er: Stefan lenze, Danie! Moller. Armin Rodel Michael Wessler Die: CZ06701337. IC: С287419 ",
+        "bbox": [
+            495,
+            943,
+            876,
+            970
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "THECfâUDONE",
+        "bbox": [
+            431,
+            22,
+            564,
+            124
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "The Cloud One Ргаяие - Hybernská 2140/17 -110 00 Praha 1 0 T E L s ",
+        "bbox": [
+            109,
+            129,
+            526,
+            143
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "Now open: MOtel One Karlsruhe and The Cloud One Prague؛ ",
+        "bbox": [
+            392,
+            726,
+            610,
+            767
+        ],
+        "page_idx": 0
+    }
+]

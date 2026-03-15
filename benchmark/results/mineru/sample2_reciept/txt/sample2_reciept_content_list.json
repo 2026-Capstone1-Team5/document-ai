@@ -1,0 +1,134 @@
+[
+    {
+        "type": "text",
+        "text": "Serv^ Marina   \n2024-09-14 09:52:38   \n[ا   \nĩable: 15 Commande#: 73 Siege#: 1   \n#Clients: 1 ",
+        "bbox": [
+            22,
+            216,
+            738,
+            310
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "1 JUS ORANGE REGULER 4.85 FP  \n1 SPECIAE CORA 19.85 FP",
+        "bbox": [
+            27,
+            327,
+            810,
+            360
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "SOUS-TOTAL",
+        "bbox": [
+            22,
+            376,
+            243,
+            393
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "24.70 ",
+        "bbox": [
+            666,
+            377,
+            783,
+            394
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "TPS: 747755411RT0001  \nTVQ: 1230653153TQ0001  \nTPS: 1.24  \nTVQ; 2.45  \nTOTAL: 28.40",
+        "bbox": [
+            22,
+            408,
+            477,
+            444
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            22,
+            475,
+            783,
+            527
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "FACTURE ORIGINALE ",
+        "bbox": [
+            297,
+            542,
+            675,
+            559
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Visitez chezcora.com/cartefidelite pour connaetre votre solde. Visit chezcora.com/loya1tycard to check your balance. ",
+        "bbox": [
+            112,
+            814,
+            855,
+            881
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "ÍC Inc 1240, rue Orumond MontrOsl, QuObec H3G1V7 (514) 286-5171 ",
+        "bbox": [
+            252,
+            89,
+            711,
+            186
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            950,
+            944,
+            995,
+            952
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            238,
+            564,
+            734,
+            716
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "2024-09-14 09:52:38 05GC-04B1-04A6-OOFV 6010-5858-1705 ",
+        "bbox": [
+            270,
+            732,
+            698,
+            783
+        ],
+        "page_idx": 0
+    }
+]

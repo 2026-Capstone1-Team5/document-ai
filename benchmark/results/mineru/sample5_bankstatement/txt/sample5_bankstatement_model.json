@@ -1,0 +1,423 @@
+[
+    {
+        "layout_dets": [
+            {
+                "category_id": 5,
+                "poly": [
+                    88,
+                    557,
+                    1144,
+                    557,
+                    1144,
+                    1616,
+                    88,
+                    1616
+                ],
+                "score": 0.867,
+                "html": "<table><tr><td colspan=\"4\">240,000,00 Total money in: £5,474.00 Total money out: £1,395.17 Balance at 1 March: £44.079.83</td></tr><tr><td>Date Description</td><td>Money out</td><td>Money In</td><td>Balance</td></tr><tr><td>Balance brought forward</td><td></td><td></td><td>40,000.00</td></tr><tr><td>1 February Card payment - High St Petrol Station Direct debit - Green Mobile Phone Bill</td><td>24.50 20.00</td><td></td><td>39,975.50 39,955.50</td></tr><tr><td>3 February Cash Withdrawal - YourBank, Anytown</td><td>30.00</td><td></td><td>39,925.50</td></tr><tr><td>High Street, timed 17:30 31 Jan</td><td></td><td></td><td></td></tr><tr><td>4 February YourJob BiWeekly Payment</td><td></td><td>2,575.00 300.00</td><td>42,500.50</td></tr><tr><td>11 February Direct Deposit - YourBank, Anytown High Street, timed 17:30 31 Jan</td><td></td><td></td><td>42,800.50</td></tr><tr><td>16 February timed 9.52 14 Feb</td><td>Cash Withdrawal - RandomBank, Randomford, 50.00</td><td></td><td>42,750.50</td></tr><tr><td>17 February Card payment - High St Petrol Station Direct Debit - Home Insurance</td><td>40.00</td><td></td><td>42,710.50</td></tr><tr><td>18 February</td><td>78.34</td><td>2,575.00</td><td>42,632.16 45,207.16</td></tr><tr><td>YourJob BiWeekly Payment</td><td></td><td></td><td></td></tr><tr><td>18 February Randomford&#x27;s Deli</td><td>15.00</td><td></td><td>45,195.16</td></tr><tr><td>24 February Anytown&#x27;s Jewelers Direct Deposit</td><td>150.00</td><td></td><td>45,042.16</td></tr><tr><td>28 February Monthly Apartment Rent</td><td></td><td>25.00</td><td>45,067.16</td></tr><tr><td></td><td>987.33</td><td></td><td>44.079.83</td></tr><tr><td colspan=\"2\"></td><td></td><td>£44.079.83</td></tr><tr><td colspan=\"3\"></td><td></td></tr><tr><td colspan=\"3\"></td><td></td></tr></table>"
+            },
+            {
+                "category_id": 1,
+                "poly": [
+                    87,
+                    194,
+                    210,
+                    194,
+                    210,
+                    308,
+                    87,
+                    308
+                ],
+                "score": 0.861
+            },
+            {
+                "category_id": 0,
+                "poly": [
+                    402,
+                    23,
+                    807,
+                    23,
+                    807,
+                    61,
+                    402,
+                    61
+                ],
+                "score": 0.753
+            },
+            {
+                "category_id": 1,
+                "poly": [
+                    88,
+                    149,
+                    486,
+                    149,
+                    486,
+                    176,
+                    88,
+                    176
+                ],
+                "score": 0.705
+            },
+            {
+                "category_id": 2,
+                "poly": [
+                    750,
+                    105,
+                    1146,
+                    105,
+                    1146,
+                    348,
+                    750,
+                    348
+                ],
+                "score": 0.685
+            },
+            {
+                "category_id": 0,
+                "poly": [
+                    94,
+                    73,
+                    451,
+                    73,
+                    451,
+                    141,
+                    94,
+                    141
+                ],
+                "score": 0.68
+            },
+            {
+                "category_id": 0,
+                "poly": [
+                    122,
+                    463,
+                    360,
+                    463,
+                    360,
+                    490,
+                    122,
+                    490
+                ],
+                "score": 0.307
+            },
+            {
+                "category_id": 2,
+                "poly": [
+                    402,
+                    23,
+                    807,
+                    23,
+                    807,
+                    61,
+                    402,
+                    61
+                ],
+                "score": 0.154
+            },
+            {
+                "category_id": 1,
+                "poly": [
+                    120,
+                    541,
+                    446,
+                    541,
+                    446,
+                    635,
+                    120,
+                    635
+                ],
+                "score": 0.116
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    402.0,
+                    17.0,
+                    809.0,
+                    17.0,
+                    809.0,
+                    64.0,
+                    402.0,
+                    64.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    768.0,
+                    126.0,
+                    1034.0,
+                    126.0,
+                    1034.0,
+                    154.0,
+                    768.0,
+                    154.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    763.0,
+                    147.0,
+                    989.0,
+                    147.0,
+                    989.0,
+                    181.0,
+                    763.0,
+                    181.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    764.0,
+                    172.0,
+                    1017.0,
+                    172.0,
+                    1017.0,
+                    199.0,
+                    764.0,
+                    199.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    769.0,
+                    215.0,
+                    1069.0,
+                    215.0,
+                    1069.0,
+                    244.0,
+                    769.0,
+                    244.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    769.0,
+                    239.0,
+                    1025.0,
+                    239.0,
+                    1025.0,
+                    267.0,
+                    769.0,
+                    267.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    1007.0,
+                    301.0,
+                    1117.0,
+                    301.0,
+                    1117.0,
+                    339.0,
+                    1007.0,
+                    339.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    86.0,
+                    61.0,
+                    456.0,
+                    61.0,
+                    456.0,
+                    151.0,
+                    86.0,
+                    151.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    119.0,
+                    459.0,
+                    362.0,
+                    459.0,
+                    362.0,
+                    495.0,
+                    119.0,
+                    495.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    402.0,
+                    17.0,
+                    809.0,
+                    17.0,
+                    809.0,
+                    64.0,
+                    402.0,
+                    64.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    84.0,
+                    191.0,
+                    213.0,
+                    191.0,
+                    213.0,
+                    221.0,
+                    84.0,
+                    221.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    82.0,
+                    214.0,
+                    192.0,
+                    214.0,
+                    192.0,
+                    245.0,
+                    82.0,
+                    245.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    83.0,
+                    236.0,
+                    196.0,
+                    236.0,
+                    196.0,
+                    266.0,
+                    83.0,
+                    266.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    82.0,
+                    256.0,
+                    172.0,
+                    256.0,
+                    172.0,
+                    290.0,
+                    82.0,
+                    290.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    83.0,
+                    281.0,
+                    174.0,
+                    281.0,
+                    174.0,
+                    309.0,
+                    83.0,
+                    309.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    87.0,
+                    147.0,
+                    485.0,
+                    147.0,
+                    485.0,
+                    178.0,
+                    87.0,
+                    178.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    117.0,
+                    538.0,
+                    419.0,
+                    538.0,
+                    419.0,
+                    571.0,
+                    117.0,
+                    571.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    166.0,
+                    573.0,
+                    412.0,
+                    573.0,
+                    412.0,
+                    606.0,
+                    166.0,
+                    606.0
+                ],
+                "score": 1.0,
+                "text": ""
+            },
+            {
+                "category_id": 15,
+                "poly": [
+                    166.0,
+                    605.0,
+                    418.0,
+                    605.0,
+                    418.0,
+                    638.0,
+                    166.0,
+                    638.0
+                ],
+                "score": 1.0,
+                "text": ""
+            }
+        ],
+        "page_info": {
+            "page_no": 0,
+            "width": 1243,
+            "height": 1625
+        }
+    }
+]

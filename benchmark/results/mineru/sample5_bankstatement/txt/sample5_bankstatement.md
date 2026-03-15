@@ -1,0 +1,9 @@
+# YourBank
+
+16 High Street. Anytown, Anyshire YZ99 1XY
+
+Mr John Smith 5 Any Road Randomford Anyshire YZ985XY
+
+# Your account summary
+
+<table><tr><td colspan="4">240,000,00 Total money in: £5,474.00 Total money out: £1,395.17 Balance at 1 March: £44.079.83</td></tr><tr><td>Date Description</td><td>Money out</td><td>Money In</td><td>Balance</td></tr><tr><td>Balance brought forward</td><td></td><td></td><td>40,000.00</td></tr><tr><td>1 February Card payment - High St Petrol Station Direct debit - Green Mobile Phone Bill</td><td>24.50 20.00</td><td></td><td>39,975.50 39,955.50</td></tr><tr><td>3 February Cash Withdrawal - YourBank, Anytown</td><td>30.00</td><td></td><td>39,925.50</td></tr><tr><td>High Street, timed 17:30 31 Jan</td><td></td><td></td><td></td></tr><tr><td>4 February YourJob BiWeekly Payment</td><td></td><td>2,575.00 300.00</td><td>42,500.50</td></tr><tr><td>11 February Direct Deposit - YourBank, Anytown High Street, timed 17:30 31 Jan</td><td></td><td></td><td>42,800.50</td></tr><tr><td>16 February timed 9.52 14 Feb</td><td>Cash Withdrawal - RandomBank, Randomford, 50.00</td><td></td><td>42,750.50</td></tr><tr><td>17 February Card payment - High St Petrol Station Direct Debit - Home Insurance</td><td>40.00</td><td></td><td>42,710.50</td></tr><tr><td>18 February</td><td>78.34</td><td>2,575.00</td><td>42,632.16 45,207.16</td></tr><tr><td>YourJob BiWeekly Payment</td><td></td><td></td><td></td></tr><tr><td>18 February Randomford&#x27;s Deli</td><td>15.00</td><td></td><td>45,195.16</td></tr><tr><td>24 February Anytown&#x27;s Jewelers Direct Deposit</td><td>150.00</td><td></td><td>45,042.16</td></tr><tr><td>28 February Monthly Apartment Rent</td><td></td><td>25.00</td><td>45,067.16</td></tr><tr><td></td><td>987.33</td><td></td><td>44.079.83</td></tr><tr><td colspan="2"></td><td></td><td>£44.079.83</td></tr><tr><td colspan="3"></td><td></td></tr><tr><td colspan="3"></td><td></td></tr></table>
