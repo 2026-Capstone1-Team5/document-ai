@@ -1,16 +1,27 @@
 #!/usr/bin/env python3
 
 import argparse
+import importlib.util
 import json
+import os
 import re
 import shutil
+import site
 import subprocess
+import tempfile
 from pathlib import Path
 
 from rasterize_pdf import rasterize_pdf
 
 
 BAD_CHAR_RE = re.compile(r"[^\x09\x0A\x0D\x20-\x7EÀ-ÿ]")
+COMPOSE_FILENAMES = (
+    "compose.yml",
+    "compose.yaml",
+    "docker-compose.yml",
+    "docker-compose.yaml",
+)
+MINERU_SERVICE = "mineru-cpu"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -64,31 +75,238 @@ def inspect_pdf(pdf_path):
     }
 
 
-def run_mineru(pdf_path, output_dir, language):
+def find_compose_file(repo_root=None):
+    configured_path = os.environ.get("MINERU_COMPOSE_FILE")
+    if configured_path:
+        compose_file = Path(configured_path).expanduser().resolve()
+        if not compose_file.exists():
+            raise RuntimeError(
+                f"MINERU_COMPOSE_FILE points to a missing file: {compose_file}"
+            )
+        return compose_file
+
+    search_root = REPO_ROOT if repo_root is None else Path(repo_root).resolve()
+    for name in COMPOSE_FILENAMES:
+        compose_file = search_root / name
+        if compose_file.exists():
+            return compose_file
+
+    return None
+
+
+def find_cli_binary(name):
+    path_binary = shutil.which(name)
+    if path_binary is not None:
+        return path_binary
+
+    user_base = Path(site.getuserbase())
+    candidates = [
+        user_base / "bin" / name,
+        user_base / "Scripts" / f"{name}.exe",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return str(candidate)
+
+    return None
+
+
+def has_local_mineru():
+    return find_cli_binary("mineru") is not None or importlib.util.find_spec("mineru") is not None
+
+
+def has_docker_compose_plugin():
     if shutil.which("docker") is None:
-        raise RuntimeError("docker command not found in PATH")
+        return False
+
+    result = subprocess.run(
+        ["docker", "compose", "version"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    return result.returncode == 0
+
+
+def resolve_mineru_runner():
+    if has_local_mineru():
+        return {
+            "backend": "local",
+            "command_prefix": [],
+            "cwd": REPO_ROOT,
+        }
+
+    compose_file = find_compose_file()
+    if compose_file is None:
+        raise RuntimeError(
+            "MinerU execution requires either a local 'mineru' CLI in PATH or a "
+            "Compose file that defines the 'mineru-cpu' service. Add one of "
+            f"{', '.join(COMPOSE_FILENAMES)} to the repo root or set "
+            "MINERU_COMPOSE_FILE=/abs/path/to/compose.yml."
+        )
+
+    if has_docker_compose_plugin():
+        return {
+            "backend": "docker compose",
+            "command_prefix": [
+                "docker",
+                "compose",
+                "-f",
+                str(compose_file),
+                "run",
+                "--rm",
+                "-T",
+            ],
+            "cwd": compose_file.parent,
+        }
+
+    docker_compose_binary = shutil.which("docker-compose")
+    if docker_compose_binary is not None:
+        return {
+            "backend": "docker-compose",
+            "command_prefix": [
+                docker_compose_binary,
+                "-f",
+                str(compose_file),
+                "run",
+                "--rm",
+                "-T",
+            ],
+            "cwd": compose_file.parent,
+        }
+
+    raise RuntimeError(
+        "Neither a local 'mineru' CLI nor Docker Compose is available. Install "
+        "'mineru', enable 'docker compose', or install 'docker-compose'."
+    )
+
+
+def build_mineru_command(runner, pdf_path, output_dir, language):
+    if runner["backend"] == "local":
+        return runner["command_prefix"] + [
+            "-p",
+            str(Path(pdf_path).resolve()),
+            "-o",
+            str(Path(output_dir).resolve()),
+            "-b",
+            "pipeline",
+            "-m",
+            "txt",
+            "-l",
+            language,
+            "-d",
+            "cpu",
+        ]
 
     input_dir = Path(pdf_path).resolve().parent
     output_dir = Path(output_dir).resolve()
     input_name = Path(pdf_path).name
 
-    command = [
-        "docker",
-        "compose",
-        "run",
-        "--rm",
-        "-T",
+    return runner["command_prefix"] + [
         "-v",
         f"{input_dir}:/input:ro",
         "-v",
         f"{output_dir}:/output",
-        "mineru-cpu",
+        MINERU_SERVICE,
         (
             f'mineru -p "/input/{input_name}" '
             f'-o /output -b pipeline -m txt -l "{language}" -d cpu'
         ),
     ]
-    subprocess.run(command, check=True, cwd=REPO_ROOT)
+
+
+def build_runtime_env(runner):
+    env = os.environ.copy()
+    if runner["backend"] != "local":
+        return env
+
+    cache_root = Path(tempfile.gettempdir()) / "document-ai-runtime-cache"
+    matplotlib_dir = cache_root / "matplotlib"
+    ultralytics_dir = cache_root / "ultralytics"
+    matplotlib_dir.mkdir(parents=True, exist_ok=True)
+    ultralytics_dir.mkdir(parents=True, exist_ok=True)
+    env.setdefault("MPLCONFIGDIR", str(matplotlib_dir))
+    env.setdefault("YOLO_CONFIG_DIR", str(ultralytics_dir))
+    return env
+
+
+def configure_local_mineru_env(env):
+    os.environ.update(env)
+    os.environ.setdefault("MINERU_DEVICE_MODE", "cpu")
+
+    from mineru.utils.model_utils import get_vram
+
+    os.environ.setdefault(
+        "MINERU_VIRTUAL_VRAM_SIZE", str(get_vram(os.environ["MINERU_DEVICE_MODE"]))
+    )
+    os.environ.setdefault("MINERU_MODEL_SOURCE", "huggingface")
+
+
+def should_retry_local_mineru_sequential(exc):
+    message = str(exc)
+    return "SC_SEM_NSEMS_MAX" in message or "Operation not permitted" in message
+
+
+def invoke_local_mineru(pdf_path, output_dir, language, env, sequential_pdf_render):
+    configure_local_mineru_env(env)
+
+    from mineru.backend.pipeline import pipeline_analyze
+    from mineru.cli.common import do_parse
+    from mineru.utils import pdf_image_tools
+
+    original_is_windows_environment = pdf_image_tools.is_windows_environment
+    if sequential_pdf_render:
+        pdf_image_tools.is_windows_environment = lambda: True
+
+    try:
+        pipeline_analyze.load_images_from_pdf = pdf_image_tools.load_images_from_pdf
+        do_parse(
+            output_dir=str(Path(output_dir).resolve()),
+            pdf_file_names=[Path(pdf_path).stem],
+            pdf_bytes_list=[Path(pdf_path).read_bytes()],
+            p_lang_list=[language],
+            backend="pipeline",
+            parse_method="txt",
+            formula_enable=True,
+            table_enable=True,
+        )
+    finally:
+        pdf_image_tools.is_windows_environment = original_is_windows_environment
+        pipeline_analyze.load_images_from_pdf = pdf_image_tools.load_images_from_pdf
+
+
+def run_local_mineru(pdf_path, output_dir, language, env):
+    try:
+        invoke_local_mineru(
+            pdf_path, output_dir, language, env, sequential_pdf_render=False
+        )
+    except PermissionError as exc:
+        if not should_retry_local_mineru_sequential(exc):
+            raise
+        invoke_local_mineru(
+            pdf_path, output_dir, language, env, sequential_pdf_render=True
+        )
+
+
+def run_mineru(pdf_path, output_dir, language):
+    runner = resolve_mineru_runner()
+    env = build_runtime_env(runner)
+
+    if runner["backend"] == "local":
+        run_local_mineru(pdf_path, output_dir, language, env)
+        return
+
+    command = build_mineru_command(runner, pdf_path, output_dir, language)
+
+    try:
+        subprocess.run(command, check=True, cwd=runner["cwd"], env=env)
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(
+            f"MinerU execution failed via {runner['backend']}. "
+            "If you are using Docker, ensure the daemon is running and that the "
+            f"'{MINERU_SERVICE}' service is defined in the selected Compose file."
+        ) from exc
 
 
 def find_output_stem(result_root, preferred_stem):
@@ -150,9 +368,6 @@ def main():
     input_pdf = Path(args.input_pdf).resolve()
     output_dir = Path(args.output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    if shutil.which("docker") is None:
-        raise RuntimeError("docker command not found in PATH")
 
     inspection = inspect_pdf(input_pdf)
 

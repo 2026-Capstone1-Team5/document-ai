@@ -17,16 +17,34 @@ It does three things:
 
 ## Requirements
 
-- Docker + Docker Compose
 - host Python with:
   - `pymupdf`
   - `pillow`
+- one of:
+  - local `mineru` CLI available in `PATH`
+  - Docker + Docker Compose with a Compose file that defines the `mineru-cpu` service
+
+The script tries these execution paths in order:
+
+1. local `mineru`
+2. `docker compose`
+3. `docker-compose`
+
+If `mineru` was installed with `pip install --user`, the script also checks the Python user script directory automatically.
+The first local `mineru` run may download model files and can take longer than later runs.
+When local MinerU hits process-pool permission limits, the parser retries with sequential PDF rendering automatically.
+
+If your Compose file is not in the repo root, set:
+
+```bash
+export MINERU_COMPOSE_FILE=/abs/path/to/compose.yml
+```
 
 Example:
 
 ```bash
 pip install pymupdf pillow
-docker compose build mineru-cpu
+docker-compose -f /path/to/compose.yml build mineru-cpu
 python scripts/parse_document.py benchmark/pdfs/sample2_reciept.pdf output/ --language en
 ```
 
