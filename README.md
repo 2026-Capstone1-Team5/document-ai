@@ -34,17 +34,11 @@ If `mineru` was installed with `pip install --user`, the script also checks the 
 The first local `mineru` run may download model files and can take longer than later runs.
 When local MinerU hits process-pool permission limits, the parser retries with sequential PDF rendering automatically.
 
-If your Compose file is not in the repo root, set:
-
-```bash
-export MINERU_COMPOSE_FILE=/abs/path/to/compose.yml
-```
-
 Example:
 
 ```bash
 pip install pymupdf pillow
-docker-compose -f /path/to/compose.yml build mineru-cpu
+docker compose build mineru-cpu
 python scripts/parse_document.py benchmark/pdfs/sample2_reciept.pdf output/ --language en
 ```
 
