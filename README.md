@@ -15,6 +15,12 @@ It does three things:
 2. chooses either the normal MinerU path or the rasterized path
 3. runs MinerU through Docker
 
+If you want the parser to compare original-vs-rasterized output per page and keep the cleaner result:
+
+```bash
+python scripts/parse_document.py <input_pdf> <output_dir> --language en --page-adaptive
+```
+
 ## Requirements
 
 - host Python with:
@@ -49,6 +55,13 @@ The parser writes:
 - `output/meta.json`
 - `output/mineru_output/...`
 - `output/intermediate/...` only if rasterization was used
+
+With `--page-adaptive`, it writes:
+
+- `output/meta.json`
+- `output/selected_markdown.md`
+- `output/page_inputs/`
+- `output/page_runs/`
 
 `meta.json` includes:
 

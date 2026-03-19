@@ -15,6 +15,8 @@ from rasterize_pdf import rasterize_pdf
 
 
 BAD_CHAR_RE = re.compile(r"[^\x09\x0A\x0D\x20-\x7EÀ-ÿ]")
+REPLACEMENT_CHAR_RE = re.compile(r"\uFFFD")
+MULTISPACE_RE = re.compile(r"\s{3,}")
 COMPOSE_FILENAMES = (
     "compose.yml",
     "compose.yaml",
@@ -73,6 +75,33 @@ def inspect_pdf(pdf_path):
         "suspicious": bool(suspicious_reasons),
         "reasons": suspicious_reasons,
     }
+
+
+def split_pdf_into_pages(input_pdf, output_dir):
+    try:
+        import fitz
+    except ImportError as exc:
+        raise RuntimeError(
+            "parse_document requires PyMuPDF for page splitting. Install it with: pip install pymupdf"
+        ) from exc
+
+    input_pdf = Path(input_pdf)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    page_paths = []
+    with fitz.open(input_pdf) as source_doc:
+        for page_index in range(len(source_doc)):
+            single_page_path = output_dir / f"{input_pdf.stem}_page_{page_index + 1:03d}.pdf"
+            single_page_doc = fitz.open()
+            single_page_doc.insert_pdf(
+                source_doc, from_page=page_index, to_page=page_index
+            )
+            single_page_doc.save(single_page_path)
+            single_page_doc.close()
+            page_paths.append(single_page_path)
+
+    return page_paths
 
 
 def find_compose_file(repo_root=None):
@@ -350,6 +379,127 @@ def build_output_map(txt_dir, stem):
     return output_map
 
 
+def score_markdown_output(markdown_path):
+    markdown_path = Path(markdown_path)
+    if not markdown_path.exists():
+        return -10**9
+
+    text = markdown_path.read_text(errors="ignore")
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+
+    bad_chars = len(BAD_CHAR_RE.findall(text))
+    replacement_chars = len(REPLACEMENT_CHAR_RE.findall(text))
+    long_lines = sum(1 for line in lines if len(line) > 180)
+    noisy_spacing = sum(1 for line in lines if MULTISPACE_RE.search(line))
+    heading_count = sum(1 for line in lines if line.startswith("#"))
+    table_count = text.count("<table>") + sum(1 for line in lines if line.startswith("|"))
+    printable_chars = sum(1 for char in text if char.isprintable() or char in "\n\r\t")
+
+    score = 0.0
+    score += min(printable_chars, 6000) / 120.0
+    score += heading_count * 2.0
+    score += min(table_count, 20) * 0.75
+    score -= bad_chars * 8.0
+    score -= replacement_chars * 12.0
+    score -= long_lines * 1.5
+    score -= noisy_spacing * 0.5
+    return round(score, 3)
+
+
+def parse_one_variant(input_pdf, output_dir, language, dpi, parse_mode):
+    input_pdf = Path(input_pdf).resolve()
+    output_dir = Path(output_dir).resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    parse_input = input_pdf
+    rasterized_pdf = None
+
+    if parse_mode == "rasterized":
+        rasterized_dir = output_dir / "intermediate"
+        rasterized_dir.mkdir(parents=True, exist_ok=True)
+        rasterized_pdf = rasterized_dir / f"{input_pdf.stem}_rasterized.pdf"
+        rasterize_pdf(input_pdf, rasterized_pdf, dpi=dpi)
+        parse_input = rasterized_pdf
+
+    result_root = output_dir / "mineru_output"
+    result_root.mkdir(parents=True, exist_ok=True)
+    run_mineru(parse_input, result_root, language)
+
+    output_stem = find_output_stem(result_root, parse_input.stem)
+    txt_dir = find_txt_dir(result_root, output_stem)
+    outputs = build_output_map(txt_dir, output_stem)
+    markdown_path = outputs.get("markdown")
+    quality_score = score_markdown_output(markdown_path) if markdown_path else -10**9
+
+    variant_result = {
+        "parse_mode": parse_mode,
+        "parse_input": str(parse_input),
+        "outputs": outputs,
+        "quality_score": quality_score,
+    }
+
+    if rasterized_pdf is not None:
+        variant_result["rasterized_pdf"] = str(rasterized_pdf)
+
+    return variant_result
+
+
+def write_combined_markdown(page_results, output_path):
+    parts = []
+    for page_result in page_results:
+        markdown_path = page_result["selected"]["outputs"].get("markdown")
+        if not markdown_path:
+            continue
+        text = Path(markdown_path).read_text(errors="ignore").strip()
+        if text:
+            parts.append(text)
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text("\n\n".join(parts) + "\n")
+    return output_path
+
+
+def run_page_adaptive_parse(input_pdf, output_dir, language, dpi):
+    output_dir = Path(output_dir).resolve()
+    page_input_dir = output_dir / "page_inputs"
+    page_run_dir = output_dir / "page_runs"
+    page_paths = split_pdf_into_pages(input_pdf, page_input_dir)
+
+    page_results = []
+    for page_index, page_pdf in enumerate(page_paths, start=1):
+        original_dir = page_run_dir / f"page_{page_index:03d}" / "original"
+        rasterized_dir = page_run_dir / f"page_{page_index:03d}" / "rasterized"
+
+        original_result = parse_one_variant(page_pdf, original_dir, language, dpi, "normal")
+        rasterized_result = parse_one_variant(page_pdf, rasterized_dir, language, dpi, "rasterized")
+
+        selected = original_result
+        if rasterized_result["quality_score"] > original_result["quality_score"]:
+            selected = rasterized_result
+
+        page_results.append(
+            {
+                "page_number": page_index,
+                "original": original_result,
+                "rasterized": rasterized_result,
+                "selected": selected,
+            }
+        )
+
+    combined_markdown = write_combined_markdown(
+        page_results, output_dir / "selected_markdown.md"
+    )
+
+    return {
+        "outputs": {
+            "selected_markdown": str(combined_markdown),
+            "page_runs_dir": str(page_run_dir),
+        },
+        "page_results": page_results,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Parse a PDF with MinerU and optionally rasterize first if the text layer looks suspicious."
@@ -359,17 +509,39 @@ def main():
     parser.add_argument("--language", default="en")
     parser.add_argument("--force-rasterize", action="store_true")
     parser.add_argument("--force-normal", action="store_true")
+    parser.add_argument("--page-adaptive", action="store_true")
     parser.add_argument("--dpi", type=int, default=300)
     args = parser.parse_args()
 
     if args.force_rasterize and args.force_normal:
         raise ValueError("Choose only one of --force-rasterize or --force-normal")
+    if args.page_adaptive and (args.force_rasterize or args.force_normal):
+        raise ValueError(
+            "--page-adaptive cannot be combined with --force-rasterize or --force-normal"
+        )
 
     input_pdf = Path(args.input_pdf).resolve()
     output_dir = Path(args.output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
     inspection = inspect_pdf(input_pdf)
+
+    if args.page_adaptive:
+        adaptive_result = run_page_adaptive_parse(
+            input_pdf, output_dir, args.language, args.dpi
+        )
+        metadata = {
+            "input_pdf": str(input_pdf),
+            "parse_mode": "page_adaptive",
+            "language": args.language,
+            "inspection": inspection,
+            "outputs": adaptive_result["outputs"],
+            "page_results": adaptive_result["page_results"],
+        }
+        metadata_path = output_dir / "meta.json"
+        metadata_path.write_text(json.dumps(metadata, indent=2))
+        print(json.dumps(metadata, indent=2))
+        return
 
     parse_mode = "normal"
     parse_input = input_pdf
