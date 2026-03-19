@@ -1,0 +1,6 @@
+.git
+.venv
+.uv-cache
+.runtime_cache
+.cache
+samples/output

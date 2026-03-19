@@ -1,0 +1,19 @@
+services:
+  mineru-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile.mineru-cpu
+    working_dir: /workspace
+    environment:
+      HF_HOME: /opt/mineru-cache/huggingface
+      MPLCONFIGDIR: /opt/mineru-cache/matplotlib
+      YOLO_CONFIG_DIR: /opt/mineru-cache/ultralytics
+      MINERU_MODEL_SOURCE: huggingface
+      MINERU_PDF_RENDER_THREADS: "1"
+    volumes:
+      - .:/workspace
+      - mineru-cache:/opt/mineru-cache
+    command: bash
+
+volumes:
+  mineru-cache:

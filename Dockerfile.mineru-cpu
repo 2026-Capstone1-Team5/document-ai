@@ -1,0 +1,26 @@
+FROM python:3.10-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        fontconfig \
+        fonts-noto-cjk \
+        fonts-noto-core \
+        libgl1 \
+        libglib2.0-0 && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN python -m pip install --upgrade pip && \
+    python -m pip install \
+        --index-url https://download.pytorch.org/whl/cpu \
+        "torch==2.6.0+cpu" \
+        "torchvision==0.21.0+cpu" && \
+    python -m pip install "mineru[pipeline]==2.7.6"
+
+WORKDIR /workspace
+
+ENTRYPOINT ["/bin/bash", "-lc"]
