@@ -71,3 +71,37 @@ With `--page-adaptive`, it writes:
 - `language`
 - `inspection`
 - `outputs`
+
+## Document access layer
+
+After MinerU finishes, you can build a document map from the `txt` output folder:
+
+```bash
+python3 scripts/document_access.py build benchmark/results/mineru/sample1_researchpaper/txt output/document_map.json
+```
+
+This generates a `document_map.json` with:
+
+- `outline`
+- `sections`
+- `pages`
+- `visuals`
+
+The idea is to let agents access the document progressively instead of loading the whole markdown at once.
+
+Useful commands:
+
+```bash
+python3 scripts/document_access.py outline output/document_map.json
+python3 scripts/document_access.py page output/document_map.json 1
+python3 scripts/document_access.py section output/document_map.json section_001
+python3 scripts/document_access.py visuals output/document_map.json
+python3 scripts/document_access.py visual output/document_map.json image_003
+```
+
+`visuals` includes figures, tables, and equations with:
+
+- page number
+- bounding box
+- image path
+- caption text when available
