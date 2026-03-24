@@ -18,7 +18,7 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install \
         --index-url https://download.pytorch.org/whl/cpu \
         "torch==2.6.0+cpu" \
-        "torchvision==0.21.0+cpu" && \
+        "torchvision==0.21.0" && \
     python -m pip install "mineru[pipeline]==2.7.6"
 
 WORKDIR /workspace

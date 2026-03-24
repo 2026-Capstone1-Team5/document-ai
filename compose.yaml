@@ -11,7 +11,6 @@ services:
       MINERU_MODEL_SOURCE: huggingface
       MINERU_PDF_RENDER_THREADS: "1"
     volumes:
-      - .:/workspace
       - mineru-cache:/opt/mineru-cache
     command: bash
 
