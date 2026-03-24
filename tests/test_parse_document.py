@@ -268,13 +268,51 @@ class BuildMineruCommandTests(unittest.TestCase):
             "_resolve_host_path",
             side_effect=lambda _: None,
         ):
-            with self.assertRaisesRegex(RuntimeError, "host-visible path"):
-                parse_document.build_mineru_command(
+            with mock.patch.object(
+                parse_document, "_is_running_in_container", return_value=True
+            ):
+                with self.assertRaisesRegex(RuntimeError, "host-visible path"):
+                    parse_document.build_mineru_command(
+                        runner,
+                        "benchmark/pdfs/sample2_reciept.pdf",
+                        "/tmp/output",
+                        "en",
+                    )
+
+    def test_build_mineru_command_for_docker_uses_local_paths_on_host(self):
+        runner = {
+            "backend": "docker-compose",
+            "command_prefix": [
+                "docker-compose",
+                "-f",
+                "/tmp/docker-compose.yml",
+                "run",
+                "--rm",
+                "-T",
+            ],
+            "cwd": Path("/tmp"),
+        }
+
+        with mock.patch.object(
+            parse_document,
+            "_resolve_host_path",
+            side_effect=lambda _: None,
+        ):
+            with mock.patch.object(
+                parse_document, "_is_running_in_container", return_value=False
+            ):
+                command = parse_document.build_mineru_command(
                     runner,
                     "benchmark/pdfs/sample2_reciept.pdf",
                     "/tmp/output",
                     "en",
                 )
+
+        self.assertIn(
+            f"{Path('benchmark/pdfs/sample2_reciept.pdf').resolve().parent}:/input:ro",
+            command,
+        )
+        self.assertIn(f"{Path('/tmp/output').resolve()}:/output", command)
 
 
 class ResolveHostPathTests(unittest.TestCase):
@@ -337,6 +375,24 @@ class ResolveHostPathTests(unittest.TestCase):
                     resolved = parse_document._resolve_host_path(container_path)
 
             self.assertEqual(resolved, (host_root / "missing.pdf").resolve())
+
+    def test_running_container_ids_returns_empty_when_docker_missing(self):
+        with mock.patch.object(
+            parse_document.subprocess,
+            "run",
+            side_effect=FileNotFoundError,
+        ):
+            self.assertEqual(parse_document._running_container_ids(), [])
+
+    def test_docker_inspect_ids_with_mounts_returns_empty_when_docker_missing(self):
+        with mock.patch.object(
+            parse_document.subprocess,
+            "run",
+            side_effect=FileNotFoundError,
+        ):
+            self.assertEqual(
+                parse_document._docker_inspect_ids_with_mounts(["cid"]), []
+            )
 
 
 class BuildRuntimeEnvTests(unittest.TestCase):

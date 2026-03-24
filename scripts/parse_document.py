@@ -179,19 +179,22 @@ def _docker_inspect_ids_with_mounts(
 
     result: list[tuple[str, list[dict[str, object]]]] = []
     for container_id in container_ids:
-        inspect_process = subprocess.run(
-            [
-                "docker",
-                "inspect",
-                "--format",
-                "{{json .Mounts}}",
-                container_id,
-            ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=False,
-        )
+        try:
+            inspect_process = subprocess.run(
+                [
+                    "docker",
+                    "inspect",
+                    "--format",
+                    "{{json .Mounts}}",
+                    container_id,
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
+            )
+        except FileNotFoundError:
+            return []
 
         if inspect_process.returncode != 0:
             continue
@@ -216,17 +219,25 @@ def _docker_inspect_ids_with_mounts(
 
 
 def _running_container_ids() -> list[str]:
-    process = subprocess.run(
-        ["docker", "ps", "-q"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        check=False,
-    )
+    try:
+        process = subprocess.run(
+            ["docker", "ps", "-q"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+    except FileNotFoundError:
+        return []
+
     if process.returncode != 0:
         return []
 
     return [line.strip() for line in process.stdout.splitlines() if line.strip()]
+
+
+def _is_running_in_container() -> bool:
+    return Path("/.dockerenv").exists() or bool(_read_cgroup_container_ids())
 
 
 def _resolve_host_path(container_path: Path) -> Path | None:
@@ -393,6 +404,22 @@ def build_mineru_command(
     output_dir = Path(output_dir).resolve()
     host_input_dir = _resolve_host_path(input_dir)
     host_output_dir = _resolve_host_path(output_dir)
+
+    if host_input_dir is None:
+        if _is_running_in_container():
+            raise RuntimeError(
+                "document-ai parser input/output paths must be on a host-visible path for nested Docker. "
+                "Set WORKER_TEMP_ROOT and WORKER_HOST_TEMP_ROOT to matching mounted paths and retry."
+            )
+        host_input_dir = input_dir
+
+    if host_output_dir is None:
+        if _is_running_in_container():
+            raise RuntimeError(
+                "document-ai parser input/output paths must be on a host-visible path for nested Docker. "
+                "Set WORKER_TEMP_ROOT and WORKER_HOST_TEMP_ROOT to matching mounted paths and retry."
+            )
+        host_output_dir = output_dir
 
     if host_input_dir is None or host_output_dir is None:
         raise RuntimeError(
