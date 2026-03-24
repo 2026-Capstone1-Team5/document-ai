@@ -1,5 +1,6 @@
 import os
 import sys
+import importlib.util
 import tempfile
 import unittest
 from pathlib import Path
@@ -10,7 +11,16 @@ SCRIPT_DIR = Path(__file__).resolve().parents[1] / "scripts"
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-import parse_document
+_parse_document_spec = importlib.util.spec_from_file_location(
+    "parse_document", str(SCRIPT_DIR / "parse_document.py")
+)
+if _parse_document_spec is None:
+    raise RuntimeError("Unable to load parse_document module for tests")
+
+parse_document = importlib.util.module_from_spec(_parse_document_spec)
+if _parse_document_spec.loader is None:
+    raise RuntimeError("Unable to load parse_document module for tests")
+_parse_document_spec.loader.exec_module(parse_document)
 
 
 class FindComposeFileTests(unittest.TestCase):
@@ -47,6 +57,14 @@ class FindComposeFileTests(unittest.TestCase):
                 )
 
 
+class ComposeConfigTests(unittest.TestCase):
+    def test_compose_file_avoids_repo_bind_mount_in_nested_docker(self):
+        compose_text = (SCRIPT_DIR.parent / "compose.yaml").read_text()
+
+        self.assertNotIn("- .:/workspace", compose_text)
+        self.assertIn("- mineru-cache:/opt/mineru-cache", compose_text)
+
+
 class FindCliBinaryTests(unittest.TestCase):
     def test_find_cli_binary_checks_user_base_bin(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -55,17 +73,25 @@ class FindCliBinaryTests(unittest.TestCase):
             cli_binary = cli_dir / "mineru"
             cli_binary.write_text("#!/bin/sh\n")
 
-            with mock.patch.object(parse_document.shutil, "which", return_value=None), mock.patch.object(
-                parse_document.site, "getuserbase", return_value=tmpdir
+            with (
+                mock.patch.object(parse_document.shutil, "which", return_value=None),
+                mock.patch.object(
+                    parse_document.site, "getuserbase", return_value=tmpdir
+                ),
             ):
-                self.assertEqual(parse_document.find_cli_binary("mineru"), str(cli_binary))
+                self.assertEqual(
+                    parse_document.find_cli_binary("mineru"), str(cli_binary)
+                )
 
 
 class HasLocalMineruTests(unittest.TestCase):
     def test_has_local_mineru_checks_installed_module(self):
         fake_spec = object()
-        with mock.patch.object(parse_document, "find_cli_binary", return_value=None), mock.patch.object(
-            parse_document.importlib.util, "find_spec", return_value=fake_spec
+        with (
+            mock.patch.object(parse_document, "find_cli_binary", return_value=None),
+            mock.patch.object(
+                parse_document.importlib.util, "find_spec", return_value=fake_spec
+            ),
         ):
             self.assertTrue(parse_document.has_local_mineru())
 
@@ -76,9 +102,10 @@ class ResolveMineruRunnerTests(unittest.TestCase):
         return lambda name: mapping.get(name)
 
     def test_resolve_mineru_runner_prefers_local_cli(self):
-        with mock.patch.object(
-            parse_document, "has_local_mineru", return_value=True
-        ), mock.patch.object(parse_document, "find_compose_file") as find_compose_file:
+        with (
+            mock.patch.object(parse_document, "has_local_mineru", return_value=True),
+            mock.patch.object(parse_document, "find_compose_file") as find_compose_file,
+        ):
             runner = parse_document.resolve_mineru_runner()
 
         self.assertEqual(runner["backend"], "local")
@@ -87,12 +114,14 @@ class ResolveMineruRunnerTests(unittest.TestCase):
 
     def test_resolve_mineru_runner_uses_docker_compose_plugin(self):
         compose_file = Path("/tmp/compose.yml")
-        with mock.patch.object(
-            parse_document, "has_local_mineru", return_value=False
-        ), mock.patch.object(
-            parse_document, "find_compose_file", return_value=compose_file
-        ), mock.patch.object(
-            parse_document, "has_docker_compose_plugin", return_value=True
+        with (
+            mock.patch.object(parse_document, "has_local_mineru", return_value=False),
+            mock.patch.object(
+                parse_document, "find_compose_file", return_value=compose_file
+            ),
+            mock.patch.object(
+                parse_document, "has_docker_compose_plugin", return_value=True
+            ),
         ):
             runner = parse_document.resolve_mineru_runner()
 
@@ -105,16 +134,21 @@ class ResolveMineruRunnerTests(unittest.TestCase):
 
     def test_resolve_mineru_runner_uses_docker_compose_binary(self):
         compose_file = Path("/tmp/docker-compose.yml")
-        with mock.patch.object(
-            parse_document, "has_local_mineru", return_value=False
-        ), mock.patch.object(
-            parse_document.shutil,
-            "which",
-            side_effect=self.fake_which({"docker-compose": "/usr/local/bin/docker-compose"}),
-        ), mock.patch.object(
-            parse_document, "find_compose_file", return_value=compose_file
-        ), mock.patch.object(
-            parse_document, "has_docker_compose_plugin", return_value=False
+        with (
+            mock.patch.object(parse_document, "has_local_mineru", return_value=False),
+            mock.patch.object(
+                parse_document.shutil,
+                "which",
+                side_effect=self.fake_which(
+                    {"docker-compose": "/usr/local/bin/docker-compose"}
+                ),
+            ),
+            mock.patch.object(
+                parse_document, "find_compose_file", return_value=compose_file
+            ),
+            mock.patch.object(
+                parse_document, "has_docker_compose_plugin", return_value=False
+            ),
         ):
             runner = parse_document.resolve_mineru_runner()
 
@@ -126,9 +160,10 @@ class ResolveMineruRunnerTests(unittest.TestCase):
         self.assertEqual(runner["cwd"], compose_file.parent)
 
     def test_resolve_mineru_runner_requires_cli_or_compose(self):
-        with mock.patch.object(
-            parse_document, "has_local_mineru", return_value=False
-        ), mock.patch.object(parse_document, "find_compose_file", return_value=None):
+        with (
+            mock.patch.object(parse_document, "has_local_mineru", return_value=False),
+            mock.patch.object(parse_document, "find_compose_file", return_value=None),
+        ):
             with self.assertRaisesRegex(RuntimeError, "Compose file"):
                 parse_document.resolve_mineru_runner()
 
@@ -145,7 +180,14 @@ class BuildMineruCommandTests(unittest.TestCase):
             runner, "benchmark/pdfs/sample2_reciept.pdf", "/tmp/output", "en"
         )
 
-        self.assertEqual(command[:3], ["/usr/local/bin/mineru", "-p", str((Path("benchmark/pdfs/sample2_reciept.pdf")).resolve())])
+        self.assertEqual(
+            command[:3],
+            [
+                "/usr/local/bin/mineru",
+                "-p",
+                str((Path("benchmark/pdfs/sample2_reciept.pdf")).resolve()),
+            ],
+        )
         self.assertIn("-o", command)
         self.assertIn(str(Path("/tmp/output").resolve()), command)
 
@@ -163,13 +205,138 @@ class BuildMineruCommandTests(unittest.TestCase):
             "cwd": Path("/tmp"),
         }
 
-        command = parse_document.build_mineru_command(
-            runner, "benchmark/pdfs/sample2_reciept.pdf", "/tmp/output", "en"
-        )
+        with tempfile.TemporaryDirectory() as tmpdir:
+            host_input_dir = Path(tmpdir) / "host_input"
+            host_output_dir = Path(tmpdir) / "host_output"
+            host_input_dir.mkdir(parents=True, exist_ok=True)
+            host_output_dir.mkdir(parents=True, exist_ok=True)
 
-        self.assertEqual(command[:6], runner["command_prefix"])
+            def fake_host_path(container_path: Path):
+                if str(container_path) == str(
+                    Path("benchmark/pdfs/sample2_reciept.pdf").resolve().parent
+                ):
+                    return host_input_dir
+                if str(container_path) == str(Path("/tmp/output").resolve()):
+                    return host_output_dir
+                return None
+
+            with mock.patch.object(
+                parse_document, "_resolve_host_path", side_effect=fake_host_path
+            ):
+                command = parse_document.build_mineru_command(
+                    runner,
+                    "benchmark/pdfs/sample2_reciept.pdf",
+                    "/tmp/output",
+                    "en",
+                    compose_override_path=Path(tmpdir) / "override.yaml",
+                )
+
+        self.assertEqual(
+            command[:7],
+            [
+                "/usr/local/bin/docker-compose",
+                "-f",
+                "/tmp/docker-compose.yml",
+                "-f",
+                str(Path(tmpdir) / "override.yaml"),
+                "run",
+                "--rm",
+            ],
+        )
         self.assertIn(parse_document.MINERU_SERVICE, command)
-        self.assertIn('/input/sample2_reciept.pdf', command[-1])
+        self.assertIn("-v", command)
+        self.assertIn(f"{host_input_dir}:/input:ro", command)
+        self.assertIn(f"{host_output_dir}:/output", command)
+        self.assertIn("/input/sample2_reciept.pdf", command[-1])
+
+    def test_build_mineru_command_for_docker_fails_when_host_paths_missing(self):
+        runner = {
+            "backend": "docker-compose",
+            "command_prefix": [
+                "docker-compose",
+                "-f",
+                "/tmp/docker-compose.yml",
+                "run",
+                "--rm",
+                "-T",
+            ],
+            "cwd": Path("/tmp"),
+        }
+
+        with mock.patch.object(
+            parse_document,
+            "_resolve_host_path",
+            side_effect=lambda _: None,
+        ):
+            with self.assertRaisesRegex(RuntimeError, "host-visible path"):
+                parse_document.build_mineru_command(
+                    runner,
+                    "benchmark/pdfs/sample2_reciept.pdf",
+                    "/tmp/output",
+                    "en",
+                )
+
+
+class ResolveHostPathTests(unittest.TestCase):
+    def test_resolve_host_path_prefers_worker_host_temp_root(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            container_root = Path(tmpdir) / "worker-root"
+            host_root = Path(tmpdir) / "host-root"
+            container_root.mkdir()
+
+            container_path = container_root / "a" / "b.pdf"
+
+            with mock.patch.dict(
+                os.environ,
+                {
+                    "WORKER_TEMP_ROOT": str(container_root),
+                    "WORKER_HOST_TEMP_ROOT": str(host_root),
+                },
+                clear=False,
+            ):
+                resolved = parse_document._resolve_host_path(container_path)
+
+            self.assertEqual(resolved, host_root / "a" / "b.pdf")
+
+    def test_resolve_host_path_allows_missing_source_mount_path(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            container_root = Path(tmpdir) / "container"
+            host_root = Path(tmpdir) / "host"
+            container_root.mkdir()
+            container_path = container_root / "missing.pdf"
+            container_path_resolved = container_path.resolve()
+
+            with (
+                mock.patch.object(
+                    parse_document, "_running_container_ids", return_value=["cid"]
+                ),
+                mock.patch.object(
+                    parse_document,
+                    "_docker_inspect_ids_with_mounts",
+                    return_value=[
+                        (
+                            "cid",
+                            [
+                                {
+                                    "Destination": str(container_path_resolved.parent),
+                                    "Source": str(host_root),
+                                }
+                            ],
+                        )
+                    ],
+                ),
+            ):
+                with mock.patch.dict(
+                    os.environ,
+                    {
+                        "WORKER_TEMP_ROOT": "",
+                        "WORKER_HOST_TEMP_ROOT": "",
+                    },
+                    clear=False,
+                ):
+                    resolved = parse_document._resolve_host_path(container_path)
+
+            self.assertEqual(resolved, (host_root / "missing.pdf").resolve())
 
 
 class BuildRuntimeEnvTests(unittest.TestCase):
@@ -205,7 +372,9 @@ class LocalMineruRetryTests(unittest.TestCase):
             if not sequential_pdf_render:
                 raise PermissionError("[Errno 1] Operation not permitted")
 
-        with mock.patch.object(parse_document, "invoke_local_mineru", side_effect=fake_invoke):
+        with mock.patch.object(
+            parse_document, "invoke_local_mineru", side_effect=fake_invoke
+        ):
             parse_document.run_local_mineru("in.pdf", "out", "en", {})
 
         self.assertEqual(calls, [False, True])

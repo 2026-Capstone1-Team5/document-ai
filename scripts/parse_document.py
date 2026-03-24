@@ -9,6 +9,7 @@ import shutil
 import site
 import subprocess
 import tempfile
+from typing import Any
 from pathlib import Path
 
 from rasterize_pdf import rasterize_pdf
@@ -25,6 +26,7 @@ COMPOSE_FILENAMES = (
 )
 MINERU_SERVICE = "mineru-cpu"
 REPO_ROOT = Path(__file__).resolve().parent.parent
+CONTAINER_ID_RE = re.compile(r"[0-9a-f]{12,64}", re.IGNORECASE)
 
 
 def inspect_pdf(pdf_path):
@@ -44,7 +46,8 @@ def inspect_pdf(pdf_path):
         sample_text = []
 
         for page in doc:
-            text = page.get_text("text")
+            page_obj: Any = page
+            text = page_obj.get_text("text")
             text_chars += len(text.strip())
             if text.strip():
                 sample_text.append(text.strip())
@@ -92,7 +95,9 @@ def split_pdf_into_pages(input_pdf, output_dir):
     page_paths = []
     with fitz.open(input_pdf) as source_doc:
         for page_index in range(len(source_doc)):
-            single_page_path = output_dir / f"{input_pdf.stem}_page_{page_index + 1:03d}.pdf"
+            single_page_path = (
+                output_dir / f"{input_pdf.stem}_page_{page_index + 1:03d}.pdf"
+            )
             single_page_doc = fitz.open()
             single_page_doc.insert_pdf(
                 source_doc, from_page=page_index, to_page=page_index
@@ -140,8 +145,162 @@ def find_cli_binary(name):
     return None
 
 
+def _looks_like_container_id(value: str) -> bool:
+    return bool(CONTAINER_ID_RE.fullmatch(value.strip()))
+
+
+def _read_cgroup_container_ids() -> list[str]:
+    container_ids: list[str] = []
+    try:
+        cgroup_data = Path("/proc/self/cgroup").read_text()
+    except OSError:
+        return container_ids
+
+    for line in cgroup_data.splitlines():
+        for token in reversed(line.split("/")):
+            token = token.strip()
+            if not token:
+                continue
+            if token.lower() == "self":
+                continue
+            if _looks_like_container_id(token):
+                if token not in container_ids:
+                    container_ids.append(token)
+                break
+
+    return container_ids
+
+
+def _docker_inspect_ids_with_mounts(
+    container_ids: list[str],
+) -> list[tuple[str, list[dict[str, object]]]]:
+    if not container_ids:
+        return []
+
+    result: list[tuple[str, list[dict[str, object]]]] = []
+    for container_id in container_ids:
+        inspect_process = subprocess.run(
+            [
+                "docker",
+                "inspect",
+                "--format",
+                "{{json .Mounts}}",
+                container_id,
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+
+        if inspect_process.returncode != 0:
+            continue
+
+        try:
+            mounts = json.loads(inspect_process.stdout.strip() or "[]")
+        except json.JSONDecodeError:
+            continue
+
+        if not isinstance(mounts, list):
+            continue
+
+        typed_mounts: list[dict[str, object]] = []
+        for mount in mounts:
+            if not isinstance(mount, dict):
+                continue
+            typed_mounts.append(mount)
+
+        result.append((container_id, typed_mounts))
+
+    return result
+
+
+def _running_container_ids() -> list[str]:
+    process = subprocess.run(
+        ["docker", "ps", "-q"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    if process.returncode != 0:
+        return []
+
+    return [line.strip() for line in process.stdout.splitlines() if line.strip()]
+
+
+def _resolve_host_path(container_path: Path) -> Path | None:
+    container_path = container_path.expanduser().resolve()
+
+    worker_temp_root = os.environ.get("WORKER_TEMP_ROOT", "").strip()
+    worker_host_temp_root = os.environ.get("WORKER_HOST_TEMP_ROOT", "").strip()
+    if worker_temp_root and worker_host_temp_root:
+        container_root = Path(worker_temp_root).expanduser().resolve()
+        host_root = Path(worker_host_temp_root).expanduser()
+        if not host_root.is_absolute():
+            raise RuntimeError("WORKER_HOST_TEMP_ROOT must be an absolute path")
+
+        try:
+            relative = container_path.relative_to(container_root)
+        except ValueError:
+            pass
+        else:
+            return host_root / relative
+
+    host_candidates = []
+    hostname = os.environ.get("HOSTNAME", "").strip()
+    if hostname:
+        host_candidates.append(hostname)
+    host_candidates.extend(_read_cgroup_container_ids())
+
+    for running_id in _running_container_ids():
+        if running_id not in host_candidates:
+            host_candidates.append(running_id)
+
+    for _, mounts in _docker_inspect_ids_with_mounts(host_candidates):
+        for mount in mounts:
+            destination = mount.get("Destination")
+            source = mount.get("Source")
+            if not isinstance(destination, str) or not isinstance(source, str):
+                continue
+            if not destination or not source:
+                continue
+
+            destination_path = Path(destination)
+            if not destination_path.exists():
+                continue
+            source_path = Path(source)
+
+            try:
+                relative = container_path.relative_to(destination_path)
+            except ValueError:
+                continue
+
+            return (source_path / relative).resolve()
+
+    return None
+
+
+def _compose_override_for_mineru() -> str:
+    return """services:\n  mineru-cpu:\n    volumes: []\n"""
+
+
+def _create_mineru_compose_override_file(output_dir: Path) -> Path:
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        suffix=".compose.yaml",
+        dir=str(output_dir),
+        delete=False,
+    ) as compose_override_file:
+        compose_override_file.write(_compose_override_for_mineru())
+        return Path(compose_override_file.name)
+
+
 def has_local_mineru():
-    return find_cli_binary("mineru") is not None or importlib.util.find_spec("mineru") is not None
+    return (
+        find_cli_binary("mineru") is not None
+        or importlib.util.find_spec("mineru") is not None
+    )
 
 
 def has_docker_compose_plugin():
@@ -211,7 +370,9 @@ def resolve_mineru_runner():
     )
 
 
-def build_mineru_command(runner, pdf_path, output_dir, language):
+def build_mineru_command(
+    runner, pdf_path, output_dir, language, compose_override_path: Path | None = None
+):
     if runner["backend"] == "local":
         return runner["command_prefix"] + [
             "-p",
@@ -230,13 +391,34 @@ def build_mineru_command(runner, pdf_path, output_dir, language):
 
     input_dir = Path(pdf_path).resolve().parent
     output_dir = Path(output_dir).resolve()
-    input_name = Path(pdf_path).name
+    host_input_dir = _resolve_host_path(input_dir)
+    host_output_dir = _resolve_host_path(output_dir)
 
-    return runner["command_prefix"] + [
+    if host_input_dir is None or host_output_dir is None:
+        raise RuntimeError(
+            "document-ai parser input/output paths must be on a host-visible path for nested Docker. "
+            "Set WORKER_TEMP_ROOT and WORKER_HOST_TEMP_ROOT to matching mounted paths and retry."
+        )
+
+    input_name = Path(pdf_path).name
+    command_prefix = list(runner["command_prefix"])
+    if compose_override_path is not None:
+        try:
+            run_index = command_prefix.index("run")
+        except ValueError:
+            run_index = len(command_prefix)
+
+        command_prefix = (
+            command_prefix[:run_index]
+            + ["-f", str(compose_override_path)]
+            + command_prefix[run_index:]
+        )
+
+    return command_prefix + [
         "-v",
-        f"{input_dir}:/input:ro",
+        f"{host_input_dir}:/input:ro",
         "-v",
-        f"{output_dir}:/output",
+        f"{host_output_dir}:/output",
         MINERU_SERVICE,
         (
             f'mineru -p "/input/{input_name}" '
@@ -326,9 +508,17 @@ def run_mineru(pdf_path, output_dir, language):
         run_local_mineru(pdf_path, output_dir, language, env)
         return
 
-    command = build_mineru_command(runner, pdf_path, output_dir, language)
-
+    compose_override_path: Path | None = None
     try:
+        output_dir_path = Path(output_dir).resolve()
+        compose_override_path = _create_mineru_compose_override_file(output_dir_path)
+        command = build_mineru_command(
+            runner,
+            pdf_path,
+            output_dir,
+            language,
+            compose_override_path=compose_override_path,
+        )
         subprocess.run(command, check=True, cwd=runner["cwd"], env=env)
     except subprocess.CalledProcessError as exc:
         raise RuntimeError(
@@ -336,6 +526,12 @@ def run_mineru(pdf_path, output_dir, language):
             "If you are using Docker, ensure the daemon is running and that the "
             f"'{MINERU_SERVICE}' service is defined in the selected Compose file."
         ) from exc
+    finally:
+        if compose_override_path is not None:
+            try:
+                compose_override_path.unlink()
+            except OSError:
+                pass
 
 
 def find_output_stem(result_root, preferred_stem):
@@ -382,7 +578,7 @@ def build_output_map(txt_dir, stem):
 def score_markdown_output(markdown_path):
     markdown_path = Path(markdown_path)
     if not markdown_path.exists():
-        return -10**9
+        return -(10**9)
 
     text = markdown_path.read_text(errors="ignore")
     lines = [line.strip() for line in text.splitlines() if line.strip()]
@@ -392,7 +588,9 @@ def score_markdown_output(markdown_path):
     long_lines = sum(1 for line in lines if len(line) > 180)
     noisy_spacing = sum(1 for line in lines if MULTISPACE_RE.search(line))
     heading_count = sum(1 for line in lines if line.startswith("#"))
-    table_count = text.count("<table>") + sum(1 for line in lines if line.startswith("|"))
+    table_count = text.count("<table>") + sum(
+        1 for line in lines if line.startswith("|")
+    )
     printable_chars = sum(1 for char in text if char.isprintable() or char in "\n\r\t")
 
     score = 0.0
@@ -429,7 +627,7 @@ def parse_one_variant(input_pdf, output_dir, language, dpi, parse_mode):
     txt_dir = find_txt_dir(result_root, output_stem)
     outputs = build_output_map(txt_dir, output_stem)
     markdown_path = outputs.get("markdown")
-    quality_score = score_markdown_output(markdown_path) if markdown_path else -10**9
+    quality_score = score_markdown_output(markdown_path) if markdown_path else -(10**9)
 
     variant_result = {
         "parse_mode": parse_mode,
@@ -471,8 +669,12 @@ def run_page_adaptive_parse(input_pdf, output_dir, language, dpi):
         original_dir = page_run_dir / f"page_{page_index:03d}" / "original"
         rasterized_dir = page_run_dir / f"page_{page_index:03d}" / "rasterized"
 
-        original_result = parse_one_variant(page_pdf, original_dir, language, dpi, "normal")
-        rasterized_result = parse_one_variant(page_pdf, rasterized_dir, language, dpi, "rasterized")
+        original_result = parse_one_variant(
+            page_pdf, original_dir, language, dpi, "normal"
+        )
+        rasterized_result = parse_one_variant(
+            page_pdf, rasterized_dir, language, dpi, "rasterized"
+        )
 
         selected = original_result
         if rasterized_result["quality_score"] > original_result["quality_score"]:
