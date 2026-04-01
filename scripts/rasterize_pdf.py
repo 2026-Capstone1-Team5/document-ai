@@ -25,13 +25,17 @@ def rasterize_pdf(input_pdf, output_pdf, dpi=300):
         for page in doc:
             pix = page.get_pixmap(matrix=matrix, alpha=False)
             if pix.n >= 3:
-                image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                image = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
             else:
-                image = Image.frombytes("L", [pix.width, pix.height], pix.samples).convert("RGB")
+                image = Image.frombytes(
+                    "L", (pix.width, pix.height), pix.samples
+                ).convert("RGB")
             images.append(image)
 
     if not images:
         raise ValueError(f"No pages found in {input_pdf}")
+
+    Image.init()
 
     images[0].save(
         output_pdf,

@@ -5,9 +5,16 @@ import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
+from json import JSONDecodeError
 from pathlib import Path
 
 from huggingface_hub import hf_hub_download
+
+
+OMNIDOCBENCH_OFFICIAL_REF = os.environ.get(
+    "OMNIDOCBENCH_OFFICIAL_REF",
+    "f6fc788d99a6f443a4daefd5218f997076e30f18",
+)
 
 
 def repo_root_from_script() -> Path:
@@ -40,7 +47,9 @@ def resolve_official_repo_default() -> str:
     )
 
 
-def run_cmd(cmd: list[str], cwd: Path | None = None, env: dict[str, str] | None = None) -> None:
+def run_cmd(
+    cmd: list[str], cwd: Path | None = None, env: dict[str, str] | None = None
+) -> None:
     print(f"[cmd] {' '.join(cmd)}")
     completed = subprocess.run(cmd, cwd=cwd, env=env, text=True)
     if completed.returncode != 0:
@@ -50,6 +59,34 @@ def run_cmd(cmd: list[str], cwd: Path | None = None, env: dict[str, str] | None 
 def ensure_official_repo(official_repo: Path) -> None:
     marker = official_repo / "pdf_validation.py"
     if marker.exists():
+        completed = subprocess.run(
+            ["git", "-C", str(official_repo), "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+        )
+        current_ref = completed.stdout.strip() if completed.returncode == 0 else ""
+        if current_ref != OMNIDOCBENCH_OFFICIAL_REF:
+            run_cmd(
+                [
+                    "git",
+                    "-C",
+                    str(official_repo),
+                    "fetch",
+                    "--depth",
+                    "1",
+                    "origin",
+                    OMNIDOCBENCH_OFFICIAL_REF,
+                ]
+            )
+            run_cmd(
+                [
+                    "git",
+                    "-C",
+                    str(official_repo),
+                    "checkout",
+                    OMNIDOCBENCH_OFFICIAL_REF,
+                ]
+            )
         return
     if official_repo.exists() and any(official_repo.iterdir()):
         raise FileNotFoundError(
@@ -66,8 +103,23 @@ def ensure_official_repo(official_repo: Path) -> None:
             str(official_repo),
         ]
     )
+    run_cmd(
+        [
+            "git",
+            "-C",
+            str(official_repo),
+            "fetch",
+            "--depth",
+            "1",
+            "origin",
+            OMNIDOCBENCH_OFFICIAL_REF,
+        ]
+    )
+    run_cmd(["git", "-C", str(official_repo), "checkout", OMNIDOCBENCH_OFFICIAL_REF])
     if not marker.exists():
-        raise FileNotFoundError(f"Failed to prepare official evaluator at {official_repo}")
+        raise FileNotFoundError(
+            f"Failed to prepare official evaluator at {official_repo}"
+        )
 
 
 def ensure_parse_results(
@@ -84,7 +136,9 @@ def ensure_parse_results(
     results_path = run_root / "results.json"
     if skip_parse:
         if not results_path.exists():
-            raise FileNotFoundError(f"--skip-parse was set, but {results_path} does not exist")
+            raise FileNotFoundError(
+                f"--skip-parse was set, but {results_path} does not exist"
+            )
         return results_path
 
     run_root.mkdir(parents=True, exist_ok=True)
@@ -115,12 +169,72 @@ def ensure_parse_results(
     return results_path
 
 
+def resolve_markdown_output(meta: dict) -> tuple[Path | None, str | None]:
+    outputs = meta.get("outputs", {})
+    for key in ("selected_markdown", "markdown"):
+        raw_path = outputs.get(key)
+        if not raw_path:
+            continue
+        path = Path(raw_path)
+        if path.exists():
+            return path, key
+    for key in ("selected_markdown", "markdown"):
+        raw_path = outputs.get(key)
+        if raw_path:
+            return Path(raw_path), key
+    return None, None
+
+
+def summarize_eval_accounting(
+    results: list[dict],
+    copied_predictions: int,
+    gt_subset_pages: int,
+    skip_reasons: dict[str, int],
+) -> dict:
+    attempted_pages = len(results)
+    parse_succeeded_pages = len(
+        [row for row in results if row.get("status") == "succeeded"]
+    )
+    parse_failed_pages = len([row for row in results if row.get("status") == "failed"])
+    return {
+        "attempted_pages": attempted_pages,
+        "parse_succeeded_pages": parse_succeeded_pages,
+        "parse_failed_pages": parse_failed_pages,
+        "copied_prediction_pages": copied_predictions,
+        "official_gt_subset_pages": gt_subset_pages,
+        "official_eval_coverage_ratio": (
+            copied_predictions / attempted_pages if attempted_pages else 0.0
+        ),
+        "official_eval_success_coverage_ratio": (
+            copied_predictions / parse_succeeded_pages if parse_succeeded_pages else 0.0
+        ),
+        "skipped_pages": dict(skip_reasons),
+    }
+
+
+def coerce_metric_number(value: object) -> float | None:
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        numeric = float(value)
+    elif isinstance(value, str):
+        stripped = value.strip().lower()
+        if stripped in {"", "nan", "none", "null", "n/a"}:
+            return None
+        numeric = float(value)
+    else:
+        return None
+    if numeric != numeric:
+        return None
+    return numeric
+
+
 def build_official_eval_inputs(
     results_path: Path,
     official_repo: Path,
     run_label: str,
     modules: set[str],
-) -> tuple[Path, Path, Path]:
+) -> tuple[Path, Path, Path, dict]:
     results = json.loads(results_path.read_text())
     pred_dir_name = f"end2end_{run_label}"
     pred_dir = official_repo / "demo_data" / pred_dir_name
@@ -128,27 +242,44 @@ def build_official_eval_inputs(
 
     pred_basenames: set[str] = set()
     copied = 0
+    skip_reasons = {
+        "parse_failed": 0,
+        "missing_source_image_ref": 0,
+        "missing_meta": 0,
+        "invalid_meta_json": 0,
+        "missing_markdown": 0,
+    }
     for row in results.get("results", []):
         if row.get("status") != "succeeded":
+            skip_reasons["parse_failed"] += 1
             continue
         src = row.get("source_image_ref") or ""
-        if "/images/" not in src:
+        if not src:
+            skip_reasons["missing_source_image_ref"] += 1
             continue
         base = Path(src).name
         stem = Path(src).stem
         meta_path = Path(row.get("meta_path") or "")
         if not meta_path.exists():
+            skip_reasons["missing_meta"] += 1
             continue
-        meta = json.loads(meta_path.read_text())
-        md_path = Path(meta.get("outputs", {}).get("markdown", ""))
-        if not md_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text())
+        except (OSError, JSONDecodeError):
+            skip_reasons["invalid_meta_json"] += 1
+            continue
+        md_path, _ = resolve_markdown_output(meta)
+        if not md_path or not md_path.exists():
+            skip_reasons["missing_markdown"] += 1
             continue
         shutil.copy2(md_path, pred_dir / f"{stem}.md")
         pred_basenames.add(base)
         copied += 1
 
     if copied == 0:
-        raise RuntimeError("No markdown predictions were copied for official evaluation")
+        raise RuntimeError(
+            "No markdown predictions were copied for official evaluation"
+        )
 
     gt_json_path = Path(
         hf_hub_download(
@@ -216,7 +347,13 @@ def build_official_eval_inputs(
         ]
     )
     config_path.write_text("\n".join(lines))
-    return pred_dir, subset_path, config_path
+    eval_accounting = summarize_eval_accounting(
+        results=results.get("results", []),
+        copied_predictions=copied,
+        gt_subset_pages=len(subset),
+        skip_reasons=skip_reasons,
+    )
+    return pred_dir, subset_path, config_path, eval_accounting
 
 
 def run_official_eval(official_repo: Path, config_path: Path) -> Path:
@@ -255,7 +392,9 @@ def run_official_eval(official_repo: Path, config_path: Path) -> Path:
     if not pred_dir_name:
         raise RuntimeError(f"Failed to infer prediction dir from config: {config_path}")
 
-    metric_path = official_repo / "result" / f"{pred_dir_name}_{match_method}_metric_result.json"
+    metric_path = (
+        official_repo / "result" / f"{pred_dir_name}_{match_method}_metric_result.json"
+    )
     if not metric_path.exists():
         raise FileNotFoundError(f"Official metric result not found: {metric_path}")
     return metric_path
@@ -263,11 +402,21 @@ def run_official_eval(official_repo: Path, config_path: Path) -> Path:
 
 def compute_table_metrics(metric_path: Path) -> dict:
     metric = json.loads(metric_path.read_text())
-    text_edit = metric.get("text_block", {}).get("all", {}).get("Edit_dist", {}).get("ALL_page_avg")
-    table_teds_raw = metric.get("table", {}).get("all", {}).get("TEDS", {}).get("all")
-    formula_cdm_raw = metric.get("display_formula", {}).get("all", {}).get("CDM", {}).get("all")
-    reading_order_edit = (
-        metric.get("reading_order", {}).get("all", {}).get("Edit_dist", {}).get("ALL_page_avg")
+    reading_order_metric = metric.get("reading_order") or {}
+    text_edit = coerce_metric_number(
+        metric.get("text_block", {})
+        .get("all", {})
+        .get("Edit_dist", {})
+        .get("ALL_page_avg")
+    )
+    table_teds_raw = coerce_metric_number(
+        metric.get("table", {}).get("all", {}).get("TEDS", {}).get("all")
+    )
+    formula_cdm_raw = coerce_metric_number(
+        metric.get("display_formula", {}).get("all", {}).get("CDM", {}).get("all")
+    )
+    reading_order_edit = coerce_metric_number(
+        reading_order_metric.get("all", {}).get("Edit_dist", {}).get("ALL_page_avg")
     )
 
     table_teds_pct = (
@@ -282,7 +431,11 @@ def compute_table_metrics(metric_path: Path) -> dict:
     )
     text_score_pct = ((1 - text_edit) * 100) if text_edit is not None else None
     overall_pct = None
-    if text_score_pct is not None and table_teds_pct is not None and formula_cdm_pct is not None:
+    if (
+        text_score_pct is not None
+        and table_teds_pct is not None
+        and formula_cdm_pct is not None
+    ):
         overall_pct = (text_score_pct + table_teds_pct + formula_cdm_pct) / 3
 
     return {
@@ -307,6 +460,8 @@ def write_outputs(
     subset_path: Path,
     config_path: Path,
     table_metrics: dict,
+    parse_summary: dict,
+    eval_accounting: dict,
 ) -> None:
     now = datetime.now(timezone.utc).isoformat()
     payload = {
@@ -317,6 +472,8 @@ def write_outputs(
         "official_prediction_dir": str(pred_dir.resolve()),
         "official_gt_subset_json": str(subset_path.resolve()),
         "official_config_yaml": str(config_path.resolve()),
+        "parse_summary": parse_summary,
+        "eval_accounting": eval_accounting,
         "table_metrics": table_metrics,
     }
     output_json.parent.mkdir(parents=True, exist_ok=True)
@@ -344,6 +501,11 @@ def write_outputs(
             f"- Prediction dir: `{pred_dir}`",
             f"- GT subset: `{subset_path}`",
             f"- Config: `{config_path}`",
+            f"- Attempted pages: `{eval_accounting['attempted_pages']}`",
+            f"- Parse succeeded pages: `{eval_accounting['parse_succeeded_pages']}`",
+            f"- Copied prediction pages: `{eval_accounting['copied_prediction_pages']}`",
+            f"- Official GT subset pages: `{eval_accounting['official_gt_subset_pages']}`",
+            f"- Official eval coverage: `{fmt_num(eval_accounting['official_eval_coverage_ratio'] * 100, 2)}%`",
             "",
         ]
     )
@@ -415,7 +577,9 @@ def main() -> None:
     valid_modules = {"text", "formula", "table", "reading_order"}
     invalid = modules - valid_modules
     if invalid:
-        raise ValueError(f"Invalid modules: {sorted(invalid)}. valid={sorted(valid_modules)}")
+        raise ValueError(
+            f"Invalid modules: {sorted(invalid)}. valid={sorted(valid_modules)}"
+        )
     if not modules:
         raise ValueError("No modules selected. Use --modules with at least one module.")
 
@@ -433,13 +597,17 @@ def main() -> None:
         skip_parse=args.skip_parse,
     )
 
-    pred_dir, subset_path, config_path = build_official_eval_inputs(
+    parse_payload = json.loads(parse_results_path.read_text())
+
+    pred_dir, subset_path, config_path, eval_accounting = build_official_eval_inputs(
         results_path=parse_results_path,
         official_repo=official_repo,
         run_label=args.run_label,
         modules=modules,
     )
-    metric_path = run_official_eval(official_repo=official_repo, config_path=config_path)
+    metric_path = run_official_eval(
+        official_repo=official_repo, config_path=config_path
+    )
     table_metrics = compute_table_metrics(metric_path=metric_path)
 
     write_outputs(
@@ -452,6 +620,8 @@ def main() -> None:
         subset_path=subset_path,
         config_path=config_path,
         table_metrics=table_metrics,
+        parse_summary=parse_payload.get("summary", {}),
+        eval_accounting=eval_accounting,
     )
 
     print("\n=== OmniDocBench Table Metrics ===")

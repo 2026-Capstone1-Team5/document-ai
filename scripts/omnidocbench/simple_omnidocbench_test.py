@@ -7,6 +7,14 @@ import tempfile
 from pathlib import Path
 
 
+def repo_root_from_script() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def format_metric(value: float | None, digits: int) -> str:
+    return "N/A" if value is None else f"{value:.{digits}f}"
+
+
 def run_cmd(cmd: list[str]) -> None:
     print(f"[run] {' '.join(cmd)}")
     completed = subprocess.run(cmd, text=True)
@@ -18,8 +26,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Simple OmniDocBench test: parse -> official eval -> print key metrics."
     )
-    parser.add_argument("--limit", type=int, default=20, help="Number of samples to test")
-    parser.add_argument("--offset", type=int, default=0, help="Start index in train split")
+    parser.add_argument(
+        "--limit", type=int, default=20, help="Number of samples to test"
+    )
+    parser.add_argument(
+        "--offset", type=int, default=0, help="Start index in train split"
+    )
     parser.add_argument(
         "--name",
         default="simple_run",
@@ -34,7 +46,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    repo_root = Path(__file__).resolve().parent.parent
+    repo_root = repo_root_from_script()
     run_root = repo_root / "output" / f"omnidocbench_{args.name}"
     report_dir = repo_root / "output" / "benchmark_reports"
     summary_md = report_dir / f"omnidocbench_{args.name}_summary.md"
@@ -64,7 +76,9 @@ def main() -> None:
     run_cmd(
         [
             sys.executable,
-            str(repo_root / "scripts" / "omnidocbench" / "run_omnidocbench_full_eval.py"),
+            str(
+                repo_root / "scripts" / "omnidocbench" / "run_omnidocbench_full_eval.py"
+            ),
             "--skip-parse",
             "--run-root",
             str(run_root),
@@ -84,11 +98,11 @@ def main() -> None:
     metrics = payload["table_metrics"]
     print("\n=== Simple OmniDocBench Result ===")
     print(f"run_name: {args.name}")
-    print(f"text_edit: {metrics['text_edit_dist']:.6f}")
-    print(f"formula_cdm: {metrics['formula_cdm_pct']:.2f}")
-    print(f"table_teds: {metrics['table_teds_pct']:.2f}")
-    print(f"read_order_edit: {metrics['reading_order_edit_dist']:.6f}")
-    print(f"overall: {metrics['overall_pct']:.2f}")
+    print(f"text_edit: {format_metric(metrics['text_edit_dist'], 6)}")
+    print(f"formula_cdm: {format_metric(metrics['formula_cdm_pct'], 2)}")
+    print(f"table_teds: {format_metric(metrics['table_teds_pct'], 2)}")
+    print(f"read_order_edit: {format_metric(metrics['reading_order_edit_dist'], 6)}")
+    print(f"overall: {format_metric(metrics['overall_pct'], 2)}")
     print(f"summary_md: {summary_md}")
     if temp_json.exists():
         temp_json.unlink()
