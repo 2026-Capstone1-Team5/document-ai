@@ -108,56 +108,6 @@ python3 scripts/document_access.py visual output/document_map.json image_003
 
 ## OmniDocBench benchmark
 
-### Simple run (recommended)
+See the dedicated guide:
 
-Run parse + official OmniDocBench end-to-end evaluation in one command:
-
-```bash
-uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
-python scripts/omnidocbench/simple_omnidocbench_test.py \
-  --limit 20 \
-  --offset 0 \
-  --name smoke20 \
-  --official-repo benchmark/OmniDocBench-official
-```
-
-Main output:
-
-- `output/benchmark_reports/omnidocbench_<name>_summary.md`
-
-### Full-table script (advanced)
-
-Use this when you want direct control of parse/eval stages:
-
-```bash
-uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
-python scripts/omnidocbench/run_omnidocbench_full_eval.py \
-  --split train \
-  --offset 0 \
-  --limit 1355 \
-  --run-root output/omnidocbench_benchmark_full \
-  --official-repo benchmark/OmniDocBench-official \
-  --run-label mineru_full
-```
-
-Main output:
-
-- `output/benchmark_reports/omnidocbench_full_table_summary.md`
-
-Evaluate only specific modules:
-
-```bash
-uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
-python scripts/omnidocbench/run_omnidocbench_full_eval.py \
-  --skip-parse \
-  --run-root output/omnidocbench_benchmark_full \
-  --official-repo benchmark/OmniDocBench-official \
-  --run-label mineru_text_only \
-  --modules text
-```
-
-### Notes
-
-- Clone official evaluator once: `git clone https://github.com/opendatalab/OmniDocBench benchmark/OmniDocBench-official`
-- Ensure external tools are available in `PATH` on your OS (`xelatex`, `magick`, `gs`).
-- You can set default evaluator path with `OMNIDOCBENCH_OFFICIAL_REPO`.
+- `scripts/omnidocbench/README.md`
