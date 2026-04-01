@@ -1,0 +1,346 @@
+import argparse
+import json
+import statistics
+import subprocess
+import time
+from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
+from difflib import SequenceMatcher
+
+from datasets import Image, load_dataset
+from huggingface_hub import hf_hub_download
+
+
+def percentile(values: list[float], p: float) -> float | None:
+    if not values:
+        return None
+    sorted_vals = sorted(values)
+    if len(sorted_vals) == 1:
+        return sorted_vals[0]
+    rank = (len(sorted_vals) - 1) * p
+    low = int(rank)
+    high = min(low + 1, len(sorted_vals) - 1)
+    weight = rank - low
+    return sorted_vals[low] * (1 - weight) + sorted_vals[high] * weight
+
+
+def normalize_text(s: str) -> str:
+    return " ".join((s or "").lower().split())
+
+
+def levenshtein_distance(a: str, b: str) -> int:
+    if a == b:
+        return 0
+    if not a:
+        return len(b)
+    if not b:
+        return len(a)
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, start=1):
+        cur = [i]
+        for j, cb in enumerate(b, start=1):
+            ins = cur[j - 1] + 1
+            delete = prev[j] + 1
+            sub = prev[j - 1] + (0 if ca == cb else 1)
+            cur.append(min(ins, delete, sub))
+        prev = cur
+    return prev[-1]
+
+
+def load_omnidocbench_gt_map() -> dict[str, str]:
+    json_path = hf_hub_download(
+        repo_id="opendatalab/OmniDocBench",
+        repo_type="dataset",
+        filename="OmniDocBench.json",
+    )
+    rows = json.loads(Path(json_path).read_text())
+    gt_map: dict[str, str] = {}
+    for row in rows:
+        image_path = row.get("page_info", {}).get("image_path")
+        if not image_path:
+            continue
+        dets = row.get("layout_dets", [])
+        ordered = sorted(
+            [d for d in dets if d.get("text")],
+            key=lambda d: (
+                d.get("order") is None,
+                d.get("order") if isinstance(d.get("order"), int) else 10**9,
+            ),
+        )
+        gt_text = "\n".join(str(d.get("text", "")).strip() for d in ordered if d.get("text"))
+        gt_map[Path(image_path).name] = gt_text
+        gt_map[Path(image_path).stem] = gt_text
+    return gt_map
+
+
+def parse_one_sample(
+    sample: dict,
+    sample_ref_path: str | None,
+    gt_text: str | None,
+    index: int,
+    run_root: Path,
+    language: str,
+    timeout_seconds: int,
+) -> dict:
+    sample_name = f"{index:05d}"
+    sample_dir = run_root / sample_name
+    sample_dir.mkdir(parents=True, exist_ok=True)
+
+    image = sample["image"]
+    image_path = sample_dir / "input.png"
+    pdf_path = sample_dir / "input.pdf"
+    image.save(image_path)
+    image.convert("RGB").save(pdf_path, "PDF")
+
+    parse_output_dir = sample_dir / "parse_output"
+    cmd = [
+        "python",
+        "scripts/parse_document.py",
+        str(pdf_path),
+        str(parse_output_dir),
+        "--language",
+        language,
+    ]
+
+    start = time.perf_counter()
+    try:
+        completed = subprocess.run(
+            cmd,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=timeout_seconds,
+        )
+        elapsed = time.perf_counter() - start
+    except subprocess.TimeoutExpired:
+        return {
+            "index": index,
+            "sample_name": sample_name,
+            "status": "failed",
+            "failure_reason": "timeout",
+            "elapsed_seconds": timeout_seconds,
+            "returncode": None,
+            "parse_mode": None,
+            "markdown_chars": None,
+            "meta_path": None,
+        }
+
+    meta_path = parse_output_dir / "meta.json"
+    parse_mode = None
+    markdown_chars = None
+    markdown_similarity = None
+    markdown_cer = None
+    failure_reason = None
+
+    if completed.returncode == 0 and meta_path.exists():
+        meta = json.loads(meta_path.read_text())
+        parse_mode = meta.get("parse_mode")
+        md_path = meta.get("outputs", {}).get("markdown")
+        if md_path and Path(md_path).exists():
+            pred_text = Path(md_path).read_text(errors="ignore")
+            markdown_chars = len(pred_text)
+            if gt_text:
+                gt_norm = normalize_text(gt_text)
+                pred_norm = normalize_text(pred_text)
+                markdown_similarity = SequenceMatcher(None, gt_norm, pred_norm).ratio()
+                markdown_cer = (
+                    levenshtein_distance(gt_norm, pred_norm) / max(1, len(gt_norm))
+                )
+        status = "succeeded"
+    else:
+        status = "failed"
+        stderr = (completed.stderr or "").strip().splitlines()
+        stdout = (completed.stdout or "").strip().splitlines()
+        last_line = stderr[-1] if stderr else (stdout[-1] if stdout else "")
+        failure_reason = last_line[:400] if last_line else "unknown_error"
+
+    return {
+        "index": index,
+        "sample_name": sample_name,
+        "source_image_ref": sample_ref_path,
+        "status": status,
+        "failure_reason": failure_reason,
+        "elapsed_seconds": round(elapsed, 3),
+        "returncode": completed.returncode,
+        "parse_mode": parse_mode,
+        "markdown_chars": markdown_chars,
+        "markdown_similarity": markdown_similarity,
+        "markdown_cer": markdown_cer,
+        "has_gt": bool(gt_text),
+        "meta_path": str(meta_path) if meta_path.exists() else None,
+    }
+
+
+def summarize(results: list[dict]) -> dict:
+    total = len(results)
+    succeeded = [r for r in results if r["status"] == "succeeded"]
+    failed = [r for r in results if r["status"] == "failed"]
+
+    times_all = [r["elapsed_seconds"] for r in results]
+    times_success = [r["elapsed_seconds"] for r in succeeded]
+    markdown_chars = [r["markdown_chars"] for r in succeeded if r["markdown_chars"] is not None]
+    markdown_similarity = [
+        r["markdown_similarity"] for r in succeeded if r["markdown_similarity"] is not None
+    ]
+    markdown_cer = [r["markdown_cer"] for r in succeeded if r["markdown_cer"] is not None]
+    gt_covered = len([r for r in results if r.get("has_gt")])
+
+    mode_counter = Counter(r["parse_mode"] for r in succeeded if r["parse_mode"])
+    fail_counter = Counter(r["failure_reason"] for r in failed if r["failure_reason"])
+
+    return {
+        "total_samples": total,
+        "succeeded_samples": len(succeeded),
+        "failed_samples": len(failed),
+        "success_rate": (len(succeeded) / total) if total else 0.0,
+        "elapsed_seconds_avg_all": (statistics.fmean(times_all) if times_all else None),
+        "elapsed_seconds_avg_success": (statistics.fmean(times_success) if times_success else None),
+        "elapsed_seconds_median_success": (statistics.median(times_success) if times_success else None),
+        "elapsed_seconds_p95_success": percentile(times_success, 0.95),
+        "parse_mode_distribution": dict(mode_counter),
+        "failure_reasons": dict(fail_counter),
+        "markdown_chars_avg_success": (statistics.fmean(markdown_chars) if markdown_chars else None),
+        "gt_coverage_ratio": (gt_covered / total) if total else 0.0,
+        "markdown_similarity_avg_success": (
+            statistics.fmean(markdown_similarity) if markdown_similarity else None
+        ),
+        "markdown_cer_avg_success": (
+            statistics.fmean(markdown_cer) if markdown_cer else None
+        ),
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Benchmark parser on OmniDocBench samples.")
+    parser.add_argument("--split", default="train")
+    parser.add_argument("--limit", type=int, default=5)
+    parser.add_argument("--offset", type=int, default=0)
+    parser.add_argument("--language", default="en")
+    parser.add_argument("--timeout-seconds", type=int, default=900)
+    parser.add_argument(
+        "--run-root",
+        default="output/omnidocbench_benchmark",
+        help="Directory for per-sample inputs/outputs and raw results.json.",
+    )
+    parser.add_argument(
+        "--report-dir",
+        default="output/benchmark_reports",
+        help="Directory for managed benchmark summaries and registry.",
+    )
+    args = parser.parse_args()
+
+    run_root = Path(args.run_root).resolve()
+    run_root.mkdir(parents=True, exist_ok=True)
+    results_path = run_root / "results.json"
+
+    gt_map = load_omnidocbench_gt_map()
+
+    dataset = load_dataset("opendatalab/OmniDocBench", split=args.split, streaming=True)
+    raw_dataset = load_dataset("opendatalab/OmniDocBench", split=args.split, streaming=True)
+    raw_dataset = raw_dataset.cast_column("image", Image(decode=False))
+
+    results: list[dict] = []
+    wanted_end = args.offset + args.limit
+    for idx, (sample, raw_sample) in enumerate(zip(dataset, raw_dataset)):
+        if idx < args.offset:
+            continue
+        if idx >= wanted_end:
+            break
+        sample_ref_path = raw_sample.get("image", {}).get("path")
+        sample_basename = Path(sample_ref_path).name if sample_ref_path else ""
+        sample_stem = Path(sample_ref_path).stem if sample_ref_path else ""
+        gt_text = gt_map.get(sample_basename) or gt_map.get(sample_stem)
+        print(f"[{idx - args.offset + 1}/{args.limit}] parsing sample index={idx}")
+        result = parse_one_sample(
+            sample=sample,
+            sample_ref_path=sample_ref_path,
+            gt_text=gt_text,
+            index=idx,
+            run_root=run_root,
+            language=args.language,
+            timeout_seconds=args.timeout_seconds,
+        )
+        results.append(result)
+        print(
+            f"  -> status={result['status']} elapsed={result['elapsed_seconds']}s "
+            f"mode={result['parse_mode']} sim={result['markdown_similarity']} "
+            f"cer={result['markdown_cer']} reason={result['failure_reason']}"
+        )
+
+    summary = summarize(results)
+    report = {
+        "dataset": "opendatalab/OmniDocBench",
+        "split": args.split,
+        "limit": args.limit,
+        "offset": args.offset,
+        "language": args.language,
+        "run_root": str(run_root),
+        "summary": summary,
+        "results": results,
+    }
+    results_path.write_text(json.dumps(report, indent=2))
+
+    now = datetime.now(timezone.utc)
+    timestamp = now.strftime("%Y-%m-%d-%H-%M-%S")
+    run_id = (
+        f"omnidocbench_{args.split}_limit{args.limit}_"
+        f"offset{args.offset}_{timestamp}"
+    )
+
+    managed_dir = Path(args.report_dir).resolve()
+    managed_dir.mkdir(parents=True, exist_ok=True)
+
+    managed_summary = {
+        "run_id": run_id,
+        "created_at_utc": now.isoformat(),
+        "dataset": report["dataset"],
+        "split": report["split"],
+        "limit": report["limit"],
+        "offset": report["offset"],
+        "language": report["language"],
+        "run_root": report["run_root"],
+        "summary": report["summary"],
+        "source_results_json": str(results_path.resolve()),
+    }
+
+    managed_summary_path = managed_dir / f"{timestamp}.json"
+    managed_summary_path.write_text(json.dumps(managed_summary, indent=2))
+
+    latest_path = managed_dir / "latest_omnidocbench_summary.json"
+    latest_path.write_text(json.dumps(managed_summary, indent=2))
+
+    registry_path = managed_dir / "registry_omnidocbench.json"
+    if registry_path.exists():
+        registry = json.loads(registry_path.read_text())
+    else:
+        registry = {"runs": []}
+
+    registry["runs"].append(
+        {
+            "run_id": run_id,
+            "created_at_utc": managed_summary["created_at_utc"],
+            "dataset": managed_summary["dataset"],
+            "split": managed_summary["split"],
+            "limit": managed_summary["limit"],
+            "offset": managed_summary["offset"],
+            "success_rate": managed_summary["summary"].get("success_rate"),
+            "avg_seconds": managed_summary["summary"].get(
+                "elapsed_seconds_avg_success"
+            ),
+            "source_results_json": managed_summary["source_results_json"],
+            "summary_json": str(managed_summary_path.resolve()),
+        }
+    )
+    registry_path.write_text(json.dumps(registry, indent=2))
+
+    print("\n=== Benchmark Summary ===")
+    print(json.dumps(summary, indent=2))
+    print(f"\nSaved report: {results_path}")
+    print(f"Managed summary: {managed_summary_path}")
+    print(f"Managed latest:  {latest_path}")
+    print(f"Managed registry:{registry_path}")
+
+
+if __name__ == "__main__":
+    main()
