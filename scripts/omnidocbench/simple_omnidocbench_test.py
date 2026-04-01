@@ -27,7 +27,9 @@ def main() -> None:
     )
     parser.add_argument(
         "--official-repo",
-        default=os.environ.get("OMNIDOCBENCH_OFFICIAL_REPO", "benchmark/OmniDocBench-official"),
+        default=os.environ.get(
+            "OMNIDOCBENCH_OFFICIAL_REPO", "benchmark_assets/OmniDocBench-official"
+        ),
         help="Path to official OmniDocBench eval repo",
     )
     args = parser.parse_args()

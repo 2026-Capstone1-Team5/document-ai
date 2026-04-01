@@ -10,18 +10,16 @@ This directory contains scripts for MinerU parsing benchmark/evaluation on OmniD
 
 ## Prerequisites
 
-1. Clone official evaluator:
-
-```bash
-git clone https://github.com/opendatalab/OmniDocBench benchmark/OmniDocBench-official
-```
-
-2. Ensure external tools are available in `PATH`:
+1. Ensure external tools are available in `PATH`:
 - `xelatex`
 - `magick` (ImageMagick)
 - `gs` (Ghostscript)
 
-3. Use `uv` for Python execution.
+2. Use `uv` for Python execution.
+
+Notes:
+- The script auto-prepares the official evaluator on first run.
+- Benchmark assets are stored under `benchmark_assets/` (no `/tmp` cache path needed).
 
 ## Quick Start (Recommended)
 
@@ -33,13 +31,13 @@ python scripts/omnidocbench/simple_omnidocbench_test.py \
   --limit 20 \
   --offset 0 \
   --name smoke20 \
-  --official-repo benchmark/OmniDocBench-official
+  --official-repo benchmark_assets/OmniDocBench-official
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-uv run --with datasets --with pillow --with pymupdf --with huggingface_hub python scripts/omnidocbench/simple_omnidocbench_test.py --limit 20 --offset 0 --name smoke20 --official-repo benchmark/OmniDocBench-official
+uv run --with datasets --with pillow --with pymupdf --with huggingface_hub python scripts/omnidocbench/simple_omnidocbench_test.py --limit 20 --offset 0 --name smoke20 --official-repo benchmark_assets/OmniDocBench-official
 ```
 
 Main output:
@@ -56,7 +54,7 @@ python scripts/omnidocbench/run_omnidocbench_full_eval.py \
   --offset 0 \
   --limit 1355 \
   --run-root output/omnidocbench_benchmark_full \
-  --official-repo benchmark/OmniDocBench-official \
+  --official-repo benchmark_assets/OmniDocBench-official \
   --run-label mineru_full
 ```
 
@@ -69,7 +67,7 @@ uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
 python scripts/omnidocbench/run_omnidocbench_full_eval.py \
   --skip-parse \
   --run-root output/omnidocbench_benchmark_full \
-  --official-repo benchmark/OmniDocBench-official \
+  --official-repo benchmark_assets/OmniDocBench-official \
   --run-label mineru_rerun
 ```
 
@@ -89,7 +87,7 @@ uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
 python scripts/omnidocbench/run_omnidocbench_full_eval.py \
   --skip-parse \
   --run-root output/omnidocbench_benchmark_full \
-  --official-repo benchmark/OmniDocBench-official \
+  --official-repo benchmark_assets/OmniDocBench-official \
   --run-label mineru_text_only \
   --modules text
 
@@ -98,12 +96,34 @@ uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
 python scripts/omnidocbench/run_omnidocbench_full_eval.py \
   --skip-parse \
   --run-root output/omnidocbench_benchmark_full \
-  --official-repo benchmark/OmniDocBench-official \
+  --official-repo benchmark_assets/OmniDocBench-official \
   --run-label mineru_text_table \
   --modules text,table
 ```
 
 If a module is not selected, its metric is shown as `N/A` in summary output.
+
+## Balanced Sampling (Human-selectable)
+
+Build a balanced index plan (e.g., 20 per group), then edit `indices` manually if needed:
+
+```bash
+uv run --with datasets --with pillow --with huggingface_hub \
+python scripts/omnidocbench/build_sample_indices.py \
+  --group-by data_source \
+  --per-group 20 \
+  --output output/benchmark_reports/omnidocbench_sample_plan.json
+```
+
+Run parse benchmark only on selected indices:
+
+```bash
+uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
+python scripts/omnidocbench/benchmark_omnidocbench.py \
+  --indices-file output/benchmark_reports/omnidocbench_sample_plan.json \
+  --run-root output/omnidocbench_balanced \
+  --report-dir output/benchmark_reports
+```
 
 ## Outputs
 

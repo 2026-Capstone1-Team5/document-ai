@@ -1,7 +1,9 @@
 import argparse
 import json
+import os
 import statistics
 import subprocess
+import sys
 import time
 from collections import Counter
 from datetime import datetime, timezone
@@ -10,6 +12,28 @@ from difflib import SequenceMatcher
 
 from datasets import Image, load_dataset
 from huggingface_hub import hf_hub_download
+
+
+def repo_root_from_script() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def benchmark_assets_root() -> Path:
+    root = repo_root_from_script() / "benchmark_assets"
+    root.mkdir(parents=True, exist_ok=True)
+    return root
+
+
+def configure_local_hf_cache() -> None:
+    assets = benchmark_assets_root()
+    hf_home = assets / "hf_home"
+    hub_cache = hf_home / "hub"
+    datasets_cache = hf_home / "datasets"
+    for p in [hf_home, hub_cache, datasets_cache]:
+        p.mkdir(parents=True, exist_ok=True)
+    os.environ.setdefault("HF_HOME", str(hf_home))
+    os.environ.setdefault("HUGGINGFACE_HUB_CACHE", str(hub_cache))
+    os.environ.setdefault("HF_DATASETS_CACHE", str(datasets_cache))
 
 
 def percentile(values: list[float], p: float) -> float | None:
@@ -53,6 +77,7 @@ def load_omnidocbench_gt_map() -> dict[str, str]:
         repo_id="opendatalab/OmniDocBench",
         repo_type="dataset",
         filename="OmniDocBench.json",
+        local_dir=str(benchmark_assets_root() / "omnidocbench_hf"),
     )
     rows = json.loads(Path(json_path).read_text())
     gt_map: dict[str, str] = {}
@@ -94,9 +119,10 @@ def parse_one_sample(
     image.convert("RGB").save(pdf_path, "PDF")
 
     parse_output_dir = sample_dir / "parse_output"
+    parse_script = repo_root_from_script() / "scripts" / "parse_document.py"
     cmd = [
-        "python",
-        "scripts/parse_document.py",
+        sys.executable,
+        str(parse_script),
         str(pdf_path),
         str(parse_output_dir),
         "--language",
@@ -212,6 +238,7 @@ def summarize(results: list[dict]) -> dict:
 
 
 def main() -> None:
+    configure_local_hf_cache()
     parser = argparse.ArgumentParser(description="Benchmark parser on OmniDocBench samples.")
     parser.add_argument("--split", default="train")
     parser.add_argument("--limit", type=int, default=5)
@@ -228,6 +255,14 @@ def main() -> None:
         default="output/benchmark_reports",
         help="Directory for managed benchmark summaries and registry.",
     )
+    parser.add_argument(
+        "--indices-file",
+        default=None,
+        help=(
+            "Optional JSON file for explicit sample indices. "
+            "Accepts either [1,2,3] or {'indices':[1,2,3]}."
+        ),
+    )
     args = parser.parse_args()
 
     run_root = Path(args.run_root).resolve()
@@ -240,18 +275,38 @@ def main() -> None:
     raw_dataset = load_dataset("opendatalab/OmniDocBench", split=args.split, streaming=True)
     raw_dataset = raw_dataset.cast_column("image", Image(decode=False))
 
+    explicit_indices: list[int] | None = None
+    if args.indices_file:
+        payload = json.loads(Path(args.indices_file).read_text())
+        if isinstance(payload, dict):
+            explicit_indices = payload.get("indices", [])
+        else:
+            explicit_indices = payload
+        explicit_indices = sorted({int(x) for x in explicit_indices})
+        if not explicit_indices:
+            raise ValueError(f"No indices found in {args.indices_file}")
+
     results: list[dict] = []
+    selected_count = 0
+    wanted_total = len(explicit_indices) if explicit_indices is not None else args.limit
+    explicit_set = set(explicit_indices or [])
+
     wanted_end = args.offset + args.limit
     for idx, (sample, raw_sample) in enumerate(zip(dataset, raw_dataset)):
-        if idx < args.offset:
-            continue
-        if idx >= wanted_end:
-            break
+        if explicit_indices is not None:
+            if idx not in explicit_set:
+                continue
+        else:
+            if idx < args.offset:
+                continue
+            if idx >= wanted_end:
+                break
         sample_ref_path = raw_sample.get("image", {}).get("path")
         sample_basename = Path(sample_ref_path).name if sample_ref_path else ""
         sample_stem = Path(sample_ref_path).stem if sample_ref_path else ""
         gt_text = gt_map.get(sample_basename) or gt_map.get(sample_stem)
-        print(f"[{idx - args.offset + 1}/{args.limit}] parsing sample index={idx}")
+        selected_count += 1
+        print(f"[{selected_count}/{wanted_total}] parsing sample index={idx}")
         result = parse_one_sample(
             sample=sample,
             sample_ref_path=sample_ref_path,
@@ -267,15 +322,19 @@ def main() -> None:
             f"mode={result['parse_mode']} sim={result['markdown_similarity']} "
             f"cer={result['markdown_cer']} reason={result['failure_reason']}"
         )
+        if explicit_indices is not None and selected_count >= wanted_total:
+            break
 
     summary = summarize(results)
     report = {
         "dataset": "opendatalab/OmniDocBench",
         "split": args.split,
-        "limit": args.limit,
+        "limit": wanted_total,
         "offset": args.offset,
         "language": args.language,
         "run_root": str(run_root),
+        "indices_file": args.indices_file,
+        "explicit_indices_count": len(explicit_indices) if explicit_indices else None,
         "summary": summary,
         "results": results,
     }
@@ -284,7 +343,7 @@ def main() -> None:
     now = datetime.now(timezone.utc)
     timestamp = now.strftime("%Y-%m-%d-%H-%M-%S")
     run_id = (
-        f"omnidocbench_{args.split}_limit{args.limit}_"
+        f"omnidocbench_{args.split}_limit{wanted_total}_"
         f"offset{args.offset}_{timestamp}"
     )
 

@@ -10,9 +10,34 @@ from pathlib import Path
 from huggingface_hub import hf_hub_download
 
 
+def repo_root_from_script() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def benchmark_assets_root() -> Path:
+    root = repo_root_from_script() / "benchmark_assets"
+    root.mkdir(parents=True, exist_ok=True)
+    return root
+
+
+def configure_local_hf_cache() -> None:
+    assets = benchmark_assets_root()
+    hf_home = assets / "hf_home"
+    hub_cache = hf_home / "hub"
+    datasets_cache = hf_home / "datasets"
+    for p in [hf_home, hub_cache, datasets_cache]:
+        p.mkdir(parents=True, exist_ok=True)
+    os.environ.setdefault("HF_HOME", str(hf_home))
+    os.environ.setdefault("HUGGINGFACE_HUB_CACHE", str(hub_cache))
+    os.environ.setdefault("HF_DATASETS_CACHE", str(datasets_cache))
+
+
 def resolve_official_repo_default() -> str:
     # Cross-platform default; users can override via CLI or env var.
-    return os.environ.get("OMNIDOCBENCH_OFFICIAL_REPO", "benchmark/OmniDocBench-official")
+    return os.environ.get(
+        "OMNIDOCBENCH_OFFICIAL_REPO",
+        str(benchmark_assets_root() / "OmniDocBench-official"),
+    )
 
 
 def run_cmd(cmd: list[str], cwd: Path | None = None, env: dict[str, str] | None = None) -> None:
@@ -20,6 +45,29 @@ def run_cmd(cmd: list[str], cwd: Path | None = None, env: dict[str, str] | None 
     completed = subprocess.run(cmd, cwd=cwd, env=env, text=True)
     if completed.returncode != 0:
         raise RuntimeError(f"Command failed ({completed.returncode}): {' '.join(cmd)}")
+
+
+def ensure_official_repo(official_repo: Path) -> None:
+    marker = official_repo / "pdf_validation.py"
+    if marker.exists():
+        return
+    if official_repo.exists() and any(official_repo.iterdir()):
+        raise FileNotFoundError(
+            f"{official_repo} exists but is not a valid OmniDocBench evaluator checkout"
+        )
+    official_repo.parent.mkdir(parents=True, exist_ok=True)
+    run_cmd(
+        [
+            "git",
+            "clone",
+            "--depth",
+            "1",
+            "https://github.com/opendatalab/OmniDocBench",
+            str(official_repo),
+        ]
+    )
+    if not marker.exists():
+        raise FileNotFoundError(f"Failed to prepare official evaluator at {official_repo}")
 
 
 def ensure_parse_results(
@@ -107,6 +155,7 @@ def build_official_eval_inputs(
             repo_id="opendatalab/OmniDocBench",
             repo_type="dataset",
             filename="OmniDocBench.json",
+            local_dir=str(benchmark_assets_root() / "omnidocbench_hf"),
         )
     )
     gt_rows = json.loads(gt_json_path.read_text())
@@ -172,7 +221,9 @@ def build_official_eval_inputs(
 
 def run_official_eval(official_repo: Path, config_path: Path) -> Path:
     env = os.environ.copy()
-    env.setdefault("UV_CACHE_DIR", "/tmp/uv-cache")
+    uv_cache = benchmark_assets_root() / "uv_cache"
+    uv_cache.mkdir(parents=True, exist_ok=True)
+    env.setdefault("UV_CACHE_DIR", str(uv_cache))
 
     cmd = [
         "uv",
@@ -300,6 +351,7 @@ def write_outputs(
 
 
 def main() -> None:
+    configure_local_hf_cache()
     parser = argparse.ArgumentParser(
         description="Run OmniDocBench parse + official end2end(CDM) eval and emit table-ready metrics."
     )
@@ -367,10 +419,7 @@ def main() -> None:
     if not modules:
         raise ValueError("No modules selected. Use --modules with at least one module.")
 
-    if not (official_repo / "pdf_validation.py").exists():
-        raise FileNotFoundError(
-            f"Official repo not found or invalid at {official_repo} (missing pdf_validation.py)"
-        )
+    ensure_official_repo(official_repo)
 
     parse_results_path = ensure_parse_results(
         scripts_dir=scripts_dir,
