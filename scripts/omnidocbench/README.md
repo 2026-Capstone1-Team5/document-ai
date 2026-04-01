@@ -110,9 +110,18 @@ Build a balanced index plan (e.g., 20 per group), then edit `indices` manually i
 ```bash
 uv run --with datasets --with pillow --with huggingface_hub \
 python scripts/omnidocbench/build_sample_indices.py \
-  --group-by data_source \
   --per-group 20 \
   --output output/benchmark_reports/omnidocbench_sample_plan.json
+```
+
+Default grouping is `metric_coverage` (text/formula/table presence buckets).  
+Use `--group-by` only if you explicitly want another grouping.
+
+```bash
+uv run --with datasets --with pillow --with huggingface_hub \
+python scripts/omnidocbench/build_sample_indices.py \
+  --per-group 20 \
+  --output output/benchmark_reports/omnidocbench_metric_coverage_plan.json
 ```
 
 Run parse benchmark only on selected indices:

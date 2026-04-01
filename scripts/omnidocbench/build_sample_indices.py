@@ -2,7 +2,7 @@ import argparse
 import json
 import os
 import random
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 from datasets import Image, load_dataset
@@ -31,7 +31,7 @@ def configure_local_hf_cache() -> None:
     os.environ.setdefault("HF_DATASETS_CACHE", str(datasets_cache))
 
 
-def load_gt_attr_map(group_by: str) -> dict[str, str]:
+def load_gt_rows() -> list[dict]:
     gt_path = Path(
         hf_hub_download(
             repo_id="opendatalab/OmniDocBench",
@@ -40,7 +40,10 @@ def load_gt_attr_map(group_by: str) -> dict[str, str]:
             local_dir=str(benchmark_assets_root() / "omnidocbench_hf"),
         )
     )
-    rows = json.loads(gt_path.read_text())
+    return json.loads(gt_path.read_text())
+
+
+def load_gt_attr_map(rows: list[dict], group_by: str) -> dict[str, str]:
     out: dict[str, str] = {}
     for row in rows:
         page_info = row.get("page_info", {})
@@ -51,6 +54,41 @@ def load_gt_attr_map(group_by: str) -> dict[str, str]:
         if value in (None, ""):
             value = "unknown"
         out[basename] = str(value)
+    return out
+
+
+def load_metric_coverage_map(rows: list[dict]) -> dict[str, str]:
+    """
+    Build bucket key from page content presence:
+    - text (text_block/title/reference-like text categories)
+    - formula (equation_isolated)
+    - table (table)
+    Example bucket: text1_formula0_table1
+    """
+    text_cats = {
+        "text_block",
+        "title",
+        "reference",
+        "header",
+        "footer",
+        "page_number",
+        "page_footnote",
+        "abandon",
+    }
+    out: dict[str, str] = {}
+    for row in rows:
+        page_info = row.get("page_info", {})
+        basename = Path(page_info.get("image_path", "")).name
+        cats = Counter(d.get("category_type") for d in row.get("layout_dets", []))
+        has_text = any(cats.get(c, 0) > 0 for c in text_cats)
+        has_formula = cats.get("equation_isolated", 0) > 0
+        has_table = cats.get("table", 0) > 0
+        bucket = (
+            f"text{int(has_text)}_"
+            f"formula{int(has_formula)}_"
+            f"table{int(has_table)}"
+        )
+        out[basename] = bucket
     return out
 
 
@@ -65,8 +103,8 @@ def main() -> None:
     parser.add_argument("--split", default="train")
     parser.add_argument(
         "--group-by",
-        default="data_source",
-        choices=["data_source", "language", "layout"],
+        default="metric_coverage",
+        choices=["data_source", "language", "layout", "metric_coverage"],
     )
     parser.add_argument("--per-group", type=int, default=20)
     parser.add_argument("--seed", type=int, default=42)
@@ -77,7 +115,11 @@ def main() -> None:
     args = parser.parse_args()
 
     random.seed(args.seed)
-    attr_map = load_gt_attr_map(args.group_by)
+    rows = load_gt_rows()
+    if args.group_by == "metric_coverage":
+        attr_map = load_metric_coverage_map(rows)
+    else:
+        attr_map = load_gt_attr_map(rows, args.group_by)
 
     raw = load_dataset("opendatalab/OmniDocBench", split=args.split, streaming=True)
     raw = raw.cast_column("image", Image(decode=False))
