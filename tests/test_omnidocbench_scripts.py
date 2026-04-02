@@ -448,6 +448,58 @@ class SimpleWrapperTests(unittest.TestCase):
         self.assertEqual(simple_omnidocbench_test.format_metric(None, 2), "N/A")
         self.assertEqual(simple_omnidocbench_test.format_metric(1.2345, 2), "1.23")
 
+    def test_simple_wrapper_calls_benchmark_without_split(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            args = types.SimpleNamespace(
+                limit=2,
+                offset=3,
+                name="simple_run",
+                official_repo=str(tmp_path / "official"),
+            )
+            temp_json = (
+                Path(tempfile.gettempdir()) / "omnidocbench_simple_run_summary.json"
+            )
+            commands = []
+
+            def fake_run_cmd(cmd):
+                commands.append(cmd)
+                if "run_omnidocbench_full_eval.py" in " ".join(cmd):
+                    temp_json.write_text(
+                        json.dumps(
+                            {
+                                "table_metrics": {
+                                    "text_edit_dist": 0.1,
+                                    "formula_cdm_pct": 0.2,
+                                    "table_teds_pct": 0.3,
+                                    "reading_order_edit_dist": 0.4,
+                                    "overall_pct": 0.5,
+                                }
+                            }
+                        )
+                    )
+
+            with (
+                mock.patch.object(
+                    simple_omnidocbench_test.argparse.ArgumentParser,
+                    "parse_args",
+                    return_value=args,
+                ),
+                mock.patch.object(
+                    simple_omnidocbench_test, "run_cmd", side_effect=fake_run_cmd
+                ),
+                mock.patch.object(
+                    simple_omnidocbench_test,
+                    "repo_root_from_script",
+                    return_value=tmp_path,
+                ),
+            ):
+                simple_omnidocbench_test.main()
+
+            benchmark_cmd = commands[0]
+            self.assertNotIn("--split", benchmark_cmd)
+            self.assertFalse(temp_json.exists())
+
 
 class OfficialRepoPinningTests(unittest.TestCase):
     def test_ensure_official_repo_uses_pinned_ref(self):
@@ -561,7 +613,6 @@ class ProvenanceOutputTests(unittest.TestCase):
 class BenchmarkExplicitIndexTests(unittest.TestCase):
     def test_main_raises_when_requested_indices_are_missing(self):
         args = types.SimpleNamespace(
-            split="train",
             limit=5,
             offset=0,
             language="en",
@@ -620,7 +671,6 @@ class BenchmarkLimitZeroTests(unittest.TestCase):
             run_root = Path(tmpdir) / "run"
             report_dir = Path(tmpdir) / "reports"
             args = types.SimpleNamespace(
-                split="train",
                 limit=0,
                 offset=0,
                 language="en",
@@ -647,8 +697,42 @@ class BenchmarkLimitZeroTests(unittest.TestCase):
 
             report = json.loads((run_root / "results.json").read_text())
             self.assertEqual(report["limit"], 0)
+            self.assertNotIn("split", report)
             self.assertEqual(report["summary"]["total_samples"], 0)
             self.assertEqual(report["results"], [])
+
+
+class EnsureParseResultsTests(unittest.TestCase):
+    def test_ensure_parse_results_omits_split_argument(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            scripts_dir = tmp_path / "scripts" / "omnidocbench"
+            scripts_dir.mkdir(parents=True)
+            run_root = tmp_path / "run"
+            report_dir = tmp_path / "reports"
+            recorded = []
+
+            def fake_run_cmd(cmd, cwd=None, env=None):
+                recorded.append(cmd)
+                run_root.mkdir(parents=True, exist_ok=True)
+                (run_root / "results.json").write_text(json.dumps({"results": []}))
+
+            with mock.patch.object(
+                run_omnidocbench_full_eval, "run_cmd", side_effect=fake_run_cmd
+            ):
+                result_path = run_omnidocbench_full_eval.ensure_parse_results(
+                    scripts_dir=scripts_dir,
+                    offset=4,
+                    limit=7,
+                    language="en",
+                    timeout_seconds=30,
+                    run_root=run_root,
+                    report_dir=report_dir,
+                    skip_parse=False,
+                )
+
+        self.assertEqual(result_path, run_root / "results.json")
+        self.assertNotIn("--split", recorded[0])
 
 
 class ParseOneSampleMetaTests(unittest.TestCase):

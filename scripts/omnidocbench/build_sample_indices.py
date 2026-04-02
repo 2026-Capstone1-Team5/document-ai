@@ -68,7 +68,6 @@ def main() -> None:
             "Output JSON can be edited by human and used via --indices-file."
         )
     )
-    parser.add_argument("--split", default="train")
     parser.add_argument(
         "--group-by",
         default="metric_coverage",
@@ -113,7 +112,6 @@ def main() -> None:
 
     selected_all = sorted(set(selected_all))
     payload = {
-        "split": args.split,
         "group_by": args.group_by,
         "per_group": args.per_group,
         "seed": args.seed,

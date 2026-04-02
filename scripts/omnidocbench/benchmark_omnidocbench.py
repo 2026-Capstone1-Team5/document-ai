@@ -332,7 +332,9 @@ def write_report_artifacts(
 
     now = datetime.now(timezone.utc)
     timestamp = now.strftime("%Y-%m-%d-%H-%M-%S")
-    run_id = f"omnidocbench_{report['split']}_limit{report['limit']}_offset{report['offset']}_{timestamp}"
+    run_id = (
+        f"omnidocbench_limit{report['limit']}_offset{report['offset']}_{timestamp}"
+    )
 
     managed_dir = Path(report_dir).resolve()
     managed_dir.mkdir(parents=True, exist_ok=True)
@@ -341,7 +343,6 @@ def write_report_artifacts(
         "run_id": run_id,
         "created_at_utc": now.isoformat(),
         "dataset": report["dataset"],
-        "split": report["split"],
         "limit": report["limit"],
         "offset": report["offset"],
         "language": report["language"],
@@ -369,7 +370,6 @@ def write_report_artifacts(
             "run_id": run_id,
             "created_at_utc": managed_summary["created_at_utc"],
             "dataset": managed_summary["dataset"],
-            "split": managed_summary["split"],
             "limit": managed_summary["limit"],
             "offset": managed_summary["offset"],
             "success_rate": managed_summary["summary"].get("success_rate"),
@@ -390,7 +390,6 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Benchmark parser on OmniDocBench samples."
     )
-    parser.add_argument("--split", default="train")
     parser.add_argument("--limit", type=int, default=5)
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--language", default="en")
@@ -437,7 +436,6 @@ def main() -> None:
         summary = summarize([])
         report = {
             "dataset": "opendatalab/OmniDocBench",
-            "split": args.split,
             "limit": 0,
             "offset": args.offset,
             "language": args.language,
@@ -506,7 +504,6 @@ def main() -> None:
         "dataset": OMNIDOCBENCH_DATASET_REPO_ID,
         "dataset_source": OMNIDOCBENCH_DATASET_SOURCE,
         "dataset_revision": OMNIDOCBENCH_DATASET_REVISION,
-        "split": args.split,
         "limit": wanted_total,
         "offset": args.offset,
         "language": args.language,

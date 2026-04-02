@@ -30,7 +30,7 @@ def main() -> None:
         "--limit", type=int, default=20, help="Number of samples to test"
     )
     parser.add_argument(
-        "--offset", type=int, default=0, help="Start index in train split"
+        "--offset", type=int, default=0, help="Start index in the pinned manifest row set"
     )
     parser.add_argument(
         "--name",
@@ -57,8 +57,6 @@ def main() -> None:
         [
             sys.executable,
             str(repo_root / "scripts" / "omnidocbench" / "benchmark_omnidocbench.py"),
-            "--split",
-            "train",
             "--offset",
             str(args.offset),
             "--limit",

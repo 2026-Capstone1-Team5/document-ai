@@ -113,7 +113,6 @@ def ensure_official_repo(official_repo: Path) -> None:
 
 def ensure_parse_results(
     scripts_dir: Path,
-    split: str,
     offset: int,
     limit: int,
     language: str,
@@ -137,8 +136,6 @@ def ensure_parse_results(
     cmd = [
         sys.executable,
         str(benchmark_script),
-        "--split",
-        split,
         "--offset",
         str(offset),
         "--limit",
@@ -554,7 +551,6 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Run OmniDocBench parse + official end2end(CDM) eval and emit table-ready metrics."
     )
-    parser.add_argument("--split", default="train")
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--limit", type=int, default=1355)
     parser.add_argument("--language", default="en")
@@ -624,7 +620,6 @@ def main() -> None:
 
     parse_results_path = ensure_parse_results(
         scripts_dir=scripts_dir,
-        split=args.split,
         offset=args.offset,
         limit=args.limit,
         language=args.language,

@@ -83,7 +83,6 @@ This is the recommended smoke gate before any paper-facing full run because it:
 ```bash
 uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
 python scripts/omnidocbench/run_omnidocbench_full_eval.py \
-  --split train \
   --offset 0 \
   --limit 1355 \
   --run-root output/omnidocbench_benchmark_full \
@@ -170,6 +169,7 @@ python scripts/omnidocbench/benchmark_omnidocbench.py \
 Important:
 - `indices` now refer to **official `OmniDocBench.json` row indices**, not Hugging Face imagefolder order.
 - This keeps sample selection stable and aligned with the official evaluator.
+- `--split` is intentionally not exposed in the manifest-based benchmark scripts because the pinned `OmniDocBench.json` flow does not carry split metadata.
 
 ## Outputs
 
