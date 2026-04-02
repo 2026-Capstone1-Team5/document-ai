@@ -105,3 +105,9 @@ python3 scripts/document_access.py visual output/document_map.json image_003
 - bounding box
 - image path
 - caption text when available
+
+## OmniDocBench benchmark
+
+See the dedicated guide:
+
+- `scripts/omnidocbench/README.md`

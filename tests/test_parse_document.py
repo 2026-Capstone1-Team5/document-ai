@@ -22,6 +22,17 @@ if _parse_document_spec.loader is None:
     raise RuntimeError("Unable to load parse_document module for tests")
 _parse_document_spec.loader.exec_module(parse_document)
 
+_rasterize_pdf_spec = importlib.util.spec_from_file_location(
+    "rasterize_pdf", str(SCRIPT_DIR / "rasterize_pdf.py")
+)
+if _rasterize_pdf_spec is None:
+    raise RuntimeError("Unable to load rasterize_pdf module for tests")
+
+rasterize_pdf = importlib.util.module_from_spec(_rasterize_pdf_spec)
+if _rasterize_pdf_spec.loader is None:
+    raise RuntimeError("Unable to load rasterize_pdf module for tests")
+_rasterize_pdf_spec.loader.exec_module(rasterize_pdf)
+
 
 class FindComposeFileTests(unittest.TestCase):
     def test_find_compose_file_uses_environment_override(self):
@@ -434,6 +445,31 @@ class LocalMineruRetryTests(unittest.TestCase):
             parse_document.run_local_mineru("in.pdf", "out", "en", {})
 
         self.assertEqual(calls, [False, True])
+
+
+class RasterizePdfTests(unittest.TestCase):
+    def test_rasterize_pdf_writes_output_pdf(self):
+        try:
+            import fitz
+        except ImportError as exc:
+            self.skipTest(f"Rasterize PDF dependencies missing: {exc}")
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            input_pdf = tmp_path / "input.pdf"
+            output_pdf = tmp_path / "output.pdf"
+
+            doc = fitz.open()
+            page = doc.new_page(width=72, height=72)
+            page.insert_text((12, 36), "hello")
+            doc.save(input_pdf)
+            doc.close()
+
+            rasterize_pdf.rasterize_pdf(input_pdf, output_pdf, dpi=72)
+
+            self.assertTrue(output_pdf.exists())
+            with fitz.open(output_pdf) as doc:
+                self.assertEqual(len(doc), 1)
 
 
 if __name__ == "__main__":
