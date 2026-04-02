@@ -20,6 +20,8 @@ This directory contains scripts for MinerU parsing benchmark/evaluation on OmniD
 Notes:
 - The script auto-prepares the official evaluator on first run.
 - Benchmark assets are stored under `benchmark_assets/` (no `/tmp` cache path needed).
+- Official evaluation now uses the pinned dataset manifest (`OmniDocBench.json`) as the source of truth for page identity and records provenance in the summary artifacts.
+- The default pinned dataset revision is `91fe284bbfacfa687959ae3eb00846ca852aa907` (override with `OMNIDOCBENCH_DATASET_REVISION` only if you intentionally want a different paper run).
 
 ## Quick Start (Recommended)
 
@@ -42,6 +44,37 @@ uv run --with datasets --with pillow --with pymupdf --with huggingface_hub pytho
 
 Main output:
 - `output/benchmark_reports/omnidocbench_<name>_summary.md`
+
+## Proven repo-local smoke recipe (all major modules covered)
+
+Generate a deterministic metric-coverage smoke plan (one sample per text/formula/table bucket), then run parse + official eval from repo-local paths:
+
+```bash
+uv run --with huggingface_hub \
+python scripts/omnidocbench/build_sample_indices.py \
+  --per-group 1 \
+  --output output/benchmark_reports/omnidocbench_metric_coverage_smoke_plan.json
+
+uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
+python scripts/omnidocbench/benchmark_omnidocbench.py \
+  --indices-file output/benchmark_reports/omnidocbench_metric_coverage_smoke_plan.json \
+  --run-root output/omnidocbench_metric_coverage_smoke \
+  --report-dir output/benchmark_reports
+
+uv run --with datasets --with pillow --with pymupdf --with huggingface_hub \
+python scripts/omnidocbench/run_omnidocbench_full_eval.py \
+  --skip-parse \
+  --run-root output/omnidocbench_metric_coverage_smoke \
+  --official-repo benchmark_assets/OmniDocBench-official \
+  --run-label metric_coverage_smoke \
+  --output-json output/benchmark_reports/omnidocbench_metric_coverage_smoke_summary.json \
+  --output-md output/benchmark_reports/omnidocbench_metric_coverage_smoke_summary.md
+```
+
+This is the recommended smoke gate before any paper-facing full run because it:
+- uses official GT-row indices (not imagefolder ordering),
+- covers text/formula/table buckets deterministically,
+- fails fast if GT subset generation is empty or requested official metrics are `NaN`.
 
 ## Full Control: Parse + Official Eval
 
@@ -134,9 +167,18 @@ python scripts/omnidocbench/benchmark_omnidocbench.py \
   --report-dir output/benchmark_reports
 ```
 
+Important:
+- `indices` now refer to **official `OmniDocBench.json` row indices**, not Hugging Face imagefolder order.
+- This keeps sample selection stable and aligned with the official evaluator.
+
 ## Outputs
 
 - parse artifacts: `output/omnidocbench_*`
 - managed reports: `output/benchmark_reports/`
   - `*_summary.md`
   - `*_summary.json`
+  - provenance fields include:
+    - official evaluator git ref
+    - dataset source
+    - dataset revision
+    - prediction dir / GT subset / config paths

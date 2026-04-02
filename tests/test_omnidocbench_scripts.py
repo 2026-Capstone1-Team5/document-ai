@@ -188,6 +188,54 @@ class OfficialMetricParsingTests(unittest.TestCase):
 
 
 class OfficialEvalInputTests(unittest.TestCase):
+    def test_build_official_eval_inputs_prefers_official_image_path_from_results(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            official_repo = tmp_path / "official"
+            (official_repo / "demo_data").mkdir(parents=True)
+            (official_repo / "configs").mkdir(parents=True)
+
+            markdown = tmp_path / "plain.md"
+            markdown.write_text("plain output")
+            meta_path = tmp_path / "meta.json"
+            meta_path.write_text(json.dumps({"outputs": {"markdown": str(markdown)}}))
+            results_path = tmp_path / "results.json"
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "results": [
+                            {
+                                "status": "succeeded",
+                                "source_image_ref": "hf://datasets/opendatalab/OmniDocBench@rev/data_diversity.png",
+                                "official_image_path": "images/real_sample.png",
+                                "meta_path": str(meta_path),
+                            }
+                        ]
+                    }
+                )
+            )
+
+            gt_rows = [{"page_info": {"image_path": "images/real_sample.png"}}]
+
+            with mock.patch.object(
+                run_omnidocbench_full_eval,
+                "hf_hub_download",
+                return_value=str(tmp_path / "OmniDocBench.json"),
+            ):
+                (tmp_path / "OmniDocBench.json").write_text(json.dumps(gt_rows))
+                pred_dir, subset_path, _config_path, eval_accounting = (
+                    run_omnidocbench_full_eval.build_official_eval_inputs(
+                        results_path=results_path,
+                        official_repo=official_repo,
+                        run_label="test_official_path",
+                        modules={"text"},
+                    )
+                )
+
+            self.assertTrue((pred_dir / "real_sample.md").exists())
+            self.assertEqual(json.loads(subset_path.read_text()), gt_rows)
+            self.assertEqual(eval_accounting["official_gt_subset_pages"], 1)
+
     def test_build_official_eval_inputs_uses_selected_markdown(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
@@ -238,6 +286,48 @@ class OfficialEvalInputTests(unittest.TestCase):
             self.assertEqual(json.loads(subset_path.read_text()), gt_rows)
             self.assertTrue(config_path.exists())
             self.assertEqual(eval_accounting["copied_prediction_pages"], 1)
+
+    def test_build_official_eval_inputs_raises_when_gt_subset_is_empty(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            official_repo = tmp_path / "official"
+            (official_repo / "demo_data").mkdir(parents=True)
+            (official_repo / "configs").mkdir(parents=True)
+
+            markdown = tmp_path / "plain.md"
+            markdown.write_text("plain output")
+            meta_path = tmp_path / "meta.json"
+            meta_path.write_text(json.dumps({"outputs": {"markdown": str(markdown)}}))
+            results_path = tmp_path / "results.json"
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "results": [
+                            {
+                                "status": "succeeded",
+                                "source_image_ref": "hf://datasets/opendatalab/OmniDocBench@rev/data_diversity.png",
+                                "meta_path": str(meta_path),
+                            }
+                        ]
+                    }
+                )
+            )
+
+            with mock.patch.object(
+                run_omnidocbench_full_eval,
+                "hf_hub_download",
+                return_value=str(tmp_path / "OmniDocBench.json"),
+            ):
+                (tmp_path / "OmniDocBench.json").write_text(json.dumps([]))
+                with self.assertRaises(RuntimeError) as ctx:
+                    run_omnidocbench_full_eval.build_official_eval_inputs(
+                        results_path=results_path,
+                        official_repo=official_repo,
+                        run_label="test_empty_subset",
+                        modules={"text"},
+                    )
+
+        self.assertIn("No ground-truth rows matched", str(ctx.exception))
 
     def test_build_official_eval_inputs_does_not_require_images_path_segment(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -408,6 +498,66 @@ class OfficialRepoPinningTests(unittest.TestCase):
         self.assertIn(run_omnidocbench_full_eval.OMNIDOCBENCH_OFFICIAL_REF, recorded[1])
 
 
+class ProvenanceOutputTests(unittest.TestCase):
+    def test_write_outputs_includes_evaluator_and_dataset_provenance(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            output_json = tmp_path / "summary.json"
+            output_md = tmp_path / "summary.md"
+            parse_results_path = tmp_path / "results.json"
+            metric_path = tmp_path / "metric.json"
+            pred_dir = tmp_path / "pred"
+            subset_path = tmp_path / "subset.json"
+            config_path = tmp_path / "config.yaml"
+            for path in [parse_results_path, metric_path, subset_path, config_path]:
+                path.write_text("{}")
+            pred_dir.mkdir()
+
+            run_omnidocbench_full_eval.write_outputs(
+                output_json=output_json,
+                output_md=output_md,
+                run_label="provenance",
+                parse_results_path=parse_results_path,
+                metric_path=metric_path,
+                pred_dir=pred_dir,
+                subset_path=subset_path,
+                config_path=config_path,
+                table_metrics={
+                    "text_edit_dist": 0.1,
+                    "text_score_pct": 90.0,
+                    "table_teds_raw": 0.8,
+                    "table_teds_pct": 80.0,
+                    "formula_cdm_raw": 0.7,
+                    "formula_cdm_pct": 70.0,
+                    "reading_order_edit_dist": 0.2,
+                    "overall_pct": 80.0,
+                },
+                parse_summary={},
+                eval_accounting={
+                    "attempted_pages": 1,
+                    "parse_succeeded_pages": 1,
+                    "parse_failed_pages": 0,
+                    "copied_prediction_pages": 1,
+                    "official_gt_subset_pages": 1,
+                    "official_eval_coverage_ratio": 1.0,
+                    "official_eval_success_coverage_ratio": 1.0,
+                    "skipped_pages": {},
+                },
+                evaluator_ref="eval-ref-123",
+                dataset_revision="dataset-rev-456",
+                dataset_source="hf://datasets/opendatalab/OmniDocBench",
+            )
+
+            payload = json.loads(output_json.read_text())
+            markdown = output_md.read_text()
+
+        self.assertEqual(payload["official_evaluator_ref"], "eval-ref-123")
+        self.assertEqual(payload["dataset_revision"], "dataset-rev-456")
+        self.assertEqual(payload["dataset_source"], "hf://datasets/opendatalab/OmniDocBench")
+        self.assertIn("Evaluator ref", markdown)
+        self.assertIn("Dataset revision", markdown)
+
+
 class BenchmarkExplicitIndexTests(unittest.TestCase):
     def test_main_raises_when_requested_indices_are_missing(self):
         args = types.SimpleNamespace(
@@ -420,27 +570,6 @@ class BenchmarkExplicitIndexTests(unittest.TestCase):
             report_dir=tempfile.mkdtemp(),
             indices_file=None,
         )
-
-        class FakeImage:
-            def save(self, *_args, **_kwargs):
-                return None
-
-            def convert(self, _mode):
-                return self
-
-        class FakeStreamingDataset:
-            def __iter__(self):
-                yield {"image": FakeImage()}
-
-            def cast_column(self, *_args, **_kwargs):
-                return self
-
-        class FakeRawStreamingDataset:
-            def __iter__(self):
-                yield {"image": {"path": "images/0.png"}}
-
-            def cast_column(self, *_args, **_kwargs):
-                return self
 
         with tempfile.TemporaryDirectory() as tmpdir:
             indices_path = Path(tmpdir) / "indices.json"
@@ -455,12 +584,11 @@ class BenchmarkExplicitIndexTests(unittest.TestCase):
                 ),
                 mock.patch.object(benchmark_omnidocbench, "configure_local_hf_cache"),
                 mock.patch.object(
-                    benchmark_omnidocbench, "load_omnidocbench_gt_map", return_value={}
-                ),
-                mock.patch.object(
                     benchmark_omnidocbench,
-                    "load_dataset",
-                    side_effect=[FakeStreamingDataset(), FakeRawStreamingDataset()],
+                    "load_gt_rows",
+                    return_value=[
+                        {"page_info": {"image_path": "images/0.png"}, "layout_dets": []}
+                    ],
                 ),
                 mock.patch.object(
                     benchmark_omnidocbench,
@@ -511,13 +639,8 @@ class BenchmarkLimitZeroTests(unittest.TestCase):
                 mock.patch.object(benchmark_omnidocbench, "configure_local_hf_cache"),
                 mock.patch.object(
                     benchmark_omnidocbench,
-                    "load_omnidocbench_gt_map",
+                    "load_gt_rows",
                     side_effect=AssertionError("GT map should not load for limit=0"),
-                ),
-                mock.patch.object(
-                    benchmark_omnidocbench,
-                    "load_dataset",
-                    side_effect=AssertionError("Dataset should not load for limit=0"),
                 ),
             ):
                 benchmark_omnidocbench.main()

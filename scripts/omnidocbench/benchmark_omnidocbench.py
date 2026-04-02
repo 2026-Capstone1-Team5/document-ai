@@ -1,6 +1,5 @@
 import argparse
 import json
-import os
 import statistics
 import subprocess
 import sys
@@ -11,30 +10,28 @@ from pathlib import Path
 from difflib import SequenceMatcher
 from json import JSONDecodeError
 
-from datasets import Image, load_dataset
+from PIL import Image
 from huggingface_hub import hf_hub_download
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
 
-def repo_root_from_script() -> Path:
-    return Path(__file__).resolve().parents[2]
+from manifest import (
+    OMNIDOCBENCH_DATASET_REPO_ID,
+    OMNIDOCBENCH_DATASET_REVISION,
+    OMNIDOCBENCH_DATASET_SOURCE,
+    benchmark_assets_root,
+    configure_local_hf_cache,
+    load_gt_rows,
+    make_source_image_ref,
+    official_image_path as gt_official_image_path,
+    repo_image_candidates,
+    repo_root_from_script,
+)
 
 
-def benchmark_assets_root() -> Path:
-    root = repo_root_from_script() / "benchmark_assets"
-    root.mkdir(parents=True, exist_ok=True)
-    return root
-
-
-def configure_local_hf_cache() -> None:
-    assets = benchmark_assets_root()
-    hf_home = assets / "hf_home"
-    hub_cache = hf_home / "hub"
-    datasets_cache = hf_home / "datasets"
-    for p in [hf_home, hub_cache, datasets_cache]:
-        p.mkdir(parents=True, exist_ok=True)
-    os.environ.setdefault("HF_HOME", str(hf_home))
-    os.environ.setdefault("HUGGINGFACE_HUB_CACHE", str(hub_cache))
-    os.environ.setdefault("HF_DATASETS_CACHE", str(datasets_cache))
+load_dataset = None  # legacy compatibility for older tests/patches
 
 
 def percentile(values: list[float], p: float) -> float | None:
@@ -73,33 +70,49 @@ def levenshtein_distance(a: str, b: str) -> int:
     return prev[-1]
 
 
-def load_omnidocbench_gt_map() -> dict[str, str]:
-    json_path = hf_hub_download(
-        repo_id="opendatalab/OmniDocBench",
+def build_gt_text(row: dict) -> str:
+    dets = row.get("layout_dets", [])
+    ordered = sorted(
+        [d for d in dets if d.get("text")],
+        key=lambda d: (
+            d.get("order") is None,
+            d.get("order") if isinstance(d.get("order"), int) else 10**9,
+        ),
+    )
+    return "\n".join(str(d.get("text", "")).strip() for d in ordered if d.get("text"))
+
+
+def resolve_gt_repo_image_path(row: dict) -> str:
+    image_path = gt_official_image_path(row)
+    candidates = repo_image_candidates(image_path)
+    last_error: Exception | None = None
+    for candidate in candidates:
+        try:
+            hf_hub_download(
+                repo_id=OMNIDOCBENCH_DATASET_REPO_ID,
+                repo_type="dataset",
+                revision=OMNIDOCBENCH_DATASET_REVISION,
+                filename=candidate,
+                local_dir=str(benchmark_assets_root() / "omnidocbench_hf"),
+            )
+            return candidate
+        except Exception as exc:  # pragma: no cover - networked fallback
+            last_error = exc
+            continue
+    raise FileNotFoundError(
+        f"Unable to resolve dataset image for GT path={image_path!r}"
+    ) from last_error
+
+
+def load_manifest_image(repo_image_path: str) -> Image.Image:
+    local_path = hf_hub_download(
+        repo_id=OMNIDOCBENCH_DATASET_REPO_ID,
         repo_type="dataset",
-        filename="OmniDocBench.json",
+        revision=OMNIDOCBENCH_DATASET_REVISION,
+        filename=repo_image_path,
         local_dir=str(benchmark_assets_root() / "omnidocbench_hf"),
     )
-    rows = json.loads(Path(json_path).read_text())
-    gt_map: dict[str, str] = {}
-    for row in rows:
-        image_path = row.get("page_info", {}).get("image_path")
-        if not image_path:
-            continue
-        dets = row.get("layout_dets", [])
-        ordered = sorted(
-            [d for d in dets if d.get("text")],
-            key=lambda d: (
-                d.get("order") is None,
-                d.get("order") if isinstance(d.get("order"), int) else 10**9,
-            ),
-        )
-        gt_text = "\n".join(
-            str(d.get("text", "")).strip() for d in ordered if d.get("text")
-        )
-        gt_map[Path(image_path).name] = gt_text
-        gt_map[Path(image_path).stem] = gt_text
-    return gt_map
+    return Image.open(local_path)
 
 
 def resolve_markdown_output(meta: dict) -> tuple[Path | None, str | None]:
@@ -126,6 +139,8 @@ def parse_one_sample(
     run_root: Path,
     language: str,
     timeout_seconds: int,
+    official_image_path: str | None = None,
+    repo_image_path: str | None = None,
 ) -> dict:
     sample_name = f"{index:05d}"
     sample_dir = run_root / sample_name
@@ -216,6 +231,8 @@ def parse_one_sample(
         "index": index,
         "sample_name": sample_name,
         "source_image_ref": sample_ref_path,
+        "official_image_path": official_image_path,
+        "repo_image_path": repo_image_path,
         "status": status,
         "failure_reason": failure_reason,
         "elapsed_seconds": round(elapsed, 3),
@@ -328,6 +345,8 @@ def write_report_artifacts(
         "limit": report["limit"],
         "offset": report["offset"],
         "language": report["language"],
+        "dataset_revision": report.get("dataset_revision"),
+        "dataset_source": report.get("dataset_source"),
         "run_root": report["run_root"],
         "summary": report["summary"],
         "source_results_json": str(results_path.resolve()),
@@ -441,43 +460,40 @@ def main() -> None:
         print(f"Managed registry:{registry_path}")
         return
 
-    gt_map = load_omnidocbench_gt_map()
-
-    dataset = load_dataset("opendatalab/OmniDocBench", split=args.split, streaming=True)
-    raw_dataset = load_dataset(
-        "opendatalab/OmniDocBench", split=args.split, streaming=True
-    )
-    raw_dataset = raw_dataset.cast_column("image", Image(decode=False))
+    rows = load_gt_rows()
 
     results: list[dict] = []
-    selected_count = 0
-    wanted_total = len(explicit_indices) if explicit_indices is not None else args.limit
-    explicit_set = set(explicit_indices or [])
+    if explicit_indices is not None:
+        max_index = len(rows) - 1
+        missing_indices = [idx for idx in explicit_indices if idx < 0 or idx > max_index]
+        if missing_indices:
+            raise ValueError(
+                f"Missing requested indices from {args.indices_file}: {missing_indices}"
+            )
+        selected_indices = explicit_indices
+    else:
+        wanted_end = min(args.offset + args.limit, len(rows))
+        selected_indices = list(range(args.offset, wanted_end))
 
-    wanted_end = args.offset + args.limit
-    for idx, (sample, raw_sample) in enumerate(zip(dataset, raw_dataset)):
-        if explicit_indices is not None:
-            if idx not in explicit_set:
-                continue
-        else:
-            if idx < args.offset:
-                continue
-            if idx >= wanted_end:
-                break
-        sample_ref_path = raw_sample.get("image", {}).get("path")
-        sample_basename = Path(sample_ref_path).name if sample_ref_path else ""
-        sample_stem = Path(sample_ref_path).stem if sample_ref_path else ""
-        gt_text = gt_map.get(sample_basename) or gt_map.get(sample_stem)
-        selected_count += 1
+    wanted_total = len(selected_indices)
+    for selected_count, idx in enumerate(selected_indices, start=1):
+        row = rows[idx]
+        official_image_path = gt_official_image_path(row)
+        repo_image_path = resolve_gt_repo_image_path(row)
+        gt_text = build_gt_text(row)
+        sample_ref_path = make_source_image_ref(repo_image_path)
+        image = load_manifest_image(repo_image_path)
         print(f"[{selected_count}/{wanted_total}] parsing sample index={idx}")
         result = parse_one_sample(
-            sample=sample,
+            sample={"image": image},
             sample_ref_path=sample_ref_path,
             gt_text=gt_text,
             index=idx,
             run_root=run_root,
             language=args.language,
             timeout_seconds=args.timeout_seconds,
+            official_image_path=official_image_path,
+            repo_image_path=repo_image_path,
         )
         results.append(result)
         print(
@@ -485,20 +501,11 @@ def main() -> None:
             f"mode={result['parse_mode']} sim={result['markdown_similarity']} "
             f"cer={result['markdown_cer']} reason={result['failure_reason']}"
         )
-        if explicit_indices is not None and selected_count >= wanted_total:
-            break
-
-    if explicit_indices is not None:
-        found_indices = {result["index"] for result in results}
-        missing_indices = sorted(explicit_set - found_indices)
-        if missing_indices:
-            raise ValueError(
-                f"Missing requested indices from {args.indices_file}: {missing_indices}"
-            )
-
     summary = summarize(results)
     report = {
-        "dataset": "opendatalab/OmniDocBench",
+        "dataset": OMNIDOCBENCH_DATASET_REPO_ID,
+        "dataset_source": OMNIDOCBENCH_DATASET_SOURCE,
+        "dataset_revision": OMNIDOCBENCH_DATASET_REVISION,
         "split": args.split,
         "limit": wanted_total,
         "offset": args.offset,
