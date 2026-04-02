@@ -1,54 +1,22 @@
 import argparse
 import json
-import os
 import random
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from datasets import Image, load_dataset
-from huggingface_hub import hf_hub_download
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
 
-
-def repo_root_from_script() -> Path:
-    return Path(__file__).resolve().parents[2]
-
-
-def benchmark_assets_root() -> Path:
-    root = repo_root_from_script() / "benchmark_assets"
-    root.mkdir(parents=True, exist_ok=True)
-    return root
-
-
-def configure_local_hf_cache() -> None:
-    assets = benchmark_assets_root()
-    hf_home = assets / "hf_home"
-    hub_cache = hf_home / "hub"
-    datasets_cache = hf_home / "datasets"
-    for p in [hf_home, hub_cache, datasets_cache]:
-        p.mkdir(parents=True, exist_ok=True)
-    os.environ.setdefault("HF_HOME", str(hf_home))
-    os.environ.setdefault("HUGGINGFACE_HUB_CACHE", str(hub_cache))
-    os.environ.setdefault("HF_DATASETS_CACHE", str(datasets_cache))
-
-
-def load_gt_rows() -> list[dict]:
-    gt_path = Path(
-        hf_hub_download(
-            repo_id="opendatalab/OmniDocBench",
-            repo_type="dataset",
-            filename="OmniDocBench.json",
-            local_dir=str(benchmark_assets_root() / "omnidocbench_hf"),
-        )
-    )
-    return json.loads(gt_path.read_text())
+from manifest import configure_local_hf_cache, load_gt_rows, official_image_path
 
 
 def load_gt_attr_map(rows: list[dict], group_by: str) -> dict[str, str]:
     out: dict[str, str] = {}
     for row in rows:
         page_info = row.get("page_info", {})
-        img_path = page_info.get("image_path", "")
-        basename = Path(img_path).name
+        basename = Path(official_image_path(row)).name
         attrs = page_info.get("page_attribute", {}) or {}
         value = attrs.get(group_by, "unknown")
         if value in (None, ""):
@@ -78,7 +46,7 @@ def load_metric_coverage_map(rows: list[dict]) -> dict[str, str]:
     out: dict[str, str] = {}
     for row in rows:
         page_info = row.get("page_info", {})
-        basename = Path(page_info.get("image_path", "")).name
+        basename = Path(official_image_path(row)).name
         cats = Counter(d.get("category_type") for d in row.get("layout_dets", []))
         has_text = any(cats.get(c, 0) > 0 for c in text_cats)
         has_formula = cats.get("equation_isolated", 0) > 0
@@ -100,7 +68,6 @@ def main() -> None:
             "Output JSON can be edited by human and used via --indices-file."
         )
     )
-    parser.add_argument("--split", default="train")
     parser.add_argument(
         "--group-by",
         default="metric_coverage",
@@ -121,13 +88,10 @@ def main() -> None:
     else:
         attr_map = load_gt_attr_map(rows, args.group_by)
 
-    raw = load_dataset("opendatalab/OmniDocBench", split=args.split, streaming=True)
-    raw = raw.cast_column("image", Image(decode=False))
-
     group_to_indices: dict[str, list[int]] = defaultdict(list)
     index_to_path: dict[int, str] = {}
-    for idx, row in enumerate(raw):
-        img_path = row.get("image", {}).get("path", "")
+    for idx, row in enumerate(rows):
+        img_path = official_image_path(row)
         basename = Path(img_path).name
         group = attr_map.get(basename, "unknown")
         group_to_indices[group].append(idx)
@@ -148,7 +112,6 @@ def main() -> None:
 
     selected_all = sorted(set(selected_all))
     payload = {
-        "split": args.split,
         "group_by": args.group_by,
         "per_group": args.per_group,
         "seed": args.seed,

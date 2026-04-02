@@ -10,35 +10,24 @@ from pathlib import Path
 
 from huggingface_hub import hf_hub_download
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from manifest import (
+    OMNIDOCBENCH_DATASET_REPO_ID,
+    OMNIDOCBENCH_DATASET_REVISION,
+    OMNIDOCBENCH_DATASET_SOURCE,
+    benchmark_assets_root,
+    configure_local_hf_cache,
+    repo_root_from_script,
+)
+
 
 OMNIDOCBENCH_OFFICIAL_REF = os.environ.get(
     "OMNIDOCBENCH_OFFICIAL_REF",
     "f6fc788d99a6f443a4daefd5218f997076e30f18",
 )
-
-
-def repo_root_from_script() -> Path:
-    return Path(__file__).resolve().parents[2]
-
-
-def benchmark_assets_root() -> Path:
-    root = repo_root_from_script() / "benchmark_assets"
-    root.mkdir(parents=True, exist_ok=True)
-    return root
-
-
-def configure_local_hf_cache() -> None:
-    assets = benchmark_assets_root()
-    hf_home = assets / "hf_home"
-    hub_cache = hf_home / "hub"
-    datasets_cache = hf_home / "datasets"
-    for p in [hf_home, hub_cache, datasets_cache]:
-        p.mkdir(parents=True, exist_ok=True)
-    os.environ.setdefault("HF_HOME", str(hf_home))
-    os.environ.setdefault("HUGGINGFACE_HUB_CACHE", str(hub_cache))
-    os.environ.setdefault("HF_DATASETS_CACHE", str(datasets_cache))
-
-
 def resolve_official_repo_default() -> str:
     # Cross-platform default; users can override via CLI or env var.
     return os.environ.get(
@@ -124,7 +113,6 @@ def ensure_official_repo(official_repo: Path) -> None:
 
 def ensure_parse_results(
     scripts_dir: Path,
-    split: str,
     offset: int,
     limit: int,
     language: str,
@@ -148,8 +136,6 @@ def ensure_parse_results(
     cmd = [
         sys.executable,
         str(benchmark_script),
-        "--split",
-        split,
         "--offset",
         str(offset),
         "--limit",
@@ -241,10 +227,12 @@ def build_official_eval_inputs(
     pred_dir.mkdir(parents=True, exist_ok=True)
 
     pred_basenames: set[str] = set()
+    pred_exact_paths: set[str] = set()
     copied = 0
     skip_reasons = {
         "parse_failed": 0,
         "missing_source_image_ref": 0,
+        "missing_official_image_path": 0,
         "missing_meta": 0,
         "invalid_meta_json": 0,
         "missing_markdown": 0,
@@ -257,8 +245,17 @@ def build_official_eval_inputs(
         if not src:
             skip_reasons["missing_source_image_ref"] += 1
             continue
-        base = Path(src).name
-        stem = Path(src).stem
+        official_image_path = str(row.get("official_image_path") or "").replace(
+            "\\", "/"
+        )
+        if official_image_path:
+            base = Path(official_image_path).name
+            stem = Path(official_image_path).stem
+            pred_exact_paths.add(official_image_path)
+        else:
+            base = Path(src).name
+            stem = Path(src).stem
+            skip_reasons["missing_official_image_path"] += 1
         meta_path = Path(row.get("meta_path") or "")
         if not meta_path.exists():
             skip_reasons["missing_meta"] += 1
@@ -283,8 +280,9 @@ def build_official_eval_inputs(
 
     gt_json_path = Path(
         hf_hub_download(
-            repo_id="opendatalab/OmniDocBench",
+            repo_id=OMNIDOCBENCH_DATASET_REPO_ID,
             repo_type="dataset",
+            revision=OMNIDOCBENCH_DATASET_REVISION,
             filename="OmniDocBench.json",
             local_dir=str(benchmark_assets_root() / "omnidocbench_hf"),
         )
@@ -293,8 +291,17 @@ def build_official_eval_inputs(
     subset = [
         row
         for row in gt_rows
-        if Path(row.get("page_info", {}).get("image_path", "")).name in pred_basenames
+        if (
+            str(row.get("page_info", {}).get("image_path", "")).replace("\\", "/")
+            in pred_exact_paths
+            or Path(row.get("page_info", {}).get("image_path", "")).name
+            in pred_basenames
+        )
     ]
+    if not subset:
+        raise RuntimeError(
+            "No ground-truth rows matched copied predictions for official evaluation"
+        )
     subset_path = official_repo / "demo_data" / f"OmniDocBench_subset_{run_label}.json"
     subset_path.write_text(json.dumps(subset, ensure_ascii=False, indent=2))
 
@@ -378,7 +385,6 @@ def run_official_eval(official_repo: Path, config_path: Path) -> Path:
     ]
     run_cmd(cmd, cwd=official_repo, env=env)
 
-    config = json.loads(json.dumps({}))  # keep linter happy without yaml dep
     # save_name rule in pdf_validation.py:
     # basename(prediction.data_path) + "_" + match_method
     pred_dir_name = None
@@ -450,6 +456,25 @@ def compute_table_metrics(metric_path: Path) -> dict:
     }
 
 
+def validate_requested_metrics(table_metrics: dict, modules: set[str]) -> None:
+    required_keys = {
+        "text": "text_edit_dist",
+        "formula": "formula_cdm_pct",
+        "table": "table_teds_pct",
+        "reading_order": "reading_order_edit_dist",
+    }
+    missing = [
+        module
+        for module, metric_key in required_keys.items()
+        if module in modules and table_metrics.get(metric_key) is None
+    ]
+    if missing:
+        raise RuntimeError(
+            "Official metrics missing or NaN for requested modules: "
+            + ", ".join(sorted(missing))
+        )
+
+
 def write_outputs(
     output_json: Path,
     output_md: Path,
@@ -462,6 +487,9 @@ def write_outputs(
     table_metrics: dict,
     parse_summary: dict,
     eval_accounting: dict,
+    evaluator_ref: str,
+    dataset_revision: str,
+    dataset_source: str,
 ) -> None:
     now = datetime.now(timezone.utc).isoformat()
     payload = {
@@ -472,6 +500,9 @@ def write_outputs(
         "official_prediction_dir": str(pred_dir.resolve()),
         "official_gt_subset_json": str(subset_path.resolve()),
         "official_config_yaml": str(config_path.resolve()),
+        "official_evaluator_ref": evaluator_ref,
+        "dataset_revision": dataset_revision,
+        "dataset_source": dataset_source,
         "parse_summary": parse_summary,
         "eval_accounting": eval_accounting,
         "table_metrics": table_metrics,
@@ -501,6 +532,9 @@ def write_outputs(
             f"- Prediction dir: `{pred_dir}`",
             f"- GT subset: `{subset_path}`",
             f"- Config: `{config_path}`",
+            f"- Evaluator ref: `{evaluator_ref}`",
+            f"- Dataset revision: `{dataset_revision}`",
+            f"- Dataset source: `{dataset_source}`",
             f"- Attempted pages: `{eval_accounting['attempted_pages']}`",
             f"- Parse succeeded pages: `{eval_accounting['parse_succeeded_pages']}`",
             f"- Copied prediction pages: `{eval_accounting['copied_prediction_pages']}`",
@@ -517,7 +551,6 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Run OmniDocBench parse + official end2end(CDM) eval and emit table-ready metrics."
     )
-    parser.add_argument("--split", default="train")
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--limit", type=int, default=1355)
     parser.add_argument("--language", default="en")
@@ -587,7 +620,6 @@ def main() -> None:
 
     parse_results_path = ensure_parse_results(
         scripts_dir=scripts_dir,
-        split=args.split,
         offset=args.offset,
         limit=args.limit,
         language=args.language,
@@ -609,6 +641,7 @@ def main() -> None:
         official_repo=official_repo, config_path=config_path
     )
     table_metrics = compute_table_metrics(metric_path=metric_path)
+    validate_requested_metrics(table_metrics=table_metrics, modules=modules)
 
     write_outputs(
         output_json=output_json,
@@ -622,6 +655,9 @@ def main() -> None:
         table_metrics=table_metrics,
         parse_summary=parse_payload.get("summary", {}),
         eval_accounting=eval_accounting,
+        evaluator_ref=OMNIDOCBENCH_OFFICIAL_REF,
+        dataset_revision=OMNIDOCBENCH_DATASET_REVISION,
+        dataset_source=OMNIDOCBENCH_DATASET_SOURCE,
     )
 
     print("\n=== OmniDocBench Table Metrics ===")
