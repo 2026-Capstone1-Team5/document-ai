@@ -351,7 +351,7 @@ class SimpleWrapperTests(unittest.TestCase):
     def test_repo_root_from_script_points_to_apps_ai_root(self):
         repo_root = simple_omnidocbench_test.repo_root_from_script()
 
-        self.assertEqual(repo_root.name, "ai")
+        self.assertEqual(repo_root, SCRIPT_DIR.parent)
         self.assertEqual(repo_root / "scripts" / "omnidocbench", OMNIDOCBENCH_DIR)
 
     def test_format_metric_returns_na_for_missing_values(self):
