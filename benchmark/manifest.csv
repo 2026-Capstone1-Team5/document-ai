@@ -26,3 +26,7 @@ benchmark/pdfs/kr_report_bupyeong_economy.pdf,ko,digital,yes,no,yes,public Korea
 benchmark/pdfs/kr_report_jove_manual.pdf,ko,digital,yes,no,yes,public Korean platform usage manual
 benchmark/pdfs/kr_report_digital_textbook.pdf,ko,digital,yes,no,yes,public Korean education report on digital textbooks
 benchmark/pdfs/kr_journal_jip_1404_08.pdf,ko,digital,yes,no,yes,public Korean journal article
+benchmark/pdfs/kr_receipt_card_medical_clinic.pdf,ko,scanned,no,no,no,image-first Korean card receipt / clinic-related payment slip
+benchmark/pdfs/kr_business_welding_service_flyer.pdf,ko,scanned,no,no,no,image-first Korean welding-service business sheet / flyer
+benchmark/pdfs/kr_receipt_bookstore_card_slip.pdf,ko,scanned,no,no,no,image-first Korean bookstore purchase receipt with card approval block
+benchmark/pdfs/kr_poster_sns_supporters_recruitment_2022.pdf,ko,scanned,no,no,yes,image-first Korean recruitment poster for 2022 SNS supporters / youth reporters
