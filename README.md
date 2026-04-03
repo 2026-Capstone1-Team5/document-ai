@@ -158,7 +158,7 @@ For the current paper-ready classifier-reliability experiment, use the controlle
   - `philschmid/ocr-invoice-data` (HF): 3
 - role: this is a **controlled harmful-text-layer evidence set**, not a general-purpose benchmark
 
-Each document is built from a frozen receipt/invoice example by keeping the original gold target,
+Each document is built from a frozen receipt/invoice example in `benchmark/manifests/paper_routing_source_manifest.jsonl` by keeping the original gold target,
 placing the document image on a larger page, and overlaying an invisible but extractable harmful
 text layer. The goal is to test whether MinerU's preprocessing classifier can still choose the text path
 when its own observable thresholds look acceptable.

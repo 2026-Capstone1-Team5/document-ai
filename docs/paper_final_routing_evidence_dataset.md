@@ -15,7 +15,7 @@ It states a **directly observed classifier unreliability phenomenon** under a re
 
 ### Source population
 The dataset is derived from the already frozen receipt/invoice rows in:
-- `benchmark/manifests/paper_ood_main_manifest.jsonl`
+- `benchmark/manifests/paper_routing_source_manifest.jsonl`
 
 ### Final routing-evidence manifest
 - `benchmark/manifests/paper_routing_evidence_manifest.jsonl`

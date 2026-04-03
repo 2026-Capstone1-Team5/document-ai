@@ -12,7 +12,7 @@ import fitz
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPT_DIR = Path(__file__).resolve().parent
-DEFAULT_SOURCE_MANIFEST = REPO_ROOT / "benchmark/manifests/paper_ood_main_manifest.jsonl"
+DEFAULT_SOURCE_MANIFEST = REPO_ROOT / "benchmark/manifests/paper_routing_source_manifest.jsonl"
 DEFAULT_OUTPUT_MANIFEST = REPO_ROOT / "benchmark/manifests/paper_routing_evidence_manifest.jsonl"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "benchmark/paper_ood/derived/routing_evidence"
 DEFAULT_METADATA_DIR = REPO_ROOT / "benchmark/paper_ood/metadata/routing_evidence"
