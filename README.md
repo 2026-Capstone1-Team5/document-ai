@@ -111,3 +111,97 @@ python3 scripts/document_access.py visual output/document_map.json image_003
 See the dedicated guide:
 
 - `scripts/omnidocbench/README.md`
+
+## Paper routing-evidence experiment
+
+For the current paper-ready classifier-reliability experiment, use the controlled routing-evidence set documented in:
+
+- `docs/paper_final_routing_evidence_dataset.md`
+- `docs/paper_routing_claim_guardrails.md`
+
+### Dataset
+
+- manifest: `benchmark/manifests/paper_routing_evidence_manifest.jsonl`
+- size: **13 documents**
+  - `receipt = 10`
+  - `invoice = 3`
+- source breakdown:
+  - `jsdnrs/ICDAR2019-SROIE` (HF): 6
+  - `naver-clova-ix/cord-v2` (HF): 4
+  - `philschmid/ocr-invoice-data` (HF): 3
+- role: this is a **controlled harmful-text-layer evidence set**, not a general-purpose benchmark
+
+Each document is built from a frozen receipt/invoice example by keeping the original gold target,
+placing the document image on a larger page, and overlaying an invisible but extractable harmful
+text layer. The goal is to test whether MinerU's preprocessing classifier can still choose the text path
+when its own observable thresholds look acceptable.
+
+### Reproduction
+
+Materialize the dataset:
+
+```bash
+python3 scripts/materialize_paper_routing_evidence_dataset.py --max-docs 13 \
+  > output/benchmark_reports/paper_routing_evidence_materialization_report.json
+```
+
+Run the benchmark:
+
+```bash
+python3 scripts/paper_ood_benchmark.py \
+  --manifest benchmark/manifests/paper_routing_evidence_manifest.jsonl \
+  --run-root output/paper_routing_evidence_full \
+  --report-dir output/benchmark_reports \
+  --variants original,rasterized,auto \
+  --timeout-seconds 900
+```
+
+Score the run:
+
+```bash
+python3 scripts/score_paper_ood_results.py \
+  --results-json output/paper_routing_evidence_full/results.json \
+  --output-json output/benchmark_reports/paper_routing_evidence_full_scored.json
+```
+
+Observe direct classifier behavior:
+
+```bash
+python3 scripts/observe_paper_ood_routing.py \
+  --manifest benchmark/manifests/paper_routing_evidence_manifest.jsonl \
+  --scored-json output/benchmark_reports/paper_routing_evidence_full_scored.json \
+  --output-json output/benchmark_reports/paper_routing_evidence_observation_scored.json
+```
+
+Build the paper-facing claim bundle:
+
+```bash
+python3 scripts/build_paper_claim_evidence.py \
+  --routing-json output/benchmark_reports/paper_routing_evidence_observation_scored.json \
+  --scored-json output/benchmark_reports/paper_routing_evidence_full_scored.json \
+  --output-json output/benchmark_reports/paper_routing_evidence_claim_evidence.json \
+  --output-md output/benchmark_reports/paper_routing_evidence_claim_evidence.md
+```
+
+### Current result snapshot
+
+From the current committed evidence bundle:
+
+- `classify() = txt`: **13 / 13**
+- classifier-side text-path acceptance: **13 / 13**
+- `claim_mode`: `controlled_classifier_unreliability_supported`
+
+Variant means:
+
+| variant | mean primary score | mean CER |
+| --- | ---: | ---: |
+| original | 0.1266 | 3.4215 |
+| rasterized | 0.2089 | 0.8887 |
+| auto | 0.2009 | 0.8963 |
+
+Interpretation:
+
+- this README section documents a **controlled mechanism test**
+- it is strong enough to support the narrow claim that MinerU's classifier can be unreliable under
+  harmful-text-layer conditions
+- it is **not** evidence that every real-world receipt failure shares the same cause
