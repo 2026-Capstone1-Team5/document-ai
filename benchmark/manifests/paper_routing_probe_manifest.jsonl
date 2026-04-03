@@ -1,0 +1,5 @@
+{"doc_id":"probe-researchpaper-0001","input_pdf":"benchmark/pdfs/sample1_researchpaper.pdf","subgroup":"structured_control","source_bucket":"local:benchmark/sample1_researchpaper"}
+{"doc_id":"probe-receipt-0001","input_pdf":"benchmark/pdfs/sample2_reciept.pdf","subgroup":"receipt","source_bucket":"local:benchmark/sample2_reciept"}
+{"doc_id":"probe-invoice-0001","input_pdf":"benchmark/pdfs/sample3_invoice.pdf","subgroup":"invoice","source_bucket":"local:benchmark/sample3_invoice"}
+{"doc_id":"probe-bankstatement-0001","input_pdf":"benchmark/pdfs/sample5_bankstatement.pdf","subgroup":"mixed_layout","source_bucket":"local:benchmark/sample5_bankstatement"}
+{"doc_id":"probe-equations-0001","input_pdf":"benchmark/pdfs/sample6_equations.pdf","subgroup":"structured_control","source_bucket":"local:benchmark/sample6_equations"}
