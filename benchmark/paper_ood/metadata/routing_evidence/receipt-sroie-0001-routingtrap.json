@@ -1,0 +1,30 @@
+{
+  "doc_id": "receipt-sroie-0001-routingtrap",
+  "base_doc_id": "receipt-sroie-0001",
+  "donor_doc_id": "receipt-sroie-0002",
+  "image_path": "benchmark/paper_ood/raw/receipt-sroie-0001.png",
+  "output_pdf": "benchmark/paper_ood/derived/routing_evidence/receipt-sroie-0001-routingtrap.pdf",
+  "selected_image_scale": 0.72,
+  "harmful_text_preview": "UNDMH GUFT & HYMQ DQCY\n86/87/9785\n94, JMLMN DQDMP 80, TMMMN JYHYR JMYM, 58877 JYHYR BMHRA, JYHYR.\n37.07\nUNDMH GUFT & HYMQ DQCY\n86/87/9785\n94, JMLMN DQDMP 80, TMMMN JYHYR JMYM, 58877 JYHYR BMHRA, JYHYR.\n37.07\nUNDMH GUFT & HYMQ DQCY\n86/87/9785\n94, JMLMN DQDMP 80, TMMMN JYHYR JMYM, 58877 JYHYR BMHRA, JYHYR.\n37.07\nUNDMH GUFT & HYMQ DQCY\n86/87/9785\n94, JMLMN DQDMP 80, TMMMN JYHYR JMYM, 58877 JYHYR BMHR",
+  "harmful_text_chars": 1871,
+  "observation": {
+    "classify_result": "txt",
+    "page_count": 1,
+    "pages_checked": 1,
+    "avg_cleaned_chars_per_page": 1548.0,
+    "cid_char_ratio": 0.0,
+    "invalid_chars_detected": false,
+    "high_image_coverage_ratio": 0.0,
+    "classifier_signal_thresholds": {
+      "chars_per_page_min": 50,
+      "invalid_char_ratio_max": 0.05,
+      "image_coverage_ratio_max": 0.8
+    },
+    "classifier_signal_status": {
+      "chars_threshold_passed": true,
+      "invalid_ratio_threshold_passed": true,
+      "image_coverage_threshold_passed": true
+    },
+    "classifier_signal_accepts_text_path": true
+  }
+}

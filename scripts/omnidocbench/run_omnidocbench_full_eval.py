@@ -117,6 +117,7 @@ def ensure_parse_results(
     limit: int,
     language: str,
     timeout_seconds: int,
+    mode: str,
     run_root: Path,
     report_dir: Path,
     skip_parse: bool,
@@ -142,6 +143,8 @@ def ensure_parse_results(
         str(limit),
         "--language",
         language,
+        "--mode",
+        mode,
         "--timeout-seconds",
         str(timeout_seconds),
         "--run-root",
@@ -479,6 +482,7 @@ def write_outputs(
     output_json: Path,
     output_md: Path,
     run_label: str,
+    requested_mode: str,
     parse_results_path: Path,
     metric_path: Path,
     pred_dir: Path,
@@ -494,6 +498,7 @@ def write_outputs(
     now = datetime.now(timezone.utc).isoformat()
     payload = {
         "run_label": run_label,
+        "requested_mode": requested_mode,
         "created_at_utc": now,
         "source_parse_results_json": str(parse_results_path.resolve()),
         "official_metric_json": str(metric_path.resolve()),
@@ -528,6 +533,7 @@ def write_outputs(
             ),
             "",
             f"- Parse results: `{parse_results_path}`",
+            f"- Requested mode: `{requested_mode}`",
             f"- Official metric: `{metric_path}`",
             f"- Prediction dir: `{pred_dir}`",
             f"- GT subset: `{subset_path}`",
@@ -555,6 +561,12 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=1355)
     parser.add_argument("--language", default="en")
     parser.add_argument("--timeout-seconds", type=int, default=900)
+    parser.add_argument(
+        "--mode",
+        default="auto",
+        choices=["auto", "normal", "rasterized", "page_adaptive"],
+        help="Parser variant to use for the parse step.",
+    )
     parser.add_argument(
         "--run-root",
         default="output/omnidocbench_benchmark_full",
@@ -624,6 +636,7 @@ def main() -> None:
         limit=args.limit,
         language=args.language,
         timeout_seconds=args.timeout_seconds,
+        mode=args.mode,
         run_root=run_root,
         report_dir=report_dir,
         skip_parse=args.skip_parse,
@@ -647,6 +660,7 @@ def main() -> None:
         output_json=output_json,
         output_md=output_md,
         run_label=args.run_label,
+        requested_mode=args.mode,
         parse_results_path=parse_results_path,
         metric_path=metric_path,
         pred_dir=pred_dir,

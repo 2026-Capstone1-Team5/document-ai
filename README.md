@@ -111,3 +111,125 @@ python3 scripts/document_access.py visual output/document_map.json image_003
 See the dedicated guide:
 
 - `scripts/omnidocbench/README.md`
+
+## Structured / unstructured benchmark
+
+The main paper benchmark now uses a **flat PDF corpus** under `benchmark/pdfs/`, with document grouping driven by `benchmark/manifest.csv` metadata rather than directory names.
+
+- source of truth: `benchmark/manifest.csv`
+- derived manifest: `benchmark/manifests/structured_unstructured_benchmark_manifest.jsonl`
+- grouping rule: `digital_type=digital -> structured`, `digital_type=scanned -> unstructured`
+
+Build the manifest from the CSV:
+
+```bash
+python3 scripts/build_structured_benchmark_manifest.py \
+  --output benchmark/manifests/structured_unstructured_benchmark_manifest.jsonl
+```
+
+Run the benchmark across `original`, `rasterized`, and `auto`:
+
+```bash
+python3 scripts/benchmark_structured_unstructured.py \
+  --manifest benchmark/manifests/structured_unstructured_benchmark_manifest.jsonl \
+  --run-root output/structured_unstructured_benchmark \
+  --output-json output/benchmark_reports/structured_unstructured_results.json \
+  --output-summary output/benchmark_reports/structured_unstructured_summary.json
+```
+
+This benchmark is observational: it compares parse success, runtime, and markdown availability/size across the structured and unstructured groups without requiring gold labels for every PDF.
+
+## Paper routing-evidence experiment
+
+For the stronger classifier-reliability claim in the paper, use the controlled routing-evidence workflow documented in:
+
+- `docs/paper_final_routing_evidence_dataset.md`
+- `docs/paper_routing_claim_guardrails.md`
+
+### Dataset
+
+- source of truth: `benchmark/manifest.csv` (receipt/invoice rows are filtered from this CSV at materialization time)
+- size: **13 documents**
+  - `receipt = 10`
+  - `invoice = 3`
+- source breakdown:
+  - `jsdnrs/ICDAR2019-SROIE` (HF): 6
+  - `naver-clova-ix/cord-v2` (HF): 4
+  - `philschmid/ocr-invoice-data` (HF): 3
+- role: this is a **controlled harmful-text-layer evidence set**, not a replacement for the main benchmark
+
+Each document is built from frozen receipt/invoice rows in `benchmark/manifest.csv` plus the matching `benchmark/paper_ood/metadata/*.source.json` and gold files by keeping the original gold target,
+placing the document image on a larger page, and overlaying an invisible but extractable harmful
+text layer. The goal is to test whether MinerU's preprocessing classifier can still choose the text path
+when its own observable thresholds look acceptable.
+
+### Reproduction
+
+Materialize the dataset:
+
+```bash
+python3 scripts/materialize_paper_routing_evidence_dataset.py --max-docs 13 \
+  --output-manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
+  > output/benchmark_reports/paper_routing_evidence_materialization_report.json
+```
+
+Run the benchmark:
+
+```bash
+python3 scripts/paper_ood_benchmark.py \
+  --manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
+  --run-root output/paper_routing_evidence_full \
+  --report-dir output/benchmark_reports \
+  --variants original,rasterized,auto \
+  --timeout-seconds 900
+```
+
+Score the run:
+
+```bash
+python3 scripts/score_paper_ood_results.py \
+  --results-json output/paper_routing_evidence_full/results.json \
+  --output-json output/benchmark_reports/paper_routing_evidence_full_scored.json
+```
+
+Observe direct classifier behavior:
+
+```bash
+python3 scripts/observe_paper_ood_routing.py \
+  --manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
+  --scored-json output/benchmark_reports/paper_routing_evidence_full_scored.json \
+  --output-json output/benchmark_reports/paper_routing_evidence_observation_scored.json
+```
+
+Build the paper-facing claim bundle:
+
+```bash
+python3 scripts/build_paper_claim_evidence.py \
+  --routing-json output/benchmark_reports/paper_routing_evidence_observation_scored.json \
+  --scored-json output/benchmark_reports/paper_routing_evidence_full_scored.json \
+  --output-json output/benchmark_reports/paper_routing_evidence_claim_evidence.json \
+  --output-md output/benchmark_reports/paper_routing_evidence_claim_evidence.md
+```
+
+### Current result snapshot
+
+From the current controlled evidence bundle:
+
+- `classify() = txt`: **13 / 13**
+- classifier-side text-path acceptance: **13 / 13**
+- `claim_mode`: `controlled_classifier_unreliability_supported`
+
+Variant means:
+
+| variant | mean primary score | mean CER |
+| --- | ---: | ---: |
+| original | 0.1266 | 3.4215 |
+| rasterized | 0.2089 | 0.8887 |
+| auto | 0.2009 | 0.8963 |
+
+Interpretation:
+
+- this section documents a **controlled mechanism test** that complements the main benchmark
+- it is strong enough to support the narrow claim that MinerU's classifier can be unreliable under
+  harmful-text-layer conditions
+- it is **not** evidence that every real-world receipt failure shares the same cause

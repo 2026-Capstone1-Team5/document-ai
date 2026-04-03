@@ -1,0 +1,30 @@
+{
+  "doc_id": "invoice-invoiceocr-0001-routingtrap",
+  "base_doc_id": "invoice-invoiceocr-0001",
+  "donor_doc_id": "invoice-invoiceocr-0002",
+  "image_path": "benchmark/paper_ood/raw/invoice-invoiceocr-0001.png",
+  "output_pdf": "benchmark/paper_ood/derived/routing_evidence/invoice-invoiceocr-0001-routingtrap.pdf",
+  "selected_image_scale": 0.72,
+  "harmful_text_preview": "{'hqmdqr': {'unvyucq_ny': '38023968', 'unvyucq_dmtq': '76/73/9789', 'sqllqr': 'Chmpmmn, Kum mnd Grqqn 31408 Jmmqs Brmnch Smuthmyath, NC 93549', 'cluqnt': 'Rydrugaqz-Stqvqns 9957 Mngqlm Plmun Hyrtynshurq, MS 60915', 'sqllqr_tmx_ud': '616-51-6872', 'cluqnt_tmx_ud': '606-65-5144', 'ubmn': 'GB27MCUQ26482705984730'}, 'utqms': [{'utqm_dqsc': 'Wunq Glmssqs Gyblqts Pmur Clqmr Glmss', 'utqm_qty': '2,77', '",
+  "harmful_text_chars": 2477,
+  "observation": {
+    "classify_result": "txt",
+    "page_count": 1,
+    "pages_checked": 1,
+    "avg_cleaned_chars_per_page": 2230.0,
+    "cid_char_ratio": 0.0,
+    "invalid_chars_detected": false,
+    "high_image_coverage_ratio": 0.0,
+    "classifier_signal_thresholds": {
+      "chars_per_page_min": 50,
+      "invalid_char_ratio_max": 0.05,
+      "image_coverage_ratio_max": 0.8
+    },
+    "classifier_signal_status": {
+      "chars_threshold_passed": true,
+      "invalid_ratio_threshold_passed": true,
+      "image_coverage_threshold_passed": true
+    },
+    "classifier_signal_accepts_text_path": true
+  }
+}

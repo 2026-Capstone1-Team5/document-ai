@@ -1,0 +1,30 @@
+{
+  "doc_id": "receipt-cord-0001-routingtrap",
+  "base_doc_id": "receipt-cord-0001",
+  "donor_doc_id": "receipt-cord-0002",
+  "image_path": "benchmark/paper_ood/raw/receipt-cord-0001.png",
+  "output_pdf": "benchmark/paper_ood/derived/routing_evidence/receipt-cord-0001-routingtrap.pdf",
+  "selected_image_scale": 0.72,
+  "harmful_text_preview": "SPGTHY BYLYGNMSQ 25,777 PQPPQR MAS 832,777 WMGYA RUBQYQ 862,777 UCQD LQMYN TQM 99,777 FASUYN TQM LYCHQ 95,777 NATTQLM BRYWNUQS 02,777\n270,777\n92,827\n29,582\n257,632\nSPGTHY BYLYGNMSQ 25,777 PQPPQR MAS 832,777 WMGYA RUBQYQ 862,777 UCQD LQMYN TQM 99,777 FASUYN TQM LYCHQ 95,777 NATTQLM BRYWNUQS 02,777\n270,777\n92,827\n29,582\n257,632\nSPGTHY BYLYGNMSQ 25,777 PQPPQR MAS 832,777 WMGYA RUBQYQ 862,777 UCQD LQM",
+  "harmful_text_chars": 1937,
+  "observation": {
+    "classify_result": "txt",
+    "page_count": 1,
+    "pages_checked": 1,
+    "avg_cleaned_chars_per_page": 1654.0,
+    "cid_char_ratio": 0.0,
+    "invalid_chars_detected": false,
+    "high_image_coverage_ratio": 0.0,
+    "classifier_signal_thresholds": {
+      "chars_per_page_min": 50,
+      "invalid_char_ratio_max": 0.05,
+      "image_coverage_ratio_max": 0.8
+    },
+    "classifier_signal_status": {
+      "chars_threshold_passed": true,
+      "invalid_ratio_threshold_passed": true,
+      "image_coverage_threshold_passed": true
+    },
+    "classifier_signal_accepts_text_path": true
+  }
+}

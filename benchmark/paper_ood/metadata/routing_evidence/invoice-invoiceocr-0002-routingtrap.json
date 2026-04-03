@@ -1,0 +1,30 @@
+{
+  "doc_id": "invoice-invoiceocr-0002-routingtrap",
+  "base_doc_id": "invoice-invoiceocr-0002",
+  "donor_doc_id": "invoice-invoiceocr-0003",
+  "image_path": "benchmark/paper_ood/raw/invoice-invoiceocr-0002.png",
+  "output_pdf": "benchmark/paper_ood/derived/routing_evidence/invoice-invoiceocr-0002-routingtrap.pdf",
+  "selected_image_scale": 0.72,
+  "harmful_text_preview": "{'hqmdqr': {'unvyucq_ny': '06957176', 'unvyucq_dmtq': '74/73/9781', 'sqllqr': 'Dmvus PLC 49724 Cmstully Vum Dqnusqshurq, KY 62900', 'cluqnt': 'Bmulqy-Hmrrus 873 Muchmql Strqqt Nyrth Wullumm, DC 63357', 'sqllqr_tmx_ud': '605-46-6835', 'cluqnt_tmx_ud': '632-50-5748', 'ubmn': 'GB06WJ7A47365836042083'}, 'utqms': [{'utqm_dqsc': 'Chundu Rags Cmrpqt Nqw Dqsugn Byhqmumn Gmrdqn Yygm Mmt Undumn Kulum Cyantq",
+  "harmful_text_chars": 3045,
+  "observation": {
+    "classify_result": "txt",
+    "page_count": 1,
+    "pages_checked": 1,
+    "avg_cleaned_chars_per_page": 2730.0,
+    "cid_char_ratio": 0.0,
+    "invalid_chars_detected": false,
+    "high_image_coverage_ratio": 0.0,
+    "classifier_signal_thresholds": {
+      "chars_per_page_min": 50,
+      "invalid_char_ratio_max": 0.05,
+      "image_coverage_ratio_max": 0.8
+    },
+    "classifier_signal_status": {
+      "chars_threshold_passed": true,
+      "invalid_ratio_threshold_passed": true,
+      "image_coverage_threshold_passed": true
+    },
+    "classifier_signal_accepts_text_path": true
+  }
+}

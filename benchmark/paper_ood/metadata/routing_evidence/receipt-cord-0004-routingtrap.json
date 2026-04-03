@@ -1,0 +1,30 @@
+{
+  "doc_id": "receipt-cord-0004-routingtrap",
+  "base_doc_id": "receipt-cord-0004",
+  "donor_doc_id": "invoice-invoiceocr-0001",
+  "image_path": "benchmark/paper_ood/raw/receipt-cord-0004.png",
+  "output_pdf": "benchmark/paper_ood/derived/routing_evidence/receipt-cord-0004-routingtrap.pdf",
+  "selected_image_scale": 0.72,
+  "harmful_text_preview": "{'hqmdqr': {'unvyucq_ny': '17045847', 'unvyucq_dmtq': '87/82/9789', 'sqllqr': 'Pmtql, Thympsyn mnd Myntgymqry 023 Kylq Vustm Nqw Jmmqs, MM 13995', 'cluqnt': 'Jmcksyn, Ydynnqll mnd Jmcksyn 934 Jyhn Trmck Sautq 518 Jqnnufqrvullq, PM 65378', 'sqllqr_tmx_ud': '625-41-0288', 'cluqnt_tmx_ud': '665-54-4490', 'ubmn': 'GB44WRBQ08632895181773'}, 'utqms': [{'utqm_dqsc': \"Lqqd's Wunq Cympmnuyn Byttlq Cyrkscrq",
+  "harmful_text_chars": 1964,
+  "observation": {
+    "classify_result": "txt",
+    "page_count": 1,
+    "pages_checked": 1,
+    "avg_cleaned_chars_per_page": 1764.0,
+    "cid_char_ratio": 0.0,
+    "invalid_chars_detected": false,
+    "high_image_coverage_ratio": 0.0,
+    "classifier_signal_thresholds": {
+      "chars_per_page_min": 50,
+      "invalid_char_ratio_max": 0.05,
+      "image_coverage_ratio_max": 0.8
+    },
+    "classifier_signal_status": {
+      "chars_threshold_passed": true,
+      "invalid_ratio_threshold_passed": true,
+      "image_coverage_threshold_passed": true
+    },
+    "classifier_signal_accepts_text_path": true
+  }
+}

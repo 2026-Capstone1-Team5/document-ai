@@ -34,6 +34,14 @@ from manifest import (
 load_dataset = None  # legacy compatibility for older tests/patches
 
 
+MODE_FLAGS = {
+    "auto": [],
+    "normal": ["--force-normal"],
+    "rasterized": ["--force-rasterize"],
+    "page_adaptive": ["--page-adaptive"],
+}
+
+
 def percentile(values: list[float], p: float) -> float | None:
     if not values:
         return None
@@ -139,6 +147,7 @@ def parse_one_sample(
     run_root: Path,
     language: str,
     timeout_seconds: int,
+    requested_mode: str = "auto",
     official_image_path: str | None = None,
     repo_image_path: str | None = None,
 ) -> dict:
@@ -161,6 +170,7 @@ def parse_one_sample(
         str(parse_output_dir),
         "--language",
         language,
+        *MODE_FLAGS[requested_mode],
     ]
 
     start = time.perf_counter()
@@ -181,6 +191,7 @@ def parse_one_sample(
             "failure_reason": "timeout",
             "elapsed_seconds": timeout_seconds,
             "returncode": None,
+            "requested_mode": requested_mode,
             "parse_mode": None,
             "markdown_chars": None,
             "meta_path": None,
@@ -237,6 +248,7 @@ def parse_one_sample(
         "failure_reason": failure_reason,
         "elapsed_seconds": round(elapsed, 3),
         "returncode": completed.returncode,
+        "requested_mode": requested_mode,
         "parse_mode": parse_mode,
         "markdown_path": markdown_path,
         "markdown_output_key": markdown_output_key,
@@ -346,6 +358,7 @@ def write_report_artifacts(
         "limit": report["limit"],
         "offset": report["offset"],
         "language": report["language"],
+        "requested_mode": report.get("requested_mode"),
         "dataset_revision": report.get("dataset_revision"),
         "dataset_source": report.get("dataset_source"),
         "run_root": report["run_root"],
@@ -372,6 +385,7 @@ def write_report_artifacts(
             "dataset": managed_summary["dataset"],
             "limit": managed_summary["limit"],
             "offset": managed_summary["offset"],
+            "requested_mode": managed_summary.get("requested_mode"),
             "success_rate": managed_summary["summary"].get("success_rate"),
             "avg_seconds": managed_summary["summary"].get(
                 "elapsed_seconds_avg_success"
@@ -394,6 +408,12 @@ def main() -> None:
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--language", default="en")
     parser.add_argument("--timeout-seconds", type=int, default=900)
+    parser.add_argument(
+        "--mode",
+        default="auto",
+        choices=sorted(MODE_FLAGS),
+        help="Parser variant to benchmark: auto, normal, rasterized, page_adaptive.",
+    )
     parser.add_argument(
         "--run-root",
         default="output/omnidocbench_benchmark",
@@ -439,6 +459,7 @@ def main() -> None:
             "limit": 0,
             "offset": args.offset,
             "language": args.language,
+            "requested_mode": args.mode,
             "run_root": str(run_root),
             "indices_file": args.indices_file,
             "explicit_indices_count": None,
@@ -490,6 +511,7 @@ def main() -> None:
             run_root=run_root,
             language=args.language,
             timeout_seconds=args.timeout_seconds,
+            requested_mode=args.mode,
             official_image_path=official_image_path,
             repo_image_path=repo_image_path,
         )
@@ -507,6 +529,7 @@ def main() -> None:
         "limit": wanted_total,
         "offset": args.offset,
         "language": args.language,
+        "requested_mode": args.mode,
         "run_root": str(run_root),
         "indices_file": args.indices_file,
         "explicit_indices_count": len(explicit_indices) if explicit_indices else None,

@@ -44,6 +44,12 @@ def main() -> None:
         ),
         help="Path to official OmniDocBench eval repo",
     )
+    parser.add_argument(
+        "--mode",
+        default="auto",
+        choices=["auto", "normal", "rasterized", "page_adaptive"],
+        help="Parser variant to use for the benchmark run.",
+    )
     args = parser.parse_args()
 
     repo_root = repo_root_from_script()
@@ -63,6 +69,8 @@ def main() -> None:
             str(args.limit),
             "--language",
             "en",
+            "--mode",
+            args.mode,
             "--run-root",
             str(run_root),
             "--report-dir",
@@ -84,6 +92,8 @@ def main() -> None:
             str(Path(args.official_repo).resolve()),
             "--run-label",
             args.name,
+            "--mode",
+            args.mode,
             "--output-json",
             str(temp_json),
             "--output-md",

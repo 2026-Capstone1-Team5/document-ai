@@ -1,0 +1,25 @@
+{
+  "doc_id": "receipt-cord-0003",
+  "dataset": "naver-clova-ix/cord-v2",
+  "split": "train",
+  "index": 2,
+  "source_shortname": "cord",
+  "image_path": "benchmark/paper_ood/raw/receipt-cord-0003.png",
+  "pdf_path": "benchmark/pdfs/receipt-cord-0003.pdf",
+  "gold_path": "benchmark/paper_ood/gold/receipt-cord-0003.json",
+  "row_keys": [
+    "ground_truth",
+    "image"
+  ],
+  "bootstrapped_gold_keys": [
+    "menu",
+    "sub_total.subtotal_price",
+    "total.cashprice",
+    "total.changeprice",
+    "total.menuqty_cnt",
+    "total.menutype_cnt",
+    "total.total_price"
+  ],
+  "freeze_revision": "paper-ood-v1",
+  "dataset_revision": "7f0115a4b758a71d6473b8d085751692da2fef98"
+}

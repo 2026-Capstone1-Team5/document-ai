@@ -48,6 +48,13 @@ benchmark_omnidocbench = load_module(
 run_omnidocbench_full_eval = load_module(
     "run_omnidocbench_full_eval", OMNIDOCBENCH_DIR / "run_omnidocbench_full_eval.py"
 )
+build_paper_variant_artifacts = load_module(
+    "build_paper_variant_artifacts",
+    OMNIDOCBENCH_DIR / "build_paper_variant_artifacts.py",
+)
+run_paper_variant_suite = load_module(
+    "run_paper_variant_suite", OMNIDOCBENCH_DIR / "run_paper_variant_suite.py"
+)
 simple_omnidocbench_test = load_module(
     "simple_omnidocbench_test", OMNIDOCBENCH_DIR / "simple_omnidocbench_test.py"
 )
@@ -456,6 +463,7 @@ class SimpleWrapperTests(unittest.TestCase):
                 offset=3,
                 name="simple_run",
                 official_repo=str(tmp_path / "official"),
+                mode="page_adaptive",
             )
             temp_json = (
                 Path(tempfile.gettempdir()) / "omnidocbench_simple_run_summary.json"
@@ -498,6 +506,11 @@ class SimpleWrapperTests(unittest.TestCase):
 
             benchmark_cmd = commands[0]
             self.assertNotIn("--split", benchmark_cmd)
+            self.assertIn("--mode", benchmark_cmd)
+            self.assertIn("page_adaptive", benchmark_cmd)
+            eval_cmd = commands[1]
+            self.assertIn("--mode", eval_cmd)
+            self.assertIn("page_adaptive", eval_cmd)
             self.assertFalse(temp_json.exists())
 
 
@@ -569,6 +582,7 @@ class ProvenanceOutputTests(unittest.TestCase):
                 output_json=output_json,
                 output_md=output_md,
                 run_label="provenance",
+                requested_mode="auto",
                 parse_results_path=parse_results_path,
                 metric_path=metric_path,
                 pred_dir=pred_dir,
@@ -604,9 +618,11 @@ class ProvenanceOutputTests(unittest.TestCase):
             markdown = output_md.read_text()
 
         self.assertEqual(payload["official_evaluator_ref"], "eval-ref-123")
+        self.assertEqual(payload["requested_mode"], "auto")
         self.assertEqual(payload["dataset_revision"], "dataset-rev-456")
         self.assertEqual(payload["dataset_source"], "hf://datasets/opendatalab/OmniDocBench")
         self.assertIn("Evaluator ref", markdown)
+        self.assertIn("Requested mode", markdown)
         self.assertIn("Dataset revision", markdown)
 
 
@@ -616,6 +632,7 @@ class BenchmarkExplicitIndexTests(unittest.TestCase):
             limit=5,
             offset=0,
             language="en",
+            mode="auto",
             timeout_seconds=30,
             run_root=tempfile.mkdtemp(),
             report_dir=tempfile.mkdtemp(),
@@ -674,6 +691,7 @@ class BenchmarkLimitZeroTests(unittest.TestCase):
                 limit=0,
                 offset=0,
                 language="en",
+                mode="auto",
                 timeout_seconds=30,
                 run_root=str(run_root),
                 report_dir=str(report_dir),
@@ -698,12 +716,13 @@ class BenchmarkLimitZeroTests(unittest.TestCase):
             report = json.loads((run_root / "results.json").read_text())
             self.assertEqual(report["limit"], 0)
             self.assertNotIn("split", report)
+            self.assertEqual(report["requested_mode"], "auto")
             self.assertEqual(report["summary"]["total_samples"], 0)
             self.assertEqual(report["results"], [])
 
 
 class EnsureParseResultsTests(unittest.TestCase):
-    def test_ensure_parse_results_omits_split_argument(self):
+    def test_ensure_parse_results_forwards_mode_and_omits_split_argument(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             scripts_dir = tmp_path / "scripts" / "omnidocbench"
@@ -726,6 +745,7 @@ class EnsureParseResultsTests(unittest.TestCase):
                     limit=7,
                     language="en",
                     timeout_seconds=30,
+                    mode="rasterized",
                     run_root=run_root,
                     report_dir=report_dir,
                     skip_parse=False,
@@ -733,6 +753,8 @@ class EnsureParseResultsTests(unittest.TestCase):
 
         self.assertEqual(result_path, run_root / "results.json")
         self.assertNotIn("--split", recorded[0])
+        self.assertIn("--mode", recorded[0])
+        self.assertIn("rasterized", recorded[0])
 
 
 class ParseOneSampleMetaTests(unittest.TestCase):
@@ -764,10 +786,251 @@ class ParseOneSampleMetaTests(unittest.TestCase):
                     run_root=run_root,
                     language="en",
                     timeout_seconds=30,
+                    requested_mode="normal",
                 )
 
         self.assertEqual(result["status"], "failed")
         self.assertEqual(result["failure_reason"], "invalid_meta_json")
+        self.assertEqual(result["requested_mode"], "normal")
+
+    def test_parse_one_sample_adds_variant_flag_to_parser_command(self):
+        class FakeImage:
+            def save(self, path, *_args, **_kwargs):
+                Path(path).write_bytes(b"png")
+
+            def convert(self, _mode):
+                return self
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            run_root = Path(tmpdir)
+            recorded = {}
+
+            def fake_run(cmd, *_args, **_kwargs):
+                recorded["cmd"] = cmd
+                meta_path = run_root / "00000" / "parse_output" / "meta.json"
+                meta_path.parent.mkdir(parents=True, exist_ok=True)
+                markdown = run_root / "00000" / "parse_output" / "result.md"
+                markdown.write_text("hello")
+                meta_path.write_text(
+                    json.dumps(
+                        {
+                            "parse_mode": "rasterized",
+                            "outputs": {"markdown": str(markdown)},
+                        }
+                    )
+                )
+                return mock.Mock(returncode=0, stderr="", stdout="")
+
+            with mock.patch.object(
+                benchmark_omnidocbench.subprocess, "run", side_effect=fake_run
+            ):
+                result = benchmark_omnidocbench.parse_one_sample(
+                    sample={"image": FakeImage()},
+                    sample_ref_path="hf://datasets/opendatalab/OmniDocBench/images/sample.png",
+                    gt_text=None,
+                    index=0,
+                    run_root=run_root,
+                    language="en",
+                    timeout_seconds=30,
+                    requested_mode="rasterized",
+                )
+
+        self.assertIn("--force-rasterize", recorded["cmd"])
+        self.assertEqual(result["requested_mode"], "rasterized")
+
+
+class PaperVariantArtifactTests(unittest.TestCase):
+    def make_variant_summary(
+        self,
+        tmp_path: Path,
+        *,
+        row: str,
+        run_label: str,
+        median: float,
+        main_output_name: str,
+    ) -> Path:
+        run_root = tmp_path / f"{row}_run"
+        run_root.mkdir(parents=True, exist_ok=True)
+        parse_results = run_root / "results.json"
+        parse_results.write_text(
+            json.dumps(
+                {
+                    "offset": 0,
+                    "limit": 7,
+                    "language": "en",
+                    "run_root": str(run_root),
+                    "indices_file": str(tmp_path / "plan.json"),
+                }
+            )
+        )
+        summary_path = tmp_path / main_output_name
+        summary_path.write_text(
+            json.dumps(
+                {
+                    "run_label": run_label,
+                    "requested_mode": row,
+                    "source_parse_results_json": str(parse_results),
+                    "official_metric_json": str(tmp_path / f"{row}_metric.json"),
+                    "official_prediction_dir": str(tmp_path / f"{row}_pred"),
+                    "official_gt_subset_json": str(tmp_path / f"{row}_subset.json"),
+                    "official_config_yaml": str(tmp_path / "official" / "configs" / f"{run_label}.yaml"),
+                    "official_evaluator_ref": "eval-ref",
+                    "dataset_revision": "dataset-rev",
+                    "dataset_source": "hf://datasets/opendatalab/OmniDocBench",
+                    "parse_summary": {
+                        "success_rate": 1.0,
+                        "elapsed_seconds_avg_success": median + 1,
+                        "elapsed_seconds_median_success": median,
+                        "elapsed_seconds_p95_success": median + 2,
+                        "parse_mode_distribution": {row: 7},
+                    },
+                    "eval_accounting": {
+                        "attempted_pages": 7,
+                        "parse_succeeded_pages": 7,
+                        "parse_failed_pages": 0,
+                        "copied_prediction_pages": 7,
+                        "official_gt_subset_pages": 7,
+                        "official_eval_coverage_ratio": 1.0,
+                        "official_eval_success_coverage_ratio": 1.0,
+                        "skipped_pages": {},
+                    },
+                    "table_metrics": {
+                        "text_edit_dist": 0.1,
+                        "table_teds_pct": 80.0,
+                        "formula_cdm_pct": 70.0,
+                        "reading_order_edit_dist": 0.2,
+                        "overall_pct": 75.0,
+                    },
+                }
+            )
+        )
+        return summary_path
+
+    def test_build_page_adaptive_gate_demotes_expensive_variant(self):
+        gate = build_paper_variant_artifacts.build_page_adaptive_gate(
+            auto_payload={"requested_mode": "auto", "parse_summary": {"elapsed_seconds_median_success": 10}},
+            page_adaptive_payload={
+                "requested_mode": "page_adaptive",
+                "parse_summary": {"elapsed_seconds_median_success": 30},
+                "eval_accounting": {
+                    "attempted_pages": 7,
+                    "parse_succeeded_pages": 7,
+                    "parse_failed_pages": 0,
+                },
+            },
+            full_page_count=1355,
+            ratio_threshold=2.5,
+            max_hours=24,
+        )
+
+        self.assertEqual(gate["disposition"], "secondary_ablation")
+        self.assertFalse(gate["threshold_checks"]["ratio_ok"])
+
+    def test_main_build_writes_runtime_main_and_ablation_artifacts(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            (tmp_path / "official" / "configs").mkdir(parents=True)
+            summaries = [
+                ("normal", self.make_variant_summary(tmp_path, row="normal", run_label="normal_run", median=11, main_output_name="normal_summary.json")),
+                ("rasterized", self.make_variant_summary(tmp_path, row="rasterized", run_label="rasterized_run", median=12, main_output_name="rasterized_summary.json")),
+                ("auto", self.make_variant_summary(tmp_path, row="auto", run_label="auto_run", median=10, main_output_name="auto_summary.json")),
+                ("page_adaptive", self.make_variant_summary(tmp_path, row="page_adaptive", run_label="page_run", median=31, main_output_name="page_summary.json")),
+            ]
+            main_table = tmp_path / "main_table.json"
+            runtime = tmp_path / "runtime.json"
+            gate = tmp_path / "gate.json"
+            ablation = tmp_path / "ablation.json"
+
+            argv = [
+                "build_paper_variant_artifacts.py",
+                *[
+                    arg
+                    for name, path in summaries
+                    for arg in ("--summary", f"{name}={path}")
+                ],
+                "--full-page-count",
+                "1355",
+                "--main-table-output",
+                str(main_table),
+                "--runtime-output",
+                str(runtime),
+                "--page-adaptive-gate-output",
+                str(gate),
+                "--page-adaptive-ablation-output",
+                str(ablation),
+            ]
+
+            with mock.patch.object(sys, "argv", argv):
+                build_paper_variant_artifacts.main()
+
+            main_payload = json.loads(main_table.read_text())
+            runtime_payload = json.loads(runtime.read_text())
+            gate_payload = json.loads(gate.read_text())
+            ablation_payload = json.loads(ablation.read_text())
+
+        self.assertEqual([row["row"] for row in main_payload["rows"]], ["normal", "rasterized", "auto"])
+        self.assertEqual(len(runtime_payload["rows"]), 4)
+        self.assertEqual(gate_payload["disposition"], "secondary_ablation")
+        self.assertEqual(ablation_payload["row"], "page_adaptive")
+        self.assertIn("--mode auto", runtime_payload["rows"][2]["command_parse"])
+
+
+class PaperVariantSuiteTests(unittest.TestCase):
+    def test_parse_variants_rejects_unknown_values(self):
+        with self.assertRaises(ValueError):
+            run_paper_variant_suite.parse_variants("auto,unknown")
+
+    def test_main_runs_variants_and_writes_manifest(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            repo_root = tmp_path / "repo"
+            report_dir = repo_root / "output" / "benchmark_reports"
+            report_dir.mkdir(parents=True)
+
+            commands = []
+
+            def fake_run_cmd(cmd):
+                commands.append(cmd)
+
+            args = types.SimpleNamespace(
+                run_prefix="paper_variant_smoke",
+                variants="normal,auto",
+                indices_file="output/benchmark_reports/paper_variant_smoke_plan.json",
+                offset=0,
+                limit=7,
+                language="en",
+                timeout_seconds=120,
+                official_repo=str(repo_root / "benchmark_assets" / "OmniDocBench-official"),
+                report_dir="output/benchmark_reports",
+                modules="text,formula,table,reading_order",
+                skip_parse=False,
+            )
+
+            with (
+                mock.patch.object(
+                    run_paper_variant_suite.argparse.ArgumentParser,
+                    "parse_args",
+                    return_value=args,
+                ),
+                mock.patch.object(
+                    run_paper_variant_suite, "repo_root_from_script", return_value=repo_root
+                ),
+                mock.patch.object(
+                    run_paper_variant_suite, "run_cmd", side_effect=fake_run_cmd
+                ),
+            ):
+                run_paper_variant_suite.main()
+
+            manifest = json.loads(
+                (report_dir / "paper_variant_smoke_suite_manifest.json").read_text()
+            )
+
+        self.assertEqual(len(commands), 4)
+        self.assertIn("--indices-file", commands[0])
+        self.assertIn("--mode", commands[0])
+        self.assertIn("normal", commands[0])
+        self.assertIn("auto", commands[2])
+        self.assertEqual([row["mode"] for row in manifest["variants"]], ["normal", "auto"])
 
 
 if __name__ == "__main__":
