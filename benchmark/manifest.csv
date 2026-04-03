@@ -5,28 +5,28 @@ benchmark/pdfs/sample4_resume.pdf,en,scanned,no,no,no,
 benchmark/pdfs/sample5_bankstatement.pdf,en,digital,yes,no,no,
 benchmark/pdfs/sample2_reciept.pdf,fr+en,scanned,no,no,no,
 benchmark/pdfs/sample3_invoice.pdf,de+cs,scanned,yes,no,no,
-benchmark/pdfs/case_a_page1.pdf,en,scanned,no,no,no,source=data_set_new.zip:Case_A page 1
-benchmark/pdfs/case_a_page2.pdf,en+other,scanned,no,no,no,source=data_set_new.zip:Case_A page 2
-benchmark/pdfs/case_a_page3.pdf,fr+en,scanned,no,no,no,source=data_set_new.zip:Case_A page 3
-benchmark/pdfs/case_a_page4.pdf,en,scanned,no,no,no,source=data_set_new.zip:Case_A page 4
-benchmark/pdfs/case_a_page5.pdf,en,scanned,no,no,no,source=data_set_new.zip:Case_A page 5
-benchmark/pdfs/case_b.pdf,en,digital,no,no,yes,source=data_set_new.zip:Case_B
-benchmark/pdfs/gov_irs_fw9_2024.pdf,en,digital,yes,no,no,public IRS Form W-9
-benchmark/pdfs/gov_irs_fw4_2025.pdf,en,digital,yes,no,no,public IRS Form W-4
-benchmark/pdfs/gov_irs_f1040_2024.pdf,en,digital,yes,no,no,public IRS Form 1040
-benchmark/pdfs/gov_uscis_i9_2025.pdf,en,digital,yes,no,no,public USCIS Form I-9
-benchmark/pdfs/gov_uscis_n400_2025.pdf,en,digital,yes,no,no,public USCIS Form N-400
-benchmark/pdfs/paper_attention_is_all_you_need.pdf,en,digital,yes,yes,yes,public arXiv paper 1706.03762
-benchmark/pdfs/paper_bert.pdf,en,digital,yes,yes,yes,public arXiv paper 1810.04805
-benchmark/pdfs/paper_gpt3.pdf,en,digital,yes,no,yes,public arXiv paper 2005.14165
-benchmark/pdfs/gov_uscis_i765_2025.pdf,en,digital,yes,no,no,public USCIS Form I-765
-benchmark/pdfs/gov_uscis_i131_2025.pdf,en,digital,yes,no,no,public USCIS Form I-131
-benchmark/pdfs/paper_layoutlmv3.pdf,en,digital,yes,no,yes,public arXiv paper 2204.08387
-benchmark/pdfs/kr_report_bupyeong_economy.pdf,ko,digital,yes,no,yes,public Korean regional economy report
-benchmark/pdfs/kr_report_jove_manual.pdf,ko,digital,yes,no,yes,public Korean platform usage manual
-benchmark/pdfs/kr_report_digital_textbook.pdf,ko,digital,yes,no,yes,public Korean education report on digital textbooks
-benchmark/pdfs/kr_journal_jip_1404_08.pdf,ko,digital,yes,no,yes,public Korean journal article
-benchmark/pdfs/kr_receipt_card_medical_clinic.pdf,ko,scanned,no,no,no,image-first Korean card receipt / clinic-related payment slip
-benchmark/pdfs/kr_business_welding_service_flyer.pdf,ko,scanned,no,no,no,image-first Korean welding-service business sheet / flyer
-benchmark/pdfs/kr_receipt_bookstore_card_slip.pdf,ko,scanned,no,no,no,image-first Korean bookstore purchase receipt with card approval block
-benchmark/pdfs/kr_poster_sns_supporters_recruitment_2022.pdf,ko,scanned,no,no,yes,image-first Korean recruitment poster for 2022 SNS supporters / youth reporters
+benchmark/pdfs/case_a_page1.pdf,en,scanned,no,no,no,
+benchmark/pdfs/case_a_page2.pdf,en,scanned,no,no,no,
+benchmark/pdfs/case_a_page3.pdf,fr+en,scanned,no,no,no,
+benchmark/pdfs/case_a_page4.pdf,en,scanned,no,no,no,
+benchmark/pdfs/case_a_page5.pdf,en,scanned,no,no,no,
+benchmark/pdfs/case_b.pdf,en,digital,no,no,yes,
+benchmark/pdfs/gov_irs_fw9_2024.pdf,en,digital,yes,no,no,
+benchmark/pdfs/gov_irs_fw4_2025.pdf,en,digital,yes,no,no,
+benchmark/pdfs/gov_irs_f1040_2024.pdf,en,digital,yes,no,no,
+benchmark/pdfs/gov_uscis_i9_2025.pdf,en,digital,yes,no,no,
+benchmark/pdfs/gov_uscis_n400_2025.pdf,en,digital,yes,no,no,
+benchmark/pdfs/paper_attention_is_all_you_need.pdf,en,digital,yes,yes,yes,
+benchmark/pdfs/paper_bert.pdf,en,digital,yes,yes,yes,
+benchmark/pdfs/paper_gpt3.pdf,en,digital,yes,no,yes,
+benchmark/pdfs/gov_uscis_i765_2025.pdf,en,digital,yes,no,no,
+benchmark/pdfs/gov_uscis_i131_2025.pdf,en,digital,yes,no,no,
+benchmark/pdfs/paper_layoutlmv3.pdf,en,digital,yes,no,yes,
+benchmark/pdfs/kr_report_bupyeong_economy.pdf,ko,digital,yes,no,yes,
+benchmark/pdfs/kr_report_jove_manual.pdf,ko,digital,yes,no,yes,
+benchmark/pdfs/kr_report_digital_textbook.pdf,ko,digital,yes,no,yes,
+benchmark/pdfs/kr_journal_jip_1404_08.pdf,ko,digital,yes,no,yes,
+benchmark/pdfs/kr_receipt_card_medical_clinic.pdf,ko,scanned,no,no,no,
+benchmark/pdfs/kr_business_welding_service_flyer.pdf,ko,scanned,no,no,no,
+benchmark/pdfs/kr_receipt_bookstore_card_slip.pdf,ko,scanned,no,no,no,
+benchmark/pdfs/kr_poster_sns_supporters_recruitment_2022.pdf,ko,scanned,no,no,yes,
