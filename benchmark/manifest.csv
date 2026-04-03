@@ -22,3 +22,7 @@ benchmark/pdfs/paper_gpt3.pdf,en,digital,yes,no,yes,public arXiv paper 2005.1416
 benchmark/pdfs/gov_uscis_i765_2025.pdf,en,digital,yes,no,no,public USCIS Form I-765
 benchmark/pdfs/gov_uscis_i131_2025.pdf,en,digital,yes,no,no,public USCIS Form I-131
 benchmark/pdfs/paper_layoutlmv3.pdf,en,digital,yes,no,yes,public arXiv paper 2204.08387
+benchmark/pdfs/kr_report_bupyeong_economy.pdf,ko,digital,yes,no,yes,public Korean regional economy report
+benchmark/pdfs/kr_report_jove_manual.pdf,ko,digital,yes,no,yes,public Korean platform usage manual
+benchmark/pdfs/kr_report_digital_textbook.pdf,ko,digital,yes,no,yes,public Korean education report on digital textbooks
+benchmark/pdfs/kr_journal_jip_1404_08.pdf,ko,digital,yes,no,yes,public Korean journal article
