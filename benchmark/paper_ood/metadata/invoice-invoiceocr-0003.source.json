@@ -5,7 +5,7 @@
   "index": 2,
   "source_shortname": "invoiceocr",
   "image_path": "benchmark/paper_ood/raw/invoice-invoiceocr-0003.png",
-  "pdf_path": "benchmark/paper_ood/raw/invoice-invoiceocr-0003.pdf",
+  "pdf_path": "benchmark/pdfs/invoice-invoiceocr-0003.pdf",
   "gold_path": "benchmark/paper_ood/gold/invoice-invoiceocr-0003.json",
   "row_keys": [
     "id",

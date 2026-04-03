@@ -87,7 +87,7 @@ class BootstrapPaperOODFromHFTests(unittest.TestCase):
     def test_build_manifest_row_uses_relative_repo_paths(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             repo_root = Path(bootstrap.REPO_ROOT)
-            pdf_path = repo_root / "benchmark/paper_ood/raw/doc-1.pdf"
+            pdf_path = repo_root / "benchmark/pdfs/doc-1.pdf"
             gold_path = repo_root / "benchmark/paper_ood/gold/doc-1.json"
             args = type(
                 "Args",
@@ -107,7 +107,7 @@ class BootstrapPaperOODFromHFTests(unittest.TestCase):
                 },
             )
             row = bootstrap.build_manifest_row(args, pdf_path, gold_path)
-        self.assertEqual(row["input_pdf"], "benchmark/paper_ood/raw/doc-1.pdf")
+        self.assertEqual(row["input_pdf"], "benchmark/pdfs/doc-1.pdf")
         self.assertEqual(row["gold_path"], "benchmark/paper_ood/gold/doc-1.json")
         self.assertEqual(row["source_dataset_revision"], "rev-123")
 
@@ -132,7 +132,8 @@ class BootstrapPaperOODFromHFTests(unittest.TestCase):
             tmp = Path(tmpdir)
             repo_root = tmp / "repo"
             repo_root.mkdir()
-            raw_dir = repo_root / "benchmark/paper_ood/raw"
+            image_dir = repo_root / "benchmark/paper_ood/raw"
+            pdf_dir = repo_root / "benchmark/pdfs"
             gold_dir = repo_root / "benchmark/paper_ood/gold"
             metadata_dir = repo_root / "benchmark/paper_ood/metadata"
             manifest_out = repo_root / "benchmark/manifests/generated/doc-1.jsonl"
@@ -145,7 +146,9 @@ class BootstrapPaperOODFromHFTests(unittest.TestCase):
                 doc_id="doc-1",
                 subgroup="receipt",
                 source_shortname="sroie",
-                output_dir=str(raw_dir),
+                output_dir=None,
+                image_output_dir=str(image_dir),
+                pdf_output_dir=str(pdf_dir),
                 gold_dir=str(gold_dir),
                 derived_dir=str(repo_root / "benchmark/paper_ood/derived"),
                 metadata_dir=str(metadata_dir),
@@ -173,8 +176,10 @@ class BootstrapPaperOODFromHFTests(unittest.TestCase):
             self.assertEqual(captured["revision"], "rev-abc")
             metadata = json.loads(metadata_out.read_text(encoding="utf-8"))
             self.assertEqual(metadata["dataset_revision"], "rev-abc")
+            self.assertEqual(metadata["pdf_path"], "benchmark/pdfs/doc-1.pdf")
             manifest_row = json.loads(manifest_out.read_text(encoding="utf-8"))
             self.assertEqual(manifest_row["source_dataset_revision"], "rev-abc")
+            self.assertEqual(manifest_row["input_pdf"], "benchmark/pdfs/doc-1.pdf")
 
 
 if __name__ == "__main__":

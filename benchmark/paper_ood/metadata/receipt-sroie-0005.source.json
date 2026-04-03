@@ -5,7 +5,7 @@
   "index": 4,
   "source_shortname": "sroie",
   "image_path": "benchmark/paper_ood/raw/receipt-sroie-0005.png",
-  "pdf_path": "benchmark/paper_ood/raw/receipt-sroie-0005.pdf",
+  "pdf_path": "benchmark/pdfs/receipt-sroie-0005.pdf",
   "gold_path": "benchmark/paper_ood/gold/receipt-sroie-0005.json",
   "row_keys": [
     "bboxes",

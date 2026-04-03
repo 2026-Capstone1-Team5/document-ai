@@ -5,15 +5,18 @@ This workflow turns the **HF-first shortlist** into a reproducible paper benchma
 ## 1. Download and freeze candidate source documents
 
 For each selected document:
-- save the PDF under `benchmark/paper_ood/raw/`
+- save the PNG/image source under `benchmark/paper_ood/raw/` when applicable
+- save the benchmark PDF under `benchmark/pdfs/`
 - record the public source in the manifest via `source_bucket`
 - record the frozen upstream revision in `freeze_revision`
 
-Recommended naming:
+Recommended naming in `benchmark/pdfs`:
 - `receipt-sroie-0001.pdf`
 - `invoice-ocr-0007.pdf`
 - `ticket-manual-0003.pdf`
 - `control-form-0004.pdf`
+
+Keep `benchmark/manifest.csv` updated for any PDF that should participate in the main structured / unstructured benchmark.
 
 ## 2. Create gold artifacts before benchmarking
 
@@ -79,7 +82,7 @@ For each causal row, generate a stripped version:
 
 ```bash
 python scripts/text_layer_strip_pdf.py \
-  benchmark/paper_ood/raw/receipt-sroie-0001.pdf \
+  benchmark/pdfs/receipt-sroie-0001.pdf \
   benchmark/paper_ood/derived/receipt-sroie-0001.stripped.pdf \
   --provenance-json benchmark/paper_ood/derived/receipt-sroie-0001.stripped.provenance.json
 ```

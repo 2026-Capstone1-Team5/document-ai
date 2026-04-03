@@ -47,7 +47,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--doc-id", required=True)
     parser.add_argument("--subgroup", required=True)
     parser.add_argument("--source-shortname", required=True)
-    parser.add_argument("--output-dir", default="benchmark/paper_ood/raw")
+    parser.add_argument("--output-dir")
+    parser.add_argument("--image-output-dir", default="benchmark/paper_ood/raw")
+    parser.add_argument("--pdf-output-dir", default="benchmark/pdfs")
     parser.add_argument("--gold-dir", default="benchmark/paper_ood/gold")
     parser.add_argument("--derived-dir", default="benchmark/paper_ood/derived")
     parser.add_argument("--metadata-dir", default="benchmark/paper_ood/metadata")
@@ -207,11 +209,16 @@ def main() -> int:
     if image is None:
         raise SystemExit(f"Dataset row has no image field: {args.dataset}")
 
-    output_dir = resolve_repo_path(args.output_dir)
+    if args.output_dir:
+        image_output_dir = resolve_repo_path(args.output_dir)
+        pdf_output_dir = resolve_repo_path(args.output_dir)
+    else:
+        image_output_dir = resolve_repo_path(args.image_output_dir)
+        pdf_output_dir = resolve_repo_path(args.pdf_output_dir)
     gold_dir = resolve_repo_path(args.gold_dir)
     metadata_dir = resolve_repo_path(args.metadata_dir)
-    image_path = output_dir / f"{args.doc_id}.png"
-    pdf_path = output_dir / f"{args.doc_id}.pdf"
+    image_path = image_output_dir / f"{args.doc_id}.png"
+    pdf_path = pdf_output_dir / f"{args.doc_id}.pdf"
     gold_path = gold_dir / (
         f"{args.doc_id}.json" if args.gold_format in {"fields_json", "transcript_json"} else f"{args.doc_id}.txt"
     )

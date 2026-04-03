@@ -5,7 +5,7 @@
   "index": 4,
   "source_shortname": "funsd",
   "image_path": "benchmark/paper_ood/raw/structured-funsd-0002.png",
-  "pdf_path": "benchmark/paper_ood/raw/structured-funsd-0002.pdf",
+  "pdf_path": "benchmark/pdfs/structured-funsd-0002.pdf",
   "gold_path": "benchmark/paper_ood/gold/structured-funsd-0002.json",
   "row_keys": [
     "id",

@@ -37,7 +37,7 @@ uv run --with datasets --with pillow python scripts/bootstrap_paper_ood_from_hf.
 
 Outputs:
 - `benchmark/paper_ood/raw/receipt-sroie-0001.png`
-- `benchmark/paper_ood/raw/receipt-sroie-0001.pdf`
+- `benchmark/pdfs/receipt-sroie-0001.pdf`
 - `benchmark/paper_ood/gold/receipt-sroie-0001.json`
 - `benchmark/paper_ood/metadata/receipt-sroie-0001.source.json`
 

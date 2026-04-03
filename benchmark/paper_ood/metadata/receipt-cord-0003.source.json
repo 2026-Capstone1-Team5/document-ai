@@ -5,7 +5,7 @@
   "index": 2,
   "source_shortname": "cord",
   "image_path": "benchmark/paper_ood/raw/receipt-cord-0003.png",
-  "pdf_path": "benchmark/paper_ood/raw/receipt-cord-0003.pdf",
+  "pdf_path": "benchmark/pdfs/receipt-cord-0003.pdf",
   "gold_path": "benchmark/paper_ood/gold/receipt-cord-0003.json",
   "row_keys": [
     "ground_truth",

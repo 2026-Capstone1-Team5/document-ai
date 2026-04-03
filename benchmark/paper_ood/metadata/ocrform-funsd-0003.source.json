@@ -5,7 +5,7 @@
   "index": 2,
   "source_shortname": "funsd",
   "image_path": "benchmark/paper_ood/raw/ocrform-funsd-0003.png",
-  "pdf_path": "benchmark/paper_ood/raw/ocrform-funsd-0003.pdf",
+  "pdf_path": "benchmark/pdfs/ocrform-funsd-0003.pdf",
   "gold_path": "benchmark/paper_ood/gold/ocrform-funsd-0003.json",
   "row_keys": [
     "id",

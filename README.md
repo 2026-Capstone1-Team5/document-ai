@@ -112,6 +112,33 @@ See the dedicated guide:
 
 - `scripts/omnidocbench/README.md`
 
+## Structured / unstructured benchmark
+
+The main paper benchmark now uses a **flat PDF corpus** under `benchmark/pdfs/`, with document grouping driven by `benchmark/manifest.csv` metadata rather than directory names.
+
+- source of truth: `benchmark/manifest.csv`
+- derived manifest: `benchmark/manifests/structured_unstructured_benchmark_manifest.jsonl`
+- grouping rule: `digital_type=digital -> structured`, `digital_type=scanned -> unstructured`
+
+Build the manifest from the CSV:
+
+```bash
+python3 scripts/build_structured_benchmark_manifest.py \
+  --output benchmark/manifests/structured_unstructured_benchmark_manifest.jsonl
+```
+
+Run the benchmark across `original`, `rasterized`, and `auto`:
+
+```bash
+python3 scripts/benchmark_structured_unstructured.py \
+  --manifest benchmark/manifests/structured_unstructured_benchmark_manifest.jsonl \
+  --run-root output/structured_unstructured_benchmark \
+  --output-json output/benchmark_reports/structured_unstructured_results.json \
+  --output-summary output/benchmark_reports/structured_unstructured_summary.json
+```
+
+This benchmark is observational: it compares parse success, runtime, and markdown availability/size across the structured and unstructured groups without requiring gold labels for every PDF.
+
 ## Paper routing-evidence experiment
 
 For the current paper-ready classifier-reliability experiment, use the controlled routing-evidence set documented in:

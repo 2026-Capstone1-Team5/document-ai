@@ -84,7 +84,7 @@ class MaterializePaperRoutingEvidenceDatasetTests(unittest.TestCase):
     def test_build_manifest_row_marks_synthetic_source(self):
         source_row = {
             "doc_id": "receipt-sroie-0001",
-            "input_pdf": "benchmark/paper_ood/raw/receipt-sroie-0001.pdf",
+            "input_pdf": "benchmark/pdfs/receipt-sroie-0001.pdf",
             "subgroup": "receipt",
             "source_bucket": "hf:jsdnrs/ICDAR2019-SROIE",
             "gold_path": "benchmark/paper_ood/gold/receipt-sroie-0001.json",
