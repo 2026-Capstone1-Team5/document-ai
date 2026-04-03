@@ -141,14 +141,14 @@ This benchmark is observational: it compares parse success, runtime, and markdow
 
 ## Paper routing-evidence experiment
 
-For the current paper-ready classifier-reliability experiment, use the controlled routing-evidence set documented in:
+For the stronger classifier-reliability claim in the paper, use the controlled routing-evidence workflow documented in:
 
 - `docs/paper_final_routing_evidence_dataset.md`
 - `docs/paper_routing_claim_guardrails.md`
 
 ### Dataset
 
-- source of truth: `benchmark/manifest.csv` (routing rows are filtered from this CSV at materialization time)
+- source of truth: `benchmark/manifest.csv` (receipt/invoice rows are filtered from this CSV at materialization time)
 - size: **13 documents**
   - `receipt = 10`
   - `invoice = 3`
@@ -156,7 +156,7 @@ For the current paper-ready classifier-reliability experiment, use the controlle
   - `jsdnrs/ICDAR2019-SROIE` (HF): 6
   - `naver-clova-ix/cord-v2` (HF): 4
   - `philschmid/ocr-invoice-data` (HF): 3
-- role: this is a **controlled harmful-text-layer evidence set**, not a general-purpose benchmark
+- role: this is a **controlled harmful-text-layer evidence set**, not a replacement for the main benchmark
 
 Each document is built from frozen receipt/invoice rows in `benchmark/manifest.csv` plus the matching `benchmark/paper_ood/metadata/*.source.json` and gold files by keeping the original gold target,
 placing the document image on a larger page, and overlaying an invisible but extractable harmful
@@ -213,7 +213,7 @@ python3 scripts/build_paper_claim_evidence.py \
 
 ### Current result snapshot
 
-From the current committed evidence bundle:
+From the current controlled evidence bundle:
 
 - `classify() = txt`: **13 / 13**
 - classifier-side text-path acceptance: **13 / 13**
@@ -229,7 +229,7 @@ Variant means:
 
 Interpretation:
 
-- this README section documents a **controlled mechanism test**
+- this section documents a **controlled mechanism test** that complements the main benchmark
 - it is strong enough to support the narrow claim that MinerU's classifier can be unreliable under
   harmful-text-layer conditions
 - it is **not** evidence that every real-world receipt failure shares the same cause

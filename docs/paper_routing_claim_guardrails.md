@@ -44,8 +44,8 @@ ratio heuristic plus the other two thresholds above.
 
 There are now **two different evidence lanes** in the repo:
 
-1. **natural / imported batch evidence**
-   - useful for OOD quality benchmarking
+1. **main benchmark evidence**
+   - useful for the paper's full original/rasterized/auto comparison
    - not strong enough by itself for a direct txt-path misrouting claim
 2. **controlled routing-evidence dataset**
    - intentionally constructed to expose harmful-text-layer classifier unreliability
@@ -61,9 +61,8 @@ From `output/benchmark_reports/paper_routing_probe_observation.json`:
 - `sample3_invoice.pdf` -> `ocr`
 - `sample5_bankstatement.pdf` -> `ocr`
 
-Also, the current HF-imported paper OOD starter batch is image-backed and wrapped into single-page PDFs.
-Those rows are all directly observed as `ocr`, not `txt`, which means they are **not suitable evidence for a
-text-layer routing-failure claim by themselves**.
+These benchmark-level probe rows are useful for showing that the main benchmark mixes both `txt` and `ocr`
+decisions, but they are **not suitable evidence for a text-layer routing-failure claim by themselves**.
 
 From `output/benchmark_reports/paper_routing_evidence_observation_scored.json`:
 
@@ -94,7 +93,7 @@ That controlled dataset is now the repo's **direct support** for the narrower cl
 Do **not** automatically upgrade the claim to:
 - “all receipt failures are caused by txt-path misrouting”
 - “training-distribution mismatch is proven as the root cause”
-- “the natural imported OOD batch already shows the same direct failure mode”
+- “the main benchmark already shows the same direct failure mode”
 
 The controlled dataset proves a narrower but still strong statement:
 - the classifier can be made to return `txt` under acceptable internal signals while downstream quality is poor
@@ -102,7 +101,7 @@ The controlled dataset proves a narrower but still strong statement:
 
 ## Practical implication
 
-For the **natural imported batch**, the paper should still prefer the lower-strength interpretation:
+For the **main benchmark rows**, the paper should still prefer the lower-strength interpretation:
 
 > the results are consistent with preprocessing-threshold limitations and/or training-distribution mismatch,
 > rather than claiming a directly observed misrouting event in every receipt-like example.
