@@ -1,0 +1,41 @@
+{
+  "doc_id": "ocrform-funsd-0001",
+  "dataset": "davidle7/funsd-json",
+  "split": "train",
+  "index": 0,
+  "source_shortname": "funsd",
+  "image_path": "benchmark/paper_ood/raw/ocrform-funsd-0001.png",
+  "pdf_path": "benchmark/paper_ood/raw/ocrform-funsd-0001.pdf",
+  "gold_path": "benchmark/paper_ood/gold/ocrform-funsd-0001.json",
+  "row_keys": [
+    "id",
+    "image",
+    "text_output"
+  ],
+  "bootstrapped_gold_keys": [
+    "answer_01",
+    "answer_02",
+    "answer_03",
+    "answer_04",
+    "answer_05",
+    "answer_06",
+    "answer_07",
+    "answer_08",
+    "header_01",
+    "header_02",
+    "other_01",
+    "other_02",
+    "other_03",
+    "question_01",
+    "question_02",
+    "question_03",
+    "question_04",
+    "question_05",
+    "question_06",
+    "question_07",
+    "question_08",
+    "question_09",
+    "question_10"
+  ],
+  "freeze_revision": "paper-ood-v1"
+}

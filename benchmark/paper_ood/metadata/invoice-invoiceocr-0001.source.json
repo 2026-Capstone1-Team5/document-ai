@@ -1,0 +1,20 @@
+{
+  "doc_id": "invoice-invoiceocr-0001",
+  "dataset": "philschmid/ocr-invoice-data",
+  "split": "train",
+  "index": 0,
+  "source_shortname": "invoiceocr",
+  "image_path": "benchmark/paper_ood/raw/invoice-invoiceocr-0001.png",
+  "pdf_path": "benchmark/paper_ood/raw/invoice-invoiceocr-0001.pdf",
+  "gold_path": "benchmark/paper_ood/gold/invoice-invoiceocr-0001.json",
+  "row_keys": [
+    "id",
+    "image",
+    "parsed_data",
+    "raw_data"
+  ],
+  "bootstrapped_gold_keys": [
+    "json"
+  ],
+  "freeze_revision": "paper-ood-v1"
+}

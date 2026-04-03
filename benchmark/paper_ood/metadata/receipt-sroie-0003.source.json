@@ -1,0 +1,25 @@
+{
+  "doc_id": "receipt-sroie-0003",
+  "dataset": "jsdnrs/ICDAR2019-SROIE",
+  "split": "train",
+  "index": 2,
+  "source_shortname": "sroie",
+  "image_path": "benchmark/paper_ood/raw/receipt-sroie-0003.png",
+  "pdf_path": "benchmark/paper_ood/raw/receipt-sroie-0003.pdf",
+  "gold_path": "benchmark/paper_ood/gold/receipt-sroie-0003.json",
+  "row_keys": [
+    "bboxes",
+    "entities",
+    "image",
+    "image_size",
+    "key",
+    "words"
+  ],
+  "bootstrapped_gold_keys": [
+    "address",
+    "company",
+    "date",
+    "total"
+  ],
+  "freeze_revision": "paper-ood-v1"
+}
