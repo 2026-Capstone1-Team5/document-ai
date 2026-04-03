@@ -81,6 +81,44 @@ class MaterializePaperRoutingEvidenceDatasetTests(unittest.TestCase):
                 )
             self.assertTrue(payload["observation"]["classifier_signal_accepts_text_path"])
 
+
+    def test_build_source_rows_from_benchmark_csv_uses_manifest_and_metadata(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            benchmark_dir = tmp / "benchmark"
+            (benchmark_dir / "paper_ood/metadata").mkdir(parents=True)
+            (benchmark_dir / "paper_ood/gold").mkdir(parents=True)
+            pdf_dir = benchmark_dir / "pdfs"
+            pdf_dir.mkdir(parents=True)
+            raw_dir = benchmark_dir / "paper_ood/raw"
+            raw_dir.mkdir(parents=True)
+            pdf_path = pdf_dir / "receipt-sroie-0001.pdf"
+            pdf_path.write_bytes(b"%PDF-1.4")
+            image_path = raw_dir / "receipt-sroie-0001.png"
+            write_sample_png(image_path)
+            gold_path = benchmark_dir / "paper_ood/gold/receipt-sroie-0001.json"
+            gold_path.write_text('{"total":"10.00"}', encoding='utf-8')
+            metadata_path = benchmark_dir / "paper_ood/metadata/receipt-sroie-0001.source.json"
+            metadata_path.write_text('{'
+                '"dataset":"jsdnrs/ICDAR2019-SROIE",'
+                '"image_path":"benchmark/paper_ood/raw/receipt-sroie-0001.png",'
+                '"freeze_revision":"paper-ood-v1",'
+                '"dataset_revision":"abc123"'
+                '}', encoding='utf-8')
+            csv_path = benchmark_dir / "manifest.csv"
+            csv_path.write_text(
+                'filename,language,digital_type,contains_tables,contains_formulas,contains_figures\n'
+                'benchmark/pdfs/receipt-sroie-0001.pdf,en,scanned,no,no,no\n',
+                encoding='utf-8',
+            )
+            with mock.patch.object(materialize, 'REPO_ROOT', tmp):
+                rows = materialize.build_source_rows_from_benchmark_csv(csv_path)
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(rows[0]['doc_id'], 'receipt-sroie-0001')
+            self.assertEqual(rows[0]['subgroup'], 'receipt')
+            self.assertEqual(rows[0]['source_bucket'], 'hf:jsdnrs/ICDAR2019-SROIE')
+            self.assertEqual(rows[0]['gold_path'], 'benchmark/paper_ood/gold/receipt-sroie-0001.json')
+
     def test_build_manifest_row_marks_synthetic_source(self):
         source_row = {
             "doc_id": "receipt-sroie-0001",

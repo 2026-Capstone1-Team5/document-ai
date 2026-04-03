@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import importlib.util
 import json
 import re
 from collections import Counter, defaultdict
@@ -20,10 +21,52 @@ from pdfminer.layout import LAParams
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+SCRIPT_DIR = Path(__file__).resolve().parent
 CID_PATTERN = re.compile(r"\(cid:\d+\)")
 CHARS_THRESHOLD = 50
 INVALID_CHAR_RATIO_THRESHOLD = 0.05
 IMAGE_COVERAGE_RATIO_THRESHOLD = 0.8
+
+
+
+
+def load_sibling_module(name: str):
+    module_path = SCRIPT_DIR / f"{name}.py"
+    spec = importlib.util.spec_from_file_location(name, module_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Unable to load sibling module: {name}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+load_benchmark_manifest_csv = load_sibling_module("benchmark_manifest_utils").load_benchmark_manifest_csv
+
+
+def subgroup_for_probe_doc_id(doc_id: str, benchmark_group: str | None = None) -> str:
+    lowered = doc_id.lower()
+    if "receipt" in lowered or "reciept" in lowered:
+        return "receipt"
+    if "invoice" in lowered:
+        return "invoice"
+    if "bankstatement" in lowered:
+        return "mixed_layout"
+    return benchmark_group or "structured_control"
+
+
+def load_manifest_from_benchmark_csv(path: Path, allowed_doc_ids: set[str] | None = None) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for row in load_benchmark_manifest_csv(path):
+        doc_id = str(row["doc_id"])
+        if allowed_doc_ids and doc_id not in allowed_doc_ids:
+            continue
+        rows.append({
+            "doc_id": doc_id,
+            "input_pdf": row["filename"],
+            "subgroup": subgroup_for_probe_doc_id(doc_id, row.get("benchmark_group")),
+            "source_bucket": f"local:benchmark/{doc_id}",
+        })
+    return rows
 
 
 def resolve_repo_path(raw_path: str | Path) -> Path:
@@ -186,12 +229,23 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Directly observe MinerU classify() outputs and routing-related proxies for a paper OOD manifest."
     )
-    parser.add_argument("--manifest", required=True)
+    parser.add_argument("--manifest")
+    parser.add_argument("--benchmark-csv")
+    parser.add_argument("--doc-ids", nargs="*")
     parser.add_argument("--scored-json")
     parser.add_argument("--output-json", required=True)
     args = parser.parse_args()
 
-    manifest_rows = load_manifest(resolve_repo_path(args.manifest))
+    if bool(args.manifest) == bool(args.benchmark_csv):
+        raise ValueError("Provide exactly one of --manifest or --benchmark-csv")
+
+    if args.manifest:
+        manifest_rows = load_manifest(resolve_repo_path(args.manifest))
+        manifest_label = str(resolve_repo_path(args.manifest).relative_to(REPO_ROOT))
+    else:
+        allowed_doc_ids = set(args.doc_ids or []) or None
+        manifest_rows = load_manifest_from_benchmark_csv(resolve_repo_path(args.benchmark_csv), allowed_doc_ids)
+        manifest_label = str(resolve_repo_path(args.benchmark_csv).relative_to(REPO_ROOT))
     scored_index = (
         build_scored_index(json.loads(resolve_repo_path(args.scored_json).read_text(encoding="utf-8")))
         if args.scored_json
@@ -214,7 +268,7 @@ def main() -> None:
         )
 
     payload = {
-        "manifest": str(resolve_repo_path(args.manifest).relative_to(REPO_ROOT)),
+        "manifest": manifest_label,
         "scored_json": (
             str(resolve_repo_path(args.scored_json).relative_to(REPO_ROOT))
             if args.scored_json

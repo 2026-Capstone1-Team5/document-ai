@@ -148,7 +148,7 @@ For the current paper-ready classifier-reliability experiment, use the controlle
 
 ### Dataset
 
-- manifest: `benchmark/manifests/paper_routing_evidence_manifest.jsonl`
+- source of truth: `benchmark/manifest.csv` (routing rows are filtered from this CSV at materialization time)
 - size: **13 documents**
   - `receipt = 10`
   - `invoice = 3`
@@ -158,7 +158,7 @@ For the current paper-ready classifier-reliability experiment, use the controlle
   - `philschmid/ocr-invoice-data` (HF): 3
 - role: this is a **controlled harmful-text-layer evidence set**, not a general-purpose benchmark
 
-Each document is built from a frozen receipt/invoice example in `benchmark/manifests/paper_routing_source_manifest.jsonl` by keeping the original gold target,
+Each document is built from frozen receipt/invoice rows in `benchmark/manifest.csv` plus the matching `benchmark/paper_ood/metadata/*.source.json` and gold files by keeping the original gold target,
 placing the document image on a larger page, and overlaying an invisible but extractable harmful
 text layer. The goal is to test whether MinerU's preprocessing classifier can still choose the text path
 when its own observable thresholds look acceptable.
@@ -169,6 +169,7 @@ Materialize the dataset:
 
 ```bash
 python3 scripts/materialize_paper_routing_evidence_dataset.py --max-docs 13 \
+  --output-manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
   > output/benchmark_reports/paper_routing_evidence_materialization_report.json
 ```
 
@@ -176,7 +177,7 @@ Run the benchmark:
 
 ```bash
 python3 scripts/paper_ood_benchmark.py \
-  --manifest benchmark/manifests/paper_routing_evidence_manifest.jsonl \
+  --manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
   --run-root output/paper_routing_evidence_full \
   --report-dir output/benchmark_reports \
   --variants original,rasterized,auto \
@@ -195,7 +196,7 @@ Observe direct classifier behavior:
 
 ```bash
 python3 scripts/observe_paper_ood_routing.py \
-  --manifest benchmark/manifests/paper_routing_evidence_manifest.jsonl \
+  --manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
   --scored-json output/benchmark_reports/paper_routing_evidence_full_scored.json \
   --output-json output/benchmark_reports/paper_routing_evidence_observation_scored.json
 ```

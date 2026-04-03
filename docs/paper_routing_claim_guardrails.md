@@ -16,11 +16,12 @@ Use:
 
 ```bash
 python3 scripts/observe_paper_ood_routing.py \
-  --manifest benchmark/manifests/paper_routing_probe_manifest.jsonl \
+  --benchmark-csv benchmark/manifest.csv \
+  --doc-ids sample1_researchpaper sample2_reciept sample3_invoice sample5_bankstatement sample6_equations \
   --output-json output/benchmark_reports/paper_routing_probe_observation.json
 ```
 
-or point the same script at any other manifest of candidate PDFs.
+or point the same script at any other generated manifest or at benchmark/manifest.csv with a filtered --doc-ids list.
 
 The script records:
 - `classify_result` (`txt` / `ocr`)

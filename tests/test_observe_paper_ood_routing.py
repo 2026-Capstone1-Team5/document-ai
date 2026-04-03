@@ -65,6 +65,26 @@ class ObservePaperOODRoutingTests(unittest.TestCase):
         self.assertEqual(summary["subgroup_txt_counts"]["receipt"], 1)
         self.assertAlmostEqual(summary["mean_original_cer_when_classified_txt"], 0.5)
 
+
+    def test_load_manifest_from_benchmark_csv_filters_doc_ids(self):
+        rows = [
+            {
+                'doc_id': 'sample2_reciept',
+                'filename': 'benchmark/pdfs/sample2_reciept.pdf',
+                'benchmark_group': 'unstructured',
+            },
+            {
+                'doc_id': 'sample1_researchpaper',
+                'filename': 'benchmark/pdfs/sample1_researchpaper.pdf',
+                'benchmark_group': 'structured',
+            },
+        ]
+        with mock.patch.object(observe, 'load_benchmark_manifest_csv', return_value=rows):
+            manifest_rows = observe.load_manifest_from_benchmark_csv(Path('benchmark/manifest.csv'), {'sample2_reciept'})
+        self.assertEqual(len(manifest_rows), 1)
+        self.assertEqual(manifest_rows[0]['doc_id'], 'sample2_reciept')
+        self.assertEqual(manifest_rows[0]['subgroup'], 'receipt')
+
     def test_observe_pdf_reports_classifier_signal_status(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             pdf = Path(tmpdir) / "sample.pdf"

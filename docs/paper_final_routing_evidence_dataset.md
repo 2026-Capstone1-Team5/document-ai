@@ -14,11 +14,14 @@ It states a **directly observed classifier unreliability phenomenon** under a re
 ## Dataset design
 
 ### Source population
-The dataset is derived from the already frozen receipt/invoice rows in:
-- `benchmark/manifests/paper_routing_source_manifest.jsonl`
+The dataset is derived from receipt/invoice rows in:
+- `benchmark/manifest.csv`
+- matching `benchmark/paper_ood/metadata/*.source.json` files
+- matching `benchmark/paper_ood/gold/*.json` files
 
 ### Final routing-evidence manifest
-- `benchmark/manifests/paper_routing_evidence_manifest.jsonl`
+The materializer now writes the experiment manifest as a runtime artifact, for example:
+- `output/benchmark_reports/paper_routing_evidence_manifest.jsonl`
 
 ### Size and composition
 - total documents: **13**
@@ -45,13 +48,14 @@ The generator is:
 ### 1) Materialize the controlled dataset
 ```bash
 python3 scripts/materialize_paper_routing_evidence_dataset.py --max-docs 13 \
+  --output-manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
   > output/benchmark_reports/paper_routing_evidence_materialization_report.json
 ```
 
 ### 2) Benchmark run
 ```bash
 python3 scripts/paper_ood_benchmark.py \
-  --manifest benchmark/manifests/paper_routing_evidence_manifest.jsonl \
+  --manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
   --run-root output/paper_routing_evidence_full \
   --report-dir output/benchmark_reports \
   --variants original,rasterized,auto \
@@ -68,7 +72,7 @@ python3 scripts/score_paper_ood_results.py \
 ### 4) Direct routing observation
 ```bash
 python3 scripts/observe_paper_ood_routing.py \
-  --manifest benchmark/manifests/paper_routing_evidence_manifest.jsonl \
+  --manifest output/benchmark_reports/paper_routing_evidence_manifest.jsonl \
   --scored-json output/benchmark_reports/paper_routing_evidence_full_scored.json \
   --output-json output/benchmark_reports/paper_routing_evidence_observation_scored.json
 ```

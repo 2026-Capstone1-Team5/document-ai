@@ -12,8 +12,8 @@ import fitz
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPT_DIR = Path(__file__).resolve().parent
-DEFAULT_SOURCE_MANIFEST = REPO_ROOT / "benchmark/manifests/paper_routing_source_manifest.jsonl"
-DEFAULT_OUTPUT_MANIFEST = REPO_ROOT / "benchmark/manifests/paper_routing_evidence_manifest.jsonl"
+DEFAULT_BENCHMARK_CSV = REPO_ROOT / "benchmark/manifest.csv"
+DEFAULT_OUTPUT_MANIFEST = REPO_ROOT / "output/benchmark_reports/paper_routing_evidence_manifest.jsonl"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "benchmark/paper_ood/derived/routing_evidence"
 DEFAULT_METADATA_DIR = REPO_ROOT / "benchmark/paper_ood/metadata/routing_evidence"
 TARGET_SUBGROUPS = {"receipt", "invoice"}
@@ -58,7 +58,9 @@ def load_sibling_module(name: str):
     return module
 
 
-observe_pdf = load_sibling_module("observe_paper_ood_routing").observe_pdf
+observe_module = load_sibling_module("observe_paper_ood_routing")
+observe_pdf = observe_module.observe_pdf
+load_benchmark_manifest_csv = load_sibling_module("benchmark_manifest_utils").load_benchmark_manifest_csv
 
 
 def resolve_repo_path(raw_path: str | Path) -> Path:
@@ -82,6 +84,55 @@ def load_manifest(path: Path) -> list[dict[str, Any]]:
         if not stripped:
             continue
         rows.append(json.loads(stripped))
+    return rows
+
+
+def subgroup_for_doc_id(doc_id: str) -> str | None:
+    if doc_id.startswith("receipt-"):
+        return "receipt"
+    if doc_id.startswith("invoice-"):
+        return "invoice"
+    return None
+
+
+def source_bucket_for_doc_id(doc_id: str, metadata: dict[str, Any]) -> str:
+    dataset = metadata.get("dataset")
+    if dataset:
+        return f"hf:{dataset}"
+    return f"local:{doc_id}"
+
+
+def build_source_rows_from_benchmark_csv(path: Path) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for row in load_benchmark_manifest_csv(path):
+        doc_id = str(row["doc_id"])
+        subgroup = subgroup_for_doc_id(doc_id)
+        if subgroup not in TARGET_SUBGROUPS:
+            continue
+        metadata_path = REPO_ROOT / "benchmark/paper_ood/metadata" / f"{doc_id}.source.json"
+        if not metadata_path.exists():
+            raise FileNotFoundError(f"Missing source metadata for {doc_id}: {metadata_path}")
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        gold_path = REPO_ROOT / "benchmark/paper_ood/gold" / f"{doc_id}.json"
+        if not gold_path.exists():
+            raise FileNotFoundError(f"Missing gold artifact for {doc_id}: {gold_path}")
+        image_path = REPO_ROOT / str(metadata.get("image_path") or "")
+        if not image_path.exists():
+            raise FileNotFoundError(f"Missing source image for {doc_id}: {image_path}")
+        rows.append({
+            "doc_id": doc_id,
+            "subgroup": subgroup,
+            "input_pdf": row["filename"],
+            "image_path": str(image_path.relative_to(REPO_ROOT)),
+            "gold_path": str(gold_path.relative_to(REPO_ROOT)),
+            "gold_format": "fields_json",
+            "metric_family": "token_f1",
+            "annotation_source": "manual_from_source_annotation",
+            "canonicalization_version": "v1",
+            "source_bucket": source_bucket_for_doc_id(doc_id, metadata),
+            "freeze_revision": metadata.get("freeze_revision", "paper-routing-evidence-v1"),
+            "source_dataset_revision": metadata.get("dataset_revision"),
+        })
     return rows
 
 
@@ -236,7 +287,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Materialize a controlled routing-evidence dataset with harmful text layers over receipt/invoice images."
     )
-    parser.add_argument("--source-manifest", default=str(DEFAULT_SOURCE_MANIFEST))
+    parser.add_argument("--benchmark-csv", default=str(DEFAULT_BENCHMARK_CSV))
     parser.add_argument("--output-manifest", default=str(DEFAULT_OUTPUT_MANIFEST))
     parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--metadata-dir", default=str(DEFAULT_METADATA_DIR))
@@ -244,7 +295,7 @@ def main() -> None:
     parser.add_argument("--subgroup", action="append", dest="subgroups")
     args = parser.parse_args()
 
-    source_manifest = resolve_repo_path(args.source_manifest)
+    benchmark_csv = resolve_repo_path(args.benchmark_csv)
     output_manifest = resolve_repo_path(args.output_manifest)
     output_dir = resolve_repo_path(args.output_dir)
     metadata_dir = resolve_repo_path(args.metadata_dir)
@@ -252,20 +303,20 @@ def main() -> None:
 
     source_rows = [
         row
-        for row in load_manifest(source_manifest)
+        for row in build_source_rows_from_benchmark_csv(benchmark_csv)
         if row.get("subgroup") in subgroups
     ]
     if args.max_docs is not None:
         source_rows = source_rows[: args.max_docs]
     if not source_rows:
-        raise ValueError(f"No source rows found in {source_manifest} for subgroups={sorted(subgroups)}")
+        raise ValueError(f"No source rows found in {benchmark_csv} for subgroups={sorted(subgroups)}")
 
     materialized_rows: list[dict[str, Any]] = []
     report_rows: list[dict[str, Any]] = []
 
     for index, source_row in enumerate(source_rows):
         donor_row = source_rows[(index + 1) % len(source_rows)]
-        image_path = resolve_repo_path(source_row["input_pdf"]).with_suffix(".png")
+        image_path = resolve_repo_path(source_row["image_path"])
         if not image_path.exists():
             raise FileNotFoundError(f"Missing PNG backing image for {source_row['doc_id']}: {image_path}")
         donor_gold_path = resolve_repo_path(donor_row["gold_path"])
@@ -294,7 +345,7 @@ def main() -> None:
 
     write_jsonl(output_manifest, materialized_rows)
     report = {
-        "source_manifest": str(source_manifest.relative_to(REPO_ROOT)),
+        "benchmark_csv": str(benchmark_csv.relative_to(REPO_ROOT)),
         "output_manifest": str(output_manifest.relative_to(REPO_ROOT)),
         "documents": len(materialized_rows),
         "subgroups": sorted(subgroups),
