@@ -1,50 +1,50 @@
-filename,language,digital_type,contains_tables,contains_formulas,contains_figures,notes
-benchmark/pdfs/sample1_researchpaper.pdf,en,digital,yes,no,yes,
-benchmark/pdfs/sample6_equations.pdf,en,digital,no,yes,no,
-benchmark/pdfs/sample4_resume.pdf,en,scanned,no,no,no,
-benchmark/pdfs/sample5_bankstatement.pdf,en,digital,yes,no,no,
-benchmark/pdfs/sample2_reciept.pdf,fr+en,scanned,no,no,no,
-benchmark/pdfs/sample3_invoice.pdf,de+cs,scanned,yes,no,no,
-benchmark/pdfs/case_a_page1.pdf,en,scanned,no,no,no,
-benchmark/pdfs/case_a_page2.pdf,en,scanned,no,no,no,
-benchmark/pdfs/case_a_page3.pdf,fr+en,scanned,no,no,no,
-benchmark/pdfs/case_a_page4.pdf,en,scanned,no,no,no,
-benchmark/pdfs/case_a_page5.pdf,en,scanned,no,no,no,
-benchmark/pdfs/case_b.pdf,en,digital,no,no,yes,
-benchmark/pdfs/gov_irs_fw9_2024.pdf,en,digital,yes,no,no,
-benchmark/pdfs/gov_irs_fw4_2025.pdf,en,digital,yes,no,no,
-benchmark/pdfs/gov_irs_f1040_2024.pdf,en,digital,yes,no,no,
-benchmark/pdfs/gov_uscis_i9_2025.pdf,en,digital,yes,no,no,
-benchmark/pdfs/gov_uscis_n400_2025.pdf,en,digital,yes,no,no,
-benchmark/pdfs/paper_attention_is_all_you_need.pdf,en,digital,yes,yes,yes,
-benchmark/pdfs/paper_bert.pdf,en,digital,yes,yes,yes,
-benchmark/pdfs/paper_gpt3.pdf,en,digital,yes,no,yes,
-benchmark/pdfs/gov_uscis_i765_2025.pdf,en,digital,yes,no,no,
-benchmark/pdfs/gov_uscis_i131_2025.pdf,en,digital,yes,no,no,
-benchmark/pdfs/paper_layoutlmv3.pdf,en,digital,yes,no,yes,
-benchmark/pdfs/kr_report_bupyeong_economy.pdf,ko,digital,yes,no,yes,
-benchmark/pdfs/kr_report_jove_manual.pdf,ko,digital,yes,no,yes,
-benchmark/pdfs/kr_report_digital_textbook.pdf,ko,digital,yes,no,yes,
-benchmark/pdfs/kr_journal_jip_1404_08.pdf,ko,digital,yes,no,yes,
-benchmark/pdfs/kr_receipt_card_medical_clinic.pdf,ko,scanned,no,no,no,
-benchmark/pdfs/kr_business_welding_service_flyer.pdf,ko,scanned,no,no,no,
-benchmark/pdfs/kr_receipt_bookstore_card_slip.pdf,ko,scanned,no,no,no,
-benchmark/pdfs/kr_poster_sns_supporters_recruitment_2022.pdf,ko,scanned,no,no,yes,
-benchmark/pdfs/receipt-sroie-0001.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:jsdnrs/ICDAR2019-SROIE
-benchmark/pdfs/receipt-sroie-0002.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:jsdnrs/ICDAR2019-SROIE
-benchmark/pdfs/receipt-sroie-0003.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:jsdnrs/ICDAR2019-SROIE
-benchmark/pdfs/receipt-sroie-0004.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:jsdnrs/ICDAR2019-SROIE
-benchmark/pdfs/receipt-sroie-0005.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:jsdnrs/ICDAR2019-SROIE
-benchmark/pdfs/receipt-sroie-0006.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:jsdnrs/ICDAR2019-SROIE
-benchmark/pdfs/receipt-cord-0001.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:naver-clova-ix/cord-v2
-benchmark/pdfs/receipt-cord-0002.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:naver-clova-ix/cord-v2
-benchmark/pdfs/receipt-cord-0003.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:naver-clova-ix/cord-v2
-benchmark/pdfs/receipt-cord-0004.pdf,en,scanned,no,no,no,paper_ood:receipt; source=hf:naver-clova-ix/cord-v2
-benchmark/pdfs/invoice-invoiceocr-0001.pdf,en,scanned,yes,no,no,paper_ood:invoice; source=hf:philschmid/ocr-invoice-data
-benchmark/pdfs/invoice-invoiceocr-0002.pdf,en,scanned,yes,no,no,paper_ood:invoice; source=hf:philschmid/ocr-invoice-data
-benchmark/pdfs/invoice-invoiceocr-0003.pdf,en,scanned,yes,no,no,paper_ood:invoice; source=hf:philschmid/ocr-invoice-data
-benchmark/pdfs/ocrform-funsd-0001.pdf,en,scanned,yes,no,no,paper_ood:ocr_form; source=hf:davidle7/funsd-json
-benchmark/pdfs/ocrform-funsd-0002.pdf,en,scanned,yes,no,no,paper_ood:ocr_form; source=hf:davidle7/funsd-json
-benchmark/pdfs/ocrform-funsd-0003.pdf,en,scanned,yes,no,no,paper_ood:ocr_form; source=hf:davidle7/funsd-json
-benchmark/pdfs/structured-funsd-0001.pdf,en,scanned,yes,no,no,paper_ood:structured_form; source=hf:davidle7/funsd-json
-benchmark/pdfs/structured-funsd-0002.pdf,en,scanned,yes,no,no,paper_ood:structured_form; source=hf:davidle7/funsd-json
+filename,language,digital_type,contains_tables,contains_formulas,contains_figures
+benchmark/pdfs/sample1_researchpaper.pdf,en,digital,yes,no,yes
+benchmark/pdfs/sample6_equations.pdf,en,digital,no,yes,no
+benchmark/pdfs/sample4_resume.pdf,en,scanned,no,no,no
+benchmark/pdfs/sample5_bankstatement.pdf,en,digital,yes,no,no
+benchmark/pdfs/sample2_reciept.pdf,fr+en,scanned,no,no,no
+benchmark/pdfs/sample3_invoice.pdf,de+cs,scanned,yes,no,no
+benchmark/pdfs/case_a_page1.pdf,en,scanned,no,no,no
+benchmark/pdfs/case_a_page2.pdf,en,scanned,no,no,no
+benchmark/pdfs/case_a_page3.pdf,fr+en,scanned,no,no,no
+benchmark/pdfs/case_a_page4.pdf,en,scanned,no,no,no
+benchmark/pdfs/case_a_page5.pdf,en,scanned,no,no,no
+benchmark/pdfs/case_b.pdf,en,digital,no,no,yes
+benchmark/pdfs/gov_irs_fw9_2024.pdf,en,digital,yes,no,no
+benchmark/pdfs/gov_irs_fw4_2025.pdf,en,digital,yes,no,no
+benchmark/pdfs/gov_irs_f1040_2024.pdf,en,digital,yes,no,no
+benchmark/pdfs/gov_uscis_i9_2025.pdf,en,digital,yes,no,no
+benchmark/pdfs/gov_uscis_n400_2025.pdf,en,digital,yes,no,no
+benchmark/pdfs/paper_attention_is_all_you_need.pdf,en,digital,yes,yes,yes
+benchmark/pdfs/paper_bert.pdf,en,digital,yes,yes,yes
+benchmark/pdfs/paper_gpt3.pdf,en,digital,yes,no,yes
+benchmark/pdfs/gov_uscis_i765_2025.pdf,en,digital,yes,no,no
+benchmark/pdfs/gov_uscis_i131_2025.pdf,en,digital,yes,no,no
+benchmark/pdfs/paper_layoutlmv3.pdf,en,digital,yes,no,yes
+benchmark/pdfs/kr_report_bupyeong_economy.pdf,ko,digital,yes,no,yes
+benchmark/pdfs/kr_report_jove_manual.pdf,ko,digital,yes,no,yes
+benchmark/pdfs/kr_report_digital_textbook.pdf,ko,digital,yes,no,yes
+benchmark/pdfs/kr_journal_jip_1404_08.pdf,ko,digital,yes,no,yes
+benchmark/pdfs/kr_receipt_card_medical_clinic.pdf,ko,scanned,no,no,no
+benchmark/pdfs/kr_business_welding_service_flyer.pdf,ko,scanned,no,no,no
+benchmark/pdfs/kr_receipt_bookstore_card_slip.pdf,ko,scanned,no,no,no
+benchmark/pdfs/kr_poster_sns_supporters_recruitment_2022.pdf,ko,scanned,no,no,yes
+benchmark/pdfs/receipt-sroie-0001.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-sroie-0002.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-sroie-0003.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-sroie-0004.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-sroie-0005.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-sroie-0006.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-cord-0001.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-cord-0002.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-cord-0003.pdf,en,scanned,no,no,no
+benchmark/pdfs/receipt-cord-0004.pdf,en,scanned,no,no,no
+benchmark/pdfs/invoice-invoiceocr-0001.pdf,en,scanned,yes,no,no
+benchmark/pdfs/invoice-invoiceocr-0002.pdf,en,scanned,yes,no,no
+benchmark/pdfs/invoice-invoiceocr-0003.pdf,en,scanned,yes,no,no
+benchmark/pdfs/ocrform-funsd-0001.pdf,en,scanned,yes,no,no
+benchmark/pdfs/ocrform-funsd-0002.pdf,en,scanned,yes,no,no
+benchmark/pdfs/ocrform-funsd-0003.pdf,en,scanned,yes,no,no
+benchmark/pdfs/structured-funsd-0001.pdf,en,scanned,yes,no,no
+benchmark/pdfs/structured-funsd-0002.pdf,en,scanned,yes,no,no

@@ -40,21 +40,19 @@ class BenchmarkManifestUtilsTests(unittest.TestCase):
                         "contains_tables",
                         "contains_formulas",
                         "contains_figures",
-                        "notes",
                     ]
                 )
                 writer.writerow(
-                    ["benchmark/pdfs/doc-a.pdf", "en", "digital", "yes", "no", "yes", ""]
+                    ["benchmark/pdfs/doc-a.pdf", "en", "digital", "yes", "no", "yes"]
                 )
                 writer.writerow(
-                    ["benchmark/pdfs/doc-b.pdf", "en", "scanned", "no", "no", "no", "note"]
+                    ["benchmark/pdfs/doc-b.pdf", "en", "scanned", "no", "no", "no"]
                 )
             with mock.patch.object(utils, "REPO_ROOT", repo_root):
                 rows = utils.load_benchmark_manifest_csv(csv_path)
             self.assertEqual(rows[0]["benchmark_group"], "structured")
             self.assertTrue(rows[0]["contains_tables"])
             self.assertEqual(rows[1]["benchmark_group"], "unstructured")
-            self.assertEqual(rows[1]["notes"], "note")
 
 
 if __name__ == "__main__":

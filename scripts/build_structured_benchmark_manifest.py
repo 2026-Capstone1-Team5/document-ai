@@ -39,7 +39,6 @@ def main() -> int:
             "contains_tables": row["contains_tables"],
             "contains_formulas": row["contains_formulas"],
             "contains_figures": row["contains_figures"],
-            "notes": row["notes"],
         }
         for row in rows
     ]

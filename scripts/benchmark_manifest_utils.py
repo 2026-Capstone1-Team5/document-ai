@@ -44,7 +44,6 @@ def load_benchmark_manifest_csv(path: Path) -> list[dict[str, Any]]:
             "contains_tables",
             "contains_formulas",
             "contains_figures",
-            "notes",
         }
         missing = required - set(reader.fieldnames or [])
         if missing:
@@ -65,7 +64,6 @@ def load_benchmark_manifest_csv(path: Path) -> list[dict[str, Any]]:
                 "language": (row.get("language") or "").strip(),
                 "digital_type": digital_type,
                 "benchmark_group": benchmark_group,
-                "notes": (row.get("notes") or "").strip(),
             }
             for column in BOOLEAN_COLUMNS:
                 normalized[column] = _parse_yes_no(row.get(column) or "")

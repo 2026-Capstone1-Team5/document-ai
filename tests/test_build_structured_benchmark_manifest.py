@@ -37,8 +37,8 @@ class BuildStructuredBenchmarkManifestTests(unittest.TestCase):
             (pdf_dir / "a.pdf").write_bytes(b"%PDF-1.4")
             manifest_csv.parent.mkdir(parents=True, exist_ok=True)
             manifest_csv.write_text(
-                "filename,language,digital_type,contains_tables,contains_formulas,contains_figures,notes\n"
-                "benchmark/pdfs/a.pdf,en,digital,yes,no,no,\n",
+                "filename,language,digital_type,contains_tables,contains_formulas,contains_figures\n"
+                "benchmark/pdfs/a.pdf,en,digital,yes,no,no\n",
                 encoding="utf-8",
             )
             output_path = repo_root / "benchmark/manifests/out.jsonl"
