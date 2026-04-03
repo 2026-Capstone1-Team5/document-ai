@@ -194,7 +194,7 @@ def materialize_pdf(
 
         observation = observe_pdf(output_pdf)
         last_observation = observation
-        if observation["classify_result"] == "txt":
+        if observation["classify_result"] == "txt" and observation["classifier_signal_accepts_text_path"]:
             return {
                 "selected_image_scale": scale,
                 "observation": observation,

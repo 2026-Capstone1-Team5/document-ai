@@ -6,6 +6,9 @@ This note records the first **materialized** paper OOD batch in the repo after r
 uv run --with datasets --with pillow python scripts/materialize_paper_ood_batch.py
 ```
 
+The batch import plan now pins each Hugging Face source row to a specific upstream
+dataset revision so reruns preserve the same `(dataset, split, index)` mapping.
+
 ## Current ready counts
 
 - main OOD ready rows: **16**

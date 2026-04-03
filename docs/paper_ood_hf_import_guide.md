@@ -24,6 +24,7 @@ These are treated as **image-backed sources**, not native PDF sources.
 ```bash
 uv run --with datasets --with pillow python scripts/bootstrap_paper_ood_from_hf.py \
   --dataset jsdnrs/ICDAR2019-SROIE \
+  --dataset-revision bffe40c26759f3376ec2b3ae9031dbba54cd587c \
   --split train \
   --index 0 \
   --doc-id receipt-sroie-0001 \
@@ -39,6 +40,10 @@ Outputs:
 - `benchmark/paper_ood/raw/receipt-sroie-0001.pdf`
 - `benchmark/paper_ood/gold/receipt-sroie-0001.json`
 - `benchmark/paper_ood/metadata/receipt-sroie-0001.source.json`
+
+The pinned dataset revision is written to:
+- `benchmark/paper_ood/metadata/<doc_id>.source.json` as `dataset_revision`
+- generated manifest rows as `source_dataset_revision`
 
 ## Bootstrap behavior by dataset
 

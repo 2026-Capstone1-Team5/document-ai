@@ -76,6 +76,8 @@ def run_bootstrap(item: dict[str, Any]) -> dict[str, Any]:
         str(BOOTSTRAP_SCRIPT),
         "--dataset",
         str(item["dataset"]),
+        "--dataset-revision",
+        str(item["dataset_revision"]),
         "--split",
         str(item["split"]),
         "--index",

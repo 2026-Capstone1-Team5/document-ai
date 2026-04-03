@@ -20,5 +20,6 @@
     "total.menutype_cnt",
     "total.total_price"
   ],
-  "freeze_revision": "paper-ood-v1"
+  "freeze_revision": "paper-ood-v1",
+  "dataset_revision": "7f0115a4b758a71d6473b8d085751692da2fef98"
 }

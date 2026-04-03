@@ -79,6 +79,42 @@ class MaterializePaperOODBatchTests(unittest.TestCase):
         self.assertIn("receipt=1", audit_command)
         self.assertIn("invoice=1", audit_command)
 
+    @patch.object(materialize.subprocess, "run")
+    def test_run_bootstrap_forwards_dataset_revision(self, mock_run):
+        mock_run.return_value = type(
+            "CompletedProcess",
+            (),
+            {
+                "stdout": json.dumps(
+                    {
+                        "manifest_row": {"doc_id": "receipt-sroie-0001"},
+                        "gold_path": "benchmark/paper_ood/gold/receipt-sroie-0001.json",
+                    }
+                ),
+            },
+        )()
+        item = {
+            "doc_id": "receipt-sroie-0001",
+            "dataset": "jsdnrs/ICDAR2019-SROIE",
+            "dataset_revision": "rev-xyz",
+            "split": "train",
+            "index": 0,
+            "subgroup": "receipt",
+            "source_shortname": "sroie",
+            "gold_format": "fields_json",
+            "metric_family": "token_f1",
+            "annotation_source": "manual_from_source_annotation",
+            "language": "en",
+            "source_bucket": "hf:jsdnrs/ICDAR2019-SROIE",
+            "suspected_issue": "ocr_noise",
+            "inclusion_reason": "starter_batch_scanned_receipt",
+            "freeze_revision": "paper-ood-v1",
+        }
+        materialize.run_bootstrap(item)
+        command = mock_run.call_args.kwargs["args"] if "args" in mock_run.call_args.kwargs else mock_run.call_args.args[0]
+        self.assertIn("--dataset-revision", command)
+        self.assertIn("rev-xyz", command)
+
 
 if __name__ == "__main__":
     unittest.main()

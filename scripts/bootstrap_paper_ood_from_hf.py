@@ -41,6 +41,7 @@ def parse_args() -> argparse.Namespace:
         description="Freeze one HF dataset row into the repo-local paper OOD layout and bootstrap a gold artifact when possible."
     )
     parser.add_argument("--dataset", required=True, choices=sorted(SUPPORTED_DATASETS))
+    parser.add_argument("--dataset-revision", required=True)
     parser.add_argument("--split", required=True)
     parser.add_argument("--index", required=True, type=int)
     parser.add_argument("--doc-id", required=True)
@@ -177,6 +178,7 @@ def build_manifest_row(args: argparse.Namespace, pdf_path: Path, gold_path: Path
         "input_pdf": str(pdf_path.relative_to(REPO_ROOT)),
         "subgroup": args.subgroup,
         "source_bucket": args.source_bucket or f"hf:{args.dataset}",
+        "source_dataset_revision": args.dataset_revision,
         "gold_path": str(gold_path.relative_to(REPO_ROOT)),
         "gold_format": args.gold_format,
         "metric_family": args.metric_family,
@@ -193,7 +195,11 @@ def main() -> int:
     args = parse_args()
     load_dataset, _ = _require_dependencies()
 
-    dataset = load_dataset(args.dataset, split=f"{args.split}[{args.index}:{args.index + 1}]")
+    dataset = load_dataset(
+        args.dataset,
+        split=f"{args.split}[{args.index}:{args.index + 1}]",
+        revision=args.dataset_revision,
+    )
     if len(dataset) != 1:
         raise SystemExit(f"Unable to load exactly one row for {args.dataset}:{args.split}[{args.index}]")
     row = dataset[0]
@@ -222,6 +228,7 @@ def main() -> int:
     metadata = {
         "doc_id": args.doc_id,
         "dataset": args.dataset,
+        "dataset_revision": args.dataset_revision,
         "split": args.split,
         "index": args.index,
         "source_shortname": args.source_shortname,

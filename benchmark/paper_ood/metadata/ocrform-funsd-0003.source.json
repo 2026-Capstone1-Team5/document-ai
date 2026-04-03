@@ -44,5 +44,6 @@
     "question_13",
     "question_14"
   ],
-  "freeze_revision": "paper-ood-v1"
+  "freeze_revision": "paper-ood-v1",
+  "dataset_revision": "b95dd27dba6cb2849f444a07afa7c4eace0730d2"
 }
