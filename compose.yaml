@@ -14,5 +14,22 @@ services:
       - mineru-cache:/opt/mineru-cache
     command: bash
 
+  mineru-gpu:
+    build:
+      context: .
+      dockerfile: Dockerfile.mineru-gpu
+    working_dir: /workspace
+    environment:
+      HF_HOME: /opt/mineru-cache/huggingface
+      MPLCONFIGDIR: /opt/mineru-cache/matplotlib
+      YOLO_CONFIG_DIR: /opt/mineru-cache/ultralytics
+      MINERU_MODEL_SOURCE: huggingface
+      MINERU_PDF_RENDER_THREADS: "1"
+      CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-all}
+    gpus: all
+    volumes:
+      - mineru-cache:/opt/mineru-cache
+    command: bash
+
 volumes:
   mineru-cache:

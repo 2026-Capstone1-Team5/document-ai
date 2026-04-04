@@ -24,7 +24,8 @@ COMPOSE_FILENAMES = (
     "docker-compose.yml",
     "docker-compose.yaml",
 )
-MINERU_SERVICE = "mineru-cpu"
+MINERU_CPU_SERVICE = "mineru-cpu"
+MINERU_GPU_SERVICE = "mineru-gpu"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONTAINER_ID_RE = re.compile(r"[0-9a-f]{12,64}", re.IGNORECASE)
 
@@ -143,6 +144,17 @@ def find_cli_binary(name):
             return str(candidate)
 
     return None
+
+
+def get_mineru_device_mode() -> str:
+    return os.environ.get("MINERU_DEVICE_MODE", "cpu").strip() or "cpu"
+
+
+def get_mineru_service(device_mode: str | None = None) -> str:
+    normalized = (device_mode or get_mineru_device_mode()).lower()
+    if normalized.startswith("cuda"):
+        return MINERU_GPU_SERVICE
+    return MINERU_CPU_SERVICE
 
 
 def _looks_like_container_id(value: str) -> bool:
@@ -292,18 +304,18 @@ def _resolve_host_path(container_path: Path) -> Path | None:
     return None
 
 
-def _compose_override_for_mineru() -> str:
-    return """services:\n  mineru-cpu:\n    volumes: []\n"""
+def _compose_override_for_mineru(service_name: str) -> str:
+    return f"""services:\n  {service_name}:\n    volumes: []\n"""
 
 
-def _create_mineru_compose_override_file(output_dir: Path) -> Path:
+def _create_mineru_compose_override_file(output_dir: Path, service_name: str) -> Path:
     with tempfile.NamedTemporaryFile(
         mode="w",
         suffix=".compose.yaml",
         dir=str(output_dir),
         delete=False,
     ) as compose_override_file:
-        compose_override_file.write(_compose_override_for_mineru())
+        compose_override_file.write(_compose_override_for_mineru(service_name))
         return Path(compose_override_file.name)
 
 
@@ -329,18 +341,25 @@ def has_docker_compose_plugin():
 
 
 def resolve_mineru_runner():
-    if has_local_mineru():
+    device_mode = get_mineru_device_mode()
+    service_name = get_mineru_service(device_mode)
+    compose_file = find_compose_file()
+
+    if has_local_mineru() and not (
+        device_mode.lower().startswith("cuda") and compose_file is not None
+    ):
         return {
             "backend": "local",
             "command_prefix": [],
             "cwd": REPO_ROOT,
+            "device_mode": device_mode,
+            "service_name": service_name,
         }
 
-    compose_file = find_compose_file()
     if compose_file is None:
         raise RuntimeError(
             "MinerU execution requires either a local 'mineru' CLI in PATH or a "
-            "Compose file that defines the 'mineru-cpu' service. Add one of "
+            f"Compose file that defines the '{service_name}' service. Add one of "
             f"{', '.join(COMPOSE_FILENAMES)} to the repo root or set "
             "MINERU_COMPOSE_FILE=/abs/path/to/compose.yml."
         )
@@ -358,6 +377,8 @@ def resolve_mineru_runner():
                 "-T",
             ],
             "cwd": compose_file.parent,
+            "device_mode": device_mode,
+            "service_name": service_name,
         }
 
     docker_compose_binary = shutil.which("docker-compose")
@@ -373,6 +394,8 @@ def resolve_mineru_runner():
                 "-T",
             ],
             "cwd": compose_file.parent,
+            "device_mode": device_mode,
+            "service_name": service_name,
         }
 
     raise RuntimeError(
@@ -384,6 +407,7 @@ def resolve_mineru_runner():
 def build_mineru_command(
     runner, pdf_path, output_dir, language, compose_override_path: Path | None = None
 ):
+    device_mode = runner.get("device_mode", get_mineru_device_mode())
     if runner["backend"] == "local":
         return runner["command_prefix"] + [
             "-p",
@@ -397,7 +421,7 @@ def build_mineru_command(
             "-l",
             language,
             "-d",
-            "cpu",
+            device_mode,
         ]
 
     input_dir = Path(pdf_path).resolve().parent
@@ -446,10 +470,10 @@ def build_mineru_command(
         f"{host_input_dir}:/input:ro",
         "-v",
         f"{host_output_dir}:/output",
-        MINERU_SERVICE,
+        runner.get("service_name", get_mineru_service(device_mode)),
         (
             f'mineru -p "/input/{input_name}" '
-            f'-o /output -b pipeline -m txt -l "{language}" -d cpu'
+            f'-o /output -b pipeline -m txt -l "{language}" -d {device_mode}'
         ),
     ]
 
@@ -471,7 +495,7 @@ def build_runtime_env(runner):
 
 def configure_local_mineru_env(env):
     os.environ.update(env)
-    os.environ.setdefault("MINERU_DEVICE_MODE", "cpu")
+    os.environ.setdefault("MINERU_DEVICE_MODE", get_mineru_device_mode())
 
     from mineru.utils.model_utils import get_vram
 
@@ -538,7 +562,9 @@ def run_mineru(pdf_path, output_dir, language):
     compose_override_path: Path | None = None
     try:
         output_dir_path = Path(output_dir).resolve()
-        compose_override_path = _create_mineru_compose_override_file(output_dir_path)
+        compose_override_path = _create_mineru_compose_override_file(
+            output_dir_path, runner.get("service_name", get_mineru_service())
+        )
         command = build_mineru_command(
             runner,
             pdf_path,
@@ -551,7 +577,7 @@ def run_mineru(pdf_path, output_dir, language):
         raise RuntimeError(
             f"MinerU execution failed via {runner['backend']}. "
             "If you are using Docker, ensure the daemon is running and that the "
-            f"'{MINERU_SERVICE}' service is defined in the selected Compose file."
+            f"'{runner.get('service_name', get_mineru_service())}' service is defined in the selected Compose file."
         ) from exc
     finally:
         if compose_override_path is not None:

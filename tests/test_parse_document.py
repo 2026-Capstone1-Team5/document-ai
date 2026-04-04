@@ -74,6 +74,8 @@ class ComposeConfigTests(unittest.TestCase):
 
         self.assertNotIn("- .:/workspace", compose_text)
         self.assertIn("- mineru-cache:/opt/mineru-cache", compose_text)
+        self.assertIn("mineru-gpu:", compose_text)
+        self.assertIn("gpus: all", compose_text)
 
 
 class FindCliBinaryTests(unittest.TestCase):
@@ -116,12 +118,33 @@ class ResolveMineruRunnerTests(unittest.TestCase):
         with (
             mock.patch.object(parse_document, "has_local_mineru", return_value=True),
             mock.patch.object(parse_document, "find_compose_file") as find_compose_file,
+            mock.patch.dict(os.environ, {}, clear=False),
         ):
             runner = parse_document.resolve_mineru_runner()
 
         self.assertEqual(runner["backend"], "local")
         self.assertEqual(runner["command_prefix"], [])
-        find_compose_file.assert_not_called()
+        self.assertEqual(runner["device_mode"], "cpu")
+        self.assertEqual(runner["service_name"], parse_document.MINERU_CPU_SERVICE)
+        find_compose_file.assert_called_once()
+
+    def test_resolve_mineru_runner_prefers_compose_for_cuda_requests(self):
+        compose_file = Path("/tmp/compose.yml")
+        with (
+            mock.patch.object(parse_document, "has_local_mineru", return_value=True),
+            mock.patch.object(
+                parse_document, "find_compose_file", return_value=compose_file
+            ),
+            mock.patch.object(
+                parse_document, "has_docker_compose_plugin", return_value=True
+            ),
+            mock.patch.dict(os.environ, {"MINERU_DEVICE_MODE": "cuda"}, clear=False),
+        ):
+            runner = parse_document.resolve_mineru_runner()
+
+        self.assertEqual(runner["backend"], "docker compose")
+        self.assertEqual(runner["device_mode"], "cuda")
+        self.assertEqual(runner["service_name"], parse_document.MINERU_GPU_SERVICE)
 
     def test_resolve_mineru_runner_uses_docker_compose_plugin(self):
         compose_file = Path("/tmp/compose.yml")
@@ -142,6 +165,7 @@ class ResolveMineruRunnerTests(unittest.TestCase):
             ["docker", "compose", "-f", str(compose_file)],
         )
         self.assertEqual(runner["cwd"], compose_file.parent)
+        self.assertEqual(runner["service_name"], parse_document.MINERU_CPU_SERVICE)
 
     def test_resolve_mineru_runner_uses_docker_compose_binary(self):
         compose_file = Path("/tmp/docker-compose.yml")
@@ -169,6 +193,7 @@ class ResolveMineruRunnerTests(unittest.TestCase):
             ["/usr/local/bin/docker-compose", "-f", str(compose_file), "run"],
         )
         self.assertEqual(runner["cwd"], compose_file.parent)
+        self.assertEqual(runner["service_name"], parse_document.MINERU_CPU_SERVICE)
 
     def test_resolve_mineru_runner_requires_cli_or_compose(self):
         with (
@@ -185,6 +210,8 @@ class BuildMineruCommandTests(unittest.TestCase):
             "backend": "local",
             "command_prefix": ["/usr/local/bin/mineru"],
             "cwd": Path.cwd(),
+            "device_mode": "cuda",
+            "service_name": parse_document.MINERU_GPU_SERVICE,
         }
 
         command = parse_document.build_mineru_command(
@@ -201,6 +228,7 @@ class BuildMineruCommandTests(unittest.TestCase):
         )
         self.assertIn("-o", command)
         self.assertIn(str(Path("/tmp/output").resolve()), command)
+        self.assertEqual(command[-1], "cuda")
 
     def test_build_mineru_command_for_docker(self):
         runner = {
@@ -214,6 +242,8 @@ class BuildMineruCommandTests(unittest.TestCase):
                 "-T",
             ],
             "cwd": Path("/tmp"),
+            "device_mode": "cuda",
+            "service_name": parse_document.MINERU_GPU_SERVICE,
         }
 
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -254,11 +284,12 @@ class BuildMineruCommandTests(unittest.TestCase):
                 "--rm",
             ],
         )
-        self.assertIn(parse_document.MINERU_SERVICE, command)
+        self.assertIn(parse_document.MINERU_GPU_SERVICE, command)
         self.assertIn("-v", command)
         self.assertIn(f"{host_input_dir}:/input:ro", command)
         self.assertIn(f"{host_output_dir}:/output", command)
         self.assertIn("/input/sample2_reciept.pdf", command[-1])
+        self.assertIn("-d cuda", command[-1])
 
     def test_build_mineru_command_for_docker_fails_when_host_paths_missing(self):
         runner = {
@@ -272,6 +303,8 @@ class BuildMineruCommandTests(unittest.TestCase):
                 "-T",
             ],
             "cwd": Path("/tmp"),
+            "device_mode": "cpu",
+            "service_name": parse_document.MINERU_CPU_SERVICE,
         }
 
         with mock.patch.object(
@@ -302,6 +335,8 @@ class BuildMineruCommandTests(unittest.TestCase):
                 "-T",
             ],
             "cwd": Path("/tmp"),
+            "device_mode": "cpu",
+            "service_name": parse_document.MINERU_CPU_SERVICE,
         }
 
         with mock.patch.object(
@@ -421,6 +456,31 @@ class BuildRuntimeEnvTests(unittest.TestCase):
         self.assertIn("YOLO_CONFIG_DIR", env)
         self.assertTrue(env["MPLCONFIGDIR"].startswith("/"))
         self.assertTrue(env["YOLO_CONFIG_DIR"].startswith("/"))
+
+
+class MineruDeviceSelectionTests(unittest.TestCase):
+    def test_get_mineru_device_mode_defaults_to_cpu(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            self.assertEqual(parse_document.get_mineru_device_mode(), "cpu")
+
+    def test_get_mineru_service_uses_gpu_service_for_cuda(self):
+        self.assertEqual(
+            parse_document.get_mineru_service("cuda"),
+            parse_document.MINERU_GPU_SERVICE,
+        )
+        self.assertEqual(
+            parse_document.get_mineru_service("cuda:0"),
+            parse_document.MINERU_GPU_SERVICE,
+        )
+        self.assertEqual(
+            parse_document.get_mineru_service("cpu"),
+            parse_document.MINERU_CPU_SERVICE,
+        )
+
+    def test_compose_override_targets_selected_service(self):
+        override = parse_document._compose_override_for_mineru("mineru-gpu")
+        self.assertIn("mineru-gpu", override)
+        self.assertNotIn("mineru-cpu", override)
 
 
 class LocalMineruRetryTests(unittest.TestCase):

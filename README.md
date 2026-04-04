@@ -28,7 +28,7 @@ python scripts/parse_document.py <input_pdf> <output_dir> --language en --page-a
   - `pillow`
 - one of:
   - local `mineru` CLI available in `PATH`
-  - Docker + Docker Compose with a Compose file that defines the `mineru-cpu` service
+  - Docker + Docker Compose with a Compose file that defines the `mineru-cpu` or `mineru-gpu` service
 
 The script tries these execution paths in order:
 
@@ -46,6 +46,13 @@ Example:
 pip install pymupdf pillow
 docker compose build mineru-cpu
 python scripts/parse_document.py benchmark/pdfs/sample2_reciept.pdf output/ --language en
+```
+
+To target CUDA explicitly, set `MINERU_DEVICE_MODE=cuda` before invoking the parser. When Docker Compose is available, the parser will prefer the `mineru-gpu` service for CUDA requests.
+
+```bash
+docker compose build mineru-gpu
+MINERU_DEVICE_MODE=cuda python scripts/parse_document.py benchmark/pdfs/sample2_reciept.pdf output/ --language en
 ```
 
 ## Output
