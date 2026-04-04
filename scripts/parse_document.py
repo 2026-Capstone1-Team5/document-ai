@@ -340,13 +340,18 @@ def has_docker_compose_plugin():
     return result.returncode == 0
 
 
+def has_compose_runner():
+    return has_docker_compose_plugin() or shutil.which("docker-compose") is not None
+
+
 def resolve_mineru_runner():
     device_mode = get_mineru_device_mode()
     service_name = get_mineru_service(device_mode)
     compose_file = find_compose_file()
+    compose_available = compose_file is not None and has_compose_runner()
 
     if has_local_mineru() and not (
-        device_mode.lower().startswith("cuda") and compose_file is not None
+        device_mode.lower().startswith("cuda") and compose_available
     ):
         return {
             "backend": "local",

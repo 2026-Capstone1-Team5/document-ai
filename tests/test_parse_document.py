@@ -146,6 +146,25 @@ class ResolveMineruRunnerTests(unittest.TestCase):
         self.assertEqual(runner["device_mode"], "cuda")
         self.assertEqual(runner["service_name"], parse_document.MINERU_GPU_SERVICE)
 
+    def test_resolve_mineru_runner_prefers_local_for_cuda_without_compose_backend(self):
+        compose_file = Path("/tmp/compose.yml")
+        with (
+            mock.patch.object(parse_document, "has_local_mineru", return_value=True),
+            mock.patch.object(
+                parse_document, "find_compose_file", return_value=compose_file
+            ),
+            mock.patch.object(
+                parse_document, "has_docker_compose_plugin", return_value=False
+            ),
+            mock.patch.object(parse_document.shutil, "which", return_value=None),
+            mock.patch.dict(os.environ, {"MINERU_DEVICE_MODE": "cuda"}, clear=False),
+        ):
+            runner = parse_document.resolve_mineru_runner()
+
+        self.assertEqual(runner["backend"], "local")
+        self.assertEqual(runner["device_mode"], "cuda")
+        self.assertEqual(runner["service_name"], parse_document.MINERU_GPU_SERVICE)
+
     def test_resolve_mineru_runner_uses_docker_compose_plugin(self):
         compose_file = Path("/tmp/compose.yml")
         with (
